@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@theme {
+  --font-serif: 'Fraunces', Georgia, serif;
+  --font-sans: 'DM Sans', system-ui, -apple-system, sans-serif;
+  --color-h4d-chocolate: #5A2D0C;
+  --color-h4d-chocolate-surface: #3E200C;
+  --color-h4d-chocolate-card: #4B2710;
+  --color-h4d-chocolate-border: #623416;
+  --color-h4d-chocolate-dark: #2F1707;
+  --color-h4d-caramel: #C88D3A;
+  --color-h4d-gold: #B77620;
+  --color-h4d-cream: #FFF9EE;
+  --color-h4d-sand: #F7F1E7;
+}
+
+@layer base {
+  body {
+    font-family: var(--font-sans);
+  }
+  
+  h1, h2, h3, .font-serif {
+    font-family: var(--font-serif);
+  }
+}
+
+@keyframes badgeShine {
+  0%, 20% {
+    transform: translateX(-150%) skewX(-20deg);
+  }
+  60%, 100% {
+    transform: translateX(250%) skewX(-20deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-badge-shine::after {
+    animation: none !important;
+    display: none !important;
+  }
+}
+
+.animate-badge-shine {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.animate-badge-shine > * {
+  position: relative;
+  z-index: 2;
+}
+
+.animate-badge-shine::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 30%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.22) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-150%) skewX(-20deg);
+  animation: badgeShine 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+

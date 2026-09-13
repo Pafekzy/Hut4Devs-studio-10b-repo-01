@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" width="64" height="64">
+  <defs>
+    <clipPath id="mark-clip">
+      <rect x="1" y="1" width="62" height="62" rx="18" />
+    </clipPath>
+    <filter id="mark-depth" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#5A2D0C" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Keycap Shell (Developers) -->
+  <g filter="url(#mark-depth)">
+    <rect x="1" y="1" width="62" height="62" rx="18" fill="#5A2D0C" stroke="#C88D3A" stroke-width="1.5" stroke-opacity="0.7" />
+    <!-- Subtle inset bottom edge depth -->
+    <path d="M1 56 H63 V61 C63 62 62 63 60 63 H4 C2 63 1 62 1 61 Z" fill="#2F1707" opacity="0.65" clip-path="url(#mark-clip)" />
+  </g>
+
+  <!-- Canonical Hut / 4 Symbol (Hut Community & Signature 4) -->
+  <g transform="translate(8, 8) scale(1.5)">
+    <!-- Hut Roof -->
+    <path d="M5.5 13.1L16 5.4L26.5 13.1" stroke="#C88D3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Hut Structure -->
+    <path d="M8.2 12V25H23.8V12" stroke="#FFF9EE" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Signature 4 -->
+    <path d="M18.2 23V11.8L11.9 19H21.2" stroke="#C88D3A" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round" />
+    <!-- Open Doorway / Trail -->
+    <path d="M13.2 25V22.4" stroke="#FFF9EE" stroke-width="2" stroke-linecap="round" />
+  </g>
+</svg>

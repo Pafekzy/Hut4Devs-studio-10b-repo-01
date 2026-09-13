@@ -1,0 +1,8 @@
+{
+  "name": "Hut4Devs",
+  "description": "Community coordination infrastructure for shared responsibilities, peer support, and verifiable trails of trust, starting with accommodation.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

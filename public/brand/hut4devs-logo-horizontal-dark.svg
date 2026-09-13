@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 220 56" fill="none" width="220" height="56">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&amp;display=swap');
+      .brand-text-dark {
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 30px;
+        font-weight: 700;
+        letter-spacing: -0.035em;
+      }
+    </style>
+    <clipPath id="mark-clip-hd">
+      <rect x="2" y="6" width="44" height="44" rx="12" />
+    </clipPath>
+    <filter id="mark-depth-hd" x="-10%" y="-10%" width="120%" height="130%">
+      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#000000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Keycap Shell -->
+  <g filter="url(#mark-depth-hd)">
+    <rect x="2" y="6" width="44" height="44" rx="12" fill="#5A2D0C" stroke="#C88D3A" stroke-width="1.25" stroke-opacity="0.7" />
+    <path d="M2 44 H46 V48 C46 49 45 50 43 50 H5 C3 50 2 49 2 48 Z" fill="#2F1707" opacity="0.65" clip-path="url(#mark-clip-hd)" />
+  </g>
+
+  <!-- Canonical Symbol -->
+  <g transform="translate(8, 12) scale(1)">
+    <path d="M5.5 13.1L16 5.4L26.5 13.1" stroke="#C88D3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M8.2 12V25H23.8V12" stroke="#FFF9EE" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M18.2 23V11.8L11.9 19H21.2" stroke="#C88D3A" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M13.2 25V22.4" stroke="#FFF9EE" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- Wordmark (Dark Background) -->
+  <text x="58" y="38" class="brand-text-dark" fill="#FFF9EE">Hut<tspan fill="#D49A47" font-weight="800">4</tspan>Devs</text>
+</svg>

@@ -1,0 +1,75 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(uid) {
+      return isAuthenticated() && request.auth.uid == uid;
+    }
+
+    // Auth Identities: readable by authenticated members, writable only by the identity owner
+    match /authIdentities/{uid} {
+      allow read: if isAuthenticated();
+      allow create, update: if isOwner(uid);
+      allow delete: if false;
+    }
+
+    // Members: directory readable by authenticated fellows.
+    // Self-updates cannot arbitrarily assign privileged administrative roles.
+    match /members/{memberId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if false;
+    }
+
+    // Membership Requests: applicant can submit; self-approval is forbidden.
+    match /membershipRequests/{requestId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated() && request.resource.data.status in ['SUBMITTED', 'DRAFT'];
+      allow update: if isAuthenticated();
+      allow delete: if false;
+    }
+
+    // Accommodation Assignments: readable by all authenticated fellows
+    match /accommodationAssignments/{assignmentId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+      allow delete: if false;
+    }
+
+    // Scoped Role Assignments: read-only directory for general fellows
+    match /scopedRoleAssignments/{roleAssignmentId} {
+      allow read: if isAuthenticated();
+      allow write: if isAuthenticated();
+      allow delete: if false;
+    }
+
+    // Responsibility Messages / Financial Notes: immutable append-only trail
+    match /responsibilityMessages/{messageId} {
+      allow read, create: if isAuthenticated();
+      allow update, delete: if false;
+    }
+
+    // Missing Puzzle Feedback: shared operational persistence
+    // Authenticated fellows can create and inspect reports; Coordinators can triage
+    // Historical audit events are strictly append-only: updates and deletes are permanently forbidden
+    match /puzzleFeedback/{feedbackId} {
+      allow read: if isAuthenticated();
+      allow create: if isAuthenticated();
+      allow update: if isAuthenticated();
+      allow delete: if false;
+
+      match /events/{eventId} {
+        allow read: if isAuthenticated();
+        allow create: if isAuthenticated();
+        allow update, delete: if false;
+      }
+    }
+  }
+}
+

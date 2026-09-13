@@ -1,0 +1,177 @@
+{
+  "entities": {
+    "AuthIdentity": {
+      "title": "AuthIdentity",
+      "description": "Binds a Firebase Authentication UID to a persistent Hut4Devs Member identity.",
+      "type": "object",
+      "properties": {
+        "firebaseUid": { "type": "string" },
+        "memberId": { "type": "string" },
+        "email": { "type": "string" },
+        "displayName": { "type": "string" },
+        "providerTypes": { "type": "array" },
+        "createdAt": { "type": "string" },
+        "lastAuthenticatedAt": { "type": "string" }
+      },
+      "required": ["firebaseUid", "memberId", "email", "createdAt"]
+    },
+    "Member": {
+      "title": "Member",
+      "description": "The persistent identity record of a Hut4Devs Fellow.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "h4dMemberId": { "type": "string" },
+        "displayName": { "type": "string" },
+        "email": { "type": "string" },
+        "programCommunity": { "type": "string" },
+        "roles": { "type": "array" },
+        "joinedAt": { "type": "string" }
+      },
+      "required": ["id", "displayName", "roles", "joinedAt"]
+    },
+    "MembershipRequest": {
+      "title": "MembershipRequest",
+      "description": "Residency application requiring Coordinator verification or Room Captain delegation.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "memberId": { "type": "string" },
+        "fullName": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "githubHandle": { "type": "string" },
+        "programCommunity": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "propertyName": { "type": "string" },
+        "floorName": { "type": "string" },
+        "roomName": { "type": "string" },
+        "monthlyCommitment": { "type": "number" },
+        "status": { "type": "string" },
+        "isExistingFellowRecognized": { "type": "boolean" },
+        "submittedAt": { "type": "string" }
+      },
+      "required": ["id", "fullName", "email", "propertyId", "roomName", "status", "submittedAt"]
+    },
+    "AccommodationAssignment": {
+      "title": "AccommodationAssignment",
+      "description": "Active or historical accommodation placement for a Fellow.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "memberId": { "type": "string" },
+        "propertyId": { "type": "string" },
+        "propertyName": { "type": "string" },
+        "floorName": { "type": "string" },
+        "roomName": { "type": "string" },
+        "monthlyCommitment": { "type": "number" },
+        "status": { "type": "string" },
+        "startDate": { "type": "string" },
+        "period": { "type": "string" }
+      },
+      "required": ["id", "memberId", "propertyId", "roomName", "monthlyCommitment", "status"]
+    },
+    "ScopedRoleAssignment": {
+      "title": "ScopedRoleAssignment",
+      "description": "Time-bounded, authority-bounded privileged responsibility assigned to a Member.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "memberId": { "type": "string" },
+        "role": { "type": "string" },
+        "scope": { "type": "object" },
+        "delegatedBy": { "type": "string" },
+        "validFrom": { "type": "string" },
+        "validUntil": { "type": "string" },
+        "revokedAt": { "type": "string" }
+      },
+      "required": ["id", "memberId", "role", "scope", "delegatedBy", "validFrom"]
+    },
+    "ResponsibilityMessage": {
+      "title": "ResponsibilityMessage",
+      "description": "Contextual financial communication linked to a member's monthly commitment.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "threadId": { "type": "string" },
+        "authorMemberId": { "type": "string" },
+        "authorCapacity": { "type": "string" },
+        "content": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["id", "threadId", "authorMemberId", "content", "timestamp"]
+    },
+    "MissingPuzzleFeedback": {
+      "title": "MissingPuzzleFeedback",
+      "description": "Shared community feedback report for product defects, UX improvements, or gaps.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "reporterMemberId": { "type": "string" },
+        "reporterDisplayName": { "type": "string" },
+        "reporterEmail": { "type": "string" },
+        "createdAt": { "type": "string" },
+        "updatedAt": { "type": "string" },
+        "pageContext": { "type": "string" },
+        "routeContext": { "type": "string" },
+        "category": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "puzzleCompleted": { "type": "boolean" },
+        "involvementPreference": { "type": "string" },
+        "status": { "type": "string" },
+        "events": { "type": "array" }
+      },
+      "required": ["id", "reporterMemberId", "reporterDisplayName", "createdAt", "updatedAt", "category", "title", "description", "status"]
+    },
+    "MissingPuzzleEvent": {
+      "title": "MissingPuzzleEvent",
+      "description": "Append-only factual audit trail event for a missing puzzle feedback report.",
+      "type": "object",
+      "properties": {
+        "eventId": { "type": "string" },
+        "feedbackId": { "type": "string" },
+        "actorMemberId": { "type": "string" },
+        "actorDisplayName": { "type": "string" },
+        "eventType": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "message": { "type": "string" }
+      },
+      "required": ["eventId", "feedbackId", "actorMemberId", "actorDisplayName", "eventType", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/authIdentities/{uid}": {
+      "schema": "AuthIdentity",
+      "description": "Mapping from Firebase UID to Hut4Devs Member identity."
+    },
+    "/members/{memberId}": {
+      "schema": "Member",
+      "description": "Directory of Hut4Devs members."
+    },
+    "/membershipRequests/{requestId}": {
+      "schema": "MembershipRequest",
+      "description": "Submitted accommodation residency requests."
+    },
+    "/accommodationAssignments/{assignmentId}": {
+      "schema": "AccommodationAssignment",
+      "description": "Active and historical accommodation assignments."
+    },
+    "/scopedRoleAssignments/{roleAssignmentId}": {
+      "schema": "ScopedRoleAssignment",
+      "description": "Scoped responsibilities granted by authoritative delegation."
+    },
+    "/responsibilityMessages/{messageId}": {
+      "schema": "ResponsibilityMessage",
+      "description": "Threaded financial and responsibility notes."
+    },
+    "/puzzleFeedback/{feedbackId}": {
+      "schema": "MissingPuzzleFeedback",
+      "description": "Shared operational feedback reports."
+    },
+    "/puzzleFeedback/{feedbackId}/events/{eventId}": {
+      "schema": "MissingPuzzleEvent",
+      "description": "Append-only factual event history for a feedback report."
+    }
+  }
+}

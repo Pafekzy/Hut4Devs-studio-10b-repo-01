@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 280 130" fill="none" width="280" height="130">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,700;9..144,800&amp;display=swap');
+      .brand-vertical-text {
+        font-family: 'Fraunces', Georgia, serif;
+        font-size: 34px;
+        font-weight: 700;
+        letter-spacing: -0.035em;
+      }
+    </style>
+    <clipPath id="mark-clip-v">
+      <rect x="156" y="6" width="64" height="64" rx="18" />
+    </clipPath>
+    <filter id="mark-depth-v" x="140" y="-5" width="96" height="96">
+      <feDropShadow dx="0" dy="3" stdDeviation="3" flood-color="#5A2D0C" flood-opacity="0.25" />
+    </filter>
+  </defs>
+
+  <!-- Keycap Shell (Horizontally shifted +48px to optically center over the gold '4') -->
+  <g filter="url(#mark-depth-v)">
+    <rect x="156" y="6" width="64" height="64" rx="18" fill="#5A2D0C" stroke="#C88D3A" stroke-width="1.5" stroke-opacity="0.7" />
+    <path d="M156 62 H220 V67 C220 68 218 70 216 70 H160 C158 70 156 68 156 67 Z" fill="#2F1707" opacity="0.65" clip-path="url(#mark-clip-v)" />
+  </g>
+
+  <!-- Canonical Symbol -->
+  <g transform="translate(164, 14) scale(1.5)">
+    <path d="M5.5 13.1L16 5.4L26.5 13.1" stroke="#C88D3A" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M8.2 12V25H23.8V12" stroke="#FFF9EE" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M18.2 23V11.8L11.9 19H21.2" stroke="#C88D3A" stroke-width="2.35" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M13.2 25V22.4" stroke="#FFF9EE" stroke-width="2" stroke-linecap="round" />
+  </g>
+
+  <!-- Wordmark (Fixed perfectly centered at x=140 on the composition) -->
+  <text x="140" y="112" text-anchor="middle" class="brand-vertical-text" fill="#5A2D0C">Hut<tspan fill="#B77620" font-weight="800">4</tspan>Devs</text>
+</svg>
