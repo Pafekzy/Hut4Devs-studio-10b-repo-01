@@ -14,25 +14,31 @@ export interface CommandCenterFellowInfo {
 }
 
 /**
- * Believable 24 Fellows Population for Accommodation Admin Command Center (H4D-DEMO-003)
- * Exactly 24 unique Fellows across 4 Accredited Properties:
- * - Infinite Grace Apartments (₦66,000/mo) - 8 Fellows
- * - BedRock Hostel (₦77,000/mo) - 6 Fellows
- * - MainBase Apartment (₦70,000/mo) - 6 Fellows
- * - Tangerine Hotel (₦140,000/mo) - 4 Fellows
+ * Believable 32 Fellows Population for Accommodation Admin Command Center (H4D-DEMO-003)
+ * Exactly 32 unique Fellows across 4 Accredited Properties and 12 Rooms:
+ * - Infinite Grace Apartments (₦66,000/mo) - 10 Fellows across 3 Rooms (Rooms 304, 201, 101)
+ * - BedRock Hostel (₦77,000/mo) - 8 Fellows across 3 Rooms (Rooms 201, 105, 101)
+ * - MainBase Apartment (₦70,000/mo) - 8 Fellows across 3 Rooms (Rooms 12, 11, 21)
+ * - Tangerine Hotel (₦140,000/mo) - 6 Fellows across 3 Rooms (Suites 402, 205, 101)
  *
  * Base Distribution:
- * - FULFILLED: 17 Fellows
  * - OUTSTANDING: 4 Fellows
  * - PARTIALLY FULFILLED: 3 Fellows
- * Total = 24 unique Fellows
+ * - FULFILLED: 25 Fellows
+ * Total = 32 unique Fellows
+ *
+ * Operational Summary:
+ * - Properties: 4
+ * - Rooms represented: 12
+ * - Fellows represented: 32
+ * - Outstanding responsibilities: 4
  *
  * Attention Overlays (mutually compatible with Outstanding / Partially Fulfilled, never Fulfilled):
  * - AWAITING RECONCILIATION: 4 Fellows / events
  * - MISMATCH / REQUIRES REVIEW: 3 Fellows / events
  */
 export const DEMO_COMMAND_CENTER_FELLOWS: CommandCenterFellowInfo[] = [
-  // 1. OUTSTANDING + AWAITING RECONCILIATION (Fellow A)
+  // 1. OUTSTANDING + AWAITING RECONCILIATION (Emmanuel Ukom - Infinite Grace Room 304)
   {
     id: 'fellow-ig-01',
     name: 'Emmanuel Ukom',
@@ -41,7 +47,7 @@ export const DEMO_COMMAND_CENTER_FELLOWS: CommandCenterFellowInfo[] = [
     floor: 'Floor 3',
     room: 'Room 304',
   },
-  // 2. OUTSTANDING + AWAITING RECONCILIATION
+  // 2. OUTSTANDING + AWAITING RECONCILIATION (Nonso Okafor - BedRock Room 201)
   {
     id: 'fellow-br-01',
     name: 'Nonso Okafor',
@@ -50,7 +56,7 @@ export const DEMO_COMMAND_CENTER_FELLOWS: CommandCenterFellowInfo[] = [
     floor: 'Floor 2',
     room: 'Room 201',
   },
-  // 3. OUTSTANDING + MISMATCH / REQUIRES REVIEW
+  // 3. OUTSTANDING + MISMATCH / REQUIRES REVIEW (Babatunde Adeleke - MainBase Room 12)
   {
     id: 'fellow-mb-01',
     name: 'Babatunde Adeleke',
@@ -59,7 +65,7 @@ export const DEMO_COMMAND_CENTER_FELLOWS: CommandCenterFellowInfo[] = [
     floor: 'Floor 1',
     room: 'Room 12',
   },
-  // 4. OUTSTANDING (Purely overdue / outstanding commitment)
+  // 4. OUTSTANDING (Osita Ibe - Tangerine Suite 402)
   {
     id: 'fellow-th-01',
     name: 'Osita Ibe',
@@ -69,16 +75,16 @@ export const DEMO_COMMAND_CENTER_FELLOWS: CommandCenterFellowInfo[] = [
     room: 'Suite 402',
   },
 
-  // 5. PARTIALLY FULFILLED + AWAITING RECONCILIATION
+  // 5. PARTIALLY FULFILLED + AWAITING RECONCILIATION (Kenechukwu Obi - Infinite Grace Room 201)
   {
     id: 'fellow-ig-02',
     name: 'Kenechukwu Obi',
     email: 'kenechukwu.obi@infinitegrace.local',
     property: 'Infinite Grace Apartments',
     floor: 'Floor 2',
-    room: 'Room 202',
+    room: 'Room 201',
   },
-  // 6. PARTIALLY FULFILLED + MISMATCH / REQUIRES REVIEW (Fellow B)
+  // 6. PARTIALLY FULFILLED + MISMATCH / REQUIRES REVIEW (Amaka Eze - Tangerine Suite 205)
   {
     id: 'fellow-th-02',
     name: 'Amaka Eze',
@@ -87,7 +93,7 @@ export const DEMO_COMMAND_CENTER_FELLOWS: CommandCenterFellowInfo[] = [
     floor: 'Floor 2',
     room: 'Suite 205',
   },
-  // 7. PARTIALLY FULFILLED + AWAITING RECONCILIATION + MISMATCH (Fellow C)
+  // 7. PARTIALLY FULFILLED + AWAITING RECONCILIATION + MISMATCH (Ibrahim Musa - BedRock Room 105)
   {
     id: 'fellow-br-02',
     name: 'Ibrahim Musa',
@@ -97,23 +103,30 @@ export const DEMO_COMMAND_CENTER_FELLOWS: CommandCenterFellowInfo[] = [
     room: 'Room 105',
   },
 
-  // 8-24. FULFILLED (17 Fellows)
-  // Infinite Grace (6 Fulfilled)
+  // 8-15. FULFILLED - Infinite Grace Apartments (Rooms 304, 201, 101)
   {
     id: 'fellow-ig-03',
     name: 'Chinedu Okeke',
     email: 'chinedu.okeke@infinitegrace.local',
     property: 'Infinite Grace Apartments',
-    floor: 'Floor 1',
-    room: 'Room 101',
+    floor: 'Floor 3',
+    room: 'Room 304',
   },
   {
     id: 'fellow-ig-04',
     name: 'Damilola Adebayo',
     email: 'damilola.adebayo@infinitegrace.local',
     property: 'Infinite Grace Apartments',
-    floor: 'Floor 1',
-    room: 'Room 102',
+    floor: 'Floor 3',
+    room: 'Room 304',
+  },
+  {
+    id: 'fellow-ig-08',
+    name: 'Victor Chukwu',
+    email: 'victor.chukwu@infinitegrace.local',
+    property: 'Infinite Grace Apartments',
+    floor: 'Floor 3',
+    room: 'Room 304',
   },
   {
     id: 'fellow-ig-05',
@@ -129,49 +142,41 @@ export const DEMO_COMMAND_CENTER_FELLOWS: CommandCenterFellowInfo[] = [
     email: 'blessing.nnamdi@infinitegrace.local',
     property: 'Infinite Grace Apartments',
     floor: 'Floor 2',
-    room: 'Room 203',
+    room: 'Room 201',
   },
   {
     id: 'fellow-ig-07',
     name: 'Precious Danjuma',
     email: 'precious.danjuma@infinitegrace.local',
     property: 'Infinite Grace Apartments',
-    floor: 'Floor 3',
-    room: 'Room 301',
-  },
-  {
-    id: 'fellow-ig-08',
-    name: 'Victor Chukwu',
-    email: 'victor.chukwu@infinitegrace.local',
-    property: 'Infinite Grace Apartments',
-    floor: 'Floor 3',
-    room: 'Room 302',
-  },
-
-  // BedRock Hostel (4 Fulfilled)
-  {
-    id: 'fellow-br-03',
-    name: 'Fatima Bello',
-    email: 'fatima.bello@bedrock.local',
-    property: 'BedRock Hostel',
     floor: 'Floor 1',
     room: 'Room 101',
   },
   {
-    id: 'fellow-br-04',
-    name: 'Emeka Anyanwu',
-    email: 'emeka.anyanwu@bedrock.local',
-    property: 'BedRock Hostel',
+    id: 'fellow-ig-09',
+    name: 'Olumide Adeleke',
+    email: 'olumide.adeleke@infinitegrace.local',
+    property: 'Infinite Grace Apartments',
     floor: 'Floor 1',
-    room: 'Room 102',
+    room: 'Room 101',
   },
+  {
+    id: 'fellow-ig-10',
+    name: 'Zainab Aliyu',
+    email: 'zainab.aliyu@infinitegrace.local',
+    property: 'Infinite Grace Apartments',
+    floor: 'Floor 1',
+    room: 'Room 101',
+  },
+
+  // 16-21. FULFILLED - BedRock Hostel (Rooms 201, 105, 101)
   {
     id: 'fellow-br-05',
     name: 'Halima Abubakar',
     email: 'halima.abubakar@bedrock.local',
     property: 'BedRock Hostel',
     floor: 'Floor 2',
-    room: 'Room 202',
+    room: 'Room 201',
   },
   {
     id: 'fellow-br-06',
@@ -179,17 +184,49 @@ export const DEMO_COMMAND_CENTER_FELLOWS: CommandCenterFellowInfo[] = [
     email: 'kayode.williams@bedrock.local',
     property: 'BedRock Hostel',
     floor: 'Floor 2',
-    room: 'Room 204',
+    room: 'Room 201',
+  },
+  {
+    id: 'fellow-br-03',
+    name: 'Fatima Bello',
+    email: 'fatima.bello@bedrock.local',
+    property: 'BedRock Hostel',
+    floor: 'Floor 1',
+    room: 'Room 105',
+  },
+  {
+    id: 'fellow-br-07',
+    name: 'Femi Babalola',
+    email: 'femi.babalola@bedrock.local',
+    property: 'BedRock Hostel',
+    floor: 'Floor 1',
+    room: 'Room 105',
+  },
+  {
+    id: 'fellow-br-04',
+    name: 'Emeka Anyanwu',
+    email: 'emeka.anyanwu@bedrock.local',
+    property: 'BedRock Hostel',
+    floor: 'Floor 1',
+    room: 'Room 101',
+  },
+  {
+    id: 'fellow-br-08',
+    name: 'Chinonso Ekeh',
+    email: 'chinonso.ekeh@bedrock.local',
+    property: 'BedRock Hostel',
+    floor: 'Floor 1',
+    room: 'Room 101',
   },
 
-  // MainBase Apartment (5 Fulfilled)
+  // 22-28. FULFILLED - MainBase Apartment (Rooms 12, 11, 21)
   {
     id: 'fellow-mb-02',
     name: 'Aisha Mohammed',
     email: 'aisha.mohammed@mainbase.local',
     property: 'MainBase Apartment',
     floor: 'Floor 1',
-    room: 'Room 11',
+    room: 'Room 12',
   },
   {
     id: 'fellow-mb-03',
@@ -197,23 +234,31 @@ export const DEMO_COMMAND_CENTER_FELLOWS: CommandCenterFellowInfo[] = [
     email: 'samuel.ogundipe@mainbase.local',
     property: 'MainBase Apartment',
     floor: 'Floor 1',
-    room: 'Room 14',
+    room: 'Room 12',
   },
   {
     id: 'fellow-mb-04',
     name: 'Ngozi Ezeh',
     email: 'ngozi.ezeh@mainbase.local',
     property: 'MainBase Apartment',
-    floor: 'Floor 2',
-    room: 'Room 21',
+    floor: 'Floor 1',
+    room: 'Room 11',
   },
   {
     id: 'fellow-mb-05',
     name: 'Tariq Sanusi',
     email: 'tariq.sanusi@mainbase.local',
     property: 'MainBase Apartment',
-    floor: 'Floor 2',
-    room: 'Room 22',
+    floor: 'Floor 1',
+    room: 'Room 11',
+  },
+  {
+    id: 'fellow-mb-07',
+    name: 'Deborah Yakubu',
+    email: 'deborah.yakubu@mainbase.local',
+    property: 'MainBase Apartment',
+    floor: 'Floor 1',
+    room: 'Room 11',
   },
   {
     id: 'fellow-mb-06',
@@ -221,25 +266,49 @@ export const DEMO_COMMAND_CENTER_FELLOWS: CommandCenterFellowInfo[] = [
     email: 'kehinde.balogun@mainbase.local',
     property: 'MainBase Apartment',
     floor: 'Floor 2',
-    room: 'Room 25',
+    room: 'Room 21',
+  },
+  {
+    id: 'fellow-mb-08',
+    name: 'Usman Garba',
+    email: 'usman.garba@mainbase.local',
+    property: 'MainBase Apartment',
+    floor: 'Floor 2',
+    room: 'Room 21',
   },
 
-  // Tangerine Hotel (2 Fulfilled)
+  // 29-32. FULFILLED - Tangerine Hotel (Suites 402, 205, 101)
   {
     id: 'fellow-th-03',
     name: 'Chiamaka Nnaji',
     email: 'chiamaka.nnaji@tangerine.local',
     property: 'Tangerine Hotel',
-    floor: 'Floor 1',
-    room: 'Suite 101',
+    floor: 'Floor 4',
+    room: 'Suite 402',
   },
   {
     id: 'fellow-th-04',
     name: 'Oluwaseun Bakare',
     email: 'oluwaseun.bakare@tangerine.local',
     property: 'Tangerine Hotel',
-    floor: 'Floor 3',
-    room: 'Suite 301',
+    floor: 'Floor 2',
+    room: 'Suite 205',
+  },
+  {
+    id: 'fellow-th-05',
+    name: 'Tochukwu Okafor',
+    email: 'tochukwu.okafor@tangerine.local',
+    property: 'Tangerine Hotel',
+    floor: 'Floor 1',
+    room: 'Suite 101',
+  },
+  {
+    id: 'fellow-th-06',
+    name: 'Stephanie Briggs',
+    email: 'stephanie.briggs@tangerine.local',
+    property: 'Tangerine Hotel',
+    floor: 'Floor 1',
+    room: 'Suite 101',
   },
 ];
 
@@ -298,13 +367,13 @@ function buildResp(
 }
 
 /**
- * Authoritative Accommodation Responsibilities for the 24 Fellows
+ * Authoritative Accommodation Responsibilities for the 32 Fellows
  * Exactly enforces financial invariants:
  * - 0 <= verifiedAmount <= requiredAmount
  * - remainingAmount = requiredAmount - verifiedAmount
- * - verifiedAmount == 0 => OUTSTANDING
- * - 0 < verifiedAmount < requiredAmount => PARTIALLY_FULFILLED
- * - verifiedAmount == requiredAmount => FULFILLED
+ * - verifiedAmount == 0 => OUTSTANDING (4 responsibilities)
+ * - 0 < verifiedAmount < requiredAmount => PARTIALLY_FULFILLED (3 responsibilities)
+ * - verifiedAmount == requiredAmount => FULFILLED (25 responsibilities)
  */
 export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[] = [
   // 1. OUTSTANDING (Infinite Grace: ₦66,000)
@@ -391,9 +460,9 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     '14 Community Way, Tech Enclave',
     'floor-ig-2',
     'Floor 2',
-    'room-ig-202',
-    'Room 202',
-    'IG-202',
+    'room-ig-201',
+    'Room 201',
+    'IG-201',
     66000,
     20000,
     ResponsibilityStatus.PARTIALLY_FULFILLED
@@ -435,7 +504,7 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     ResponsibilityStatus.PARTIALLY_FULFILLED
   ),
 
-  // 8-13. FULFILLED (Infinite Grace: 6 Fellows at ₦66,000 each)
+  // 8-15. FULFILLED - Infinite Grace Apartments (8 Fellows at ₦66,000 each)
   buildResp(
     'resp-ig-03',
     'fellow-ig-03',
@@ -444,11 +513,11 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     'prop-infinite-grace-apt',
     'Infinite Grace Apartments',
     '14 Community Way, Tech Enclave',
-    'floor-ig-1',
-    'Floor 1',
-    'room-ig-101',
-    'Room 101',
-    'IG-101',
+    'floor-ig-3',
+    'Floor 3',
+    'room-ig-304',
+    'Room 304',
+    'IG-304',
     66000,
     66000,
     ResponsibilityStatus.FULFILLED
@@ -461,11 +530,28 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     'prop-infinite-grace-apt',
     'Infinite Grace Apartments',
     '14 Community Way, Tech Enclave',
-    'floor-ig-1',
-    'Floor 1',
-    'room-ig-102',
-    'Room 102',
-    'IG-102',
+    'floor-ig-3',
+    'Floor 3',
+    'room-ig-304',
+    'Room 304',
+    'IG-304',
+    66000,
+    66000,
+    ResponsibilityStatus.FULFILLED
+  ),
+  buildResp(
+    'resp-ig-08',
+    'fellow-ig-08',
+    'Victor Chukwu',
+    'victor.chukwu@infinitegrace.local',
+    'prop-infinite-grace-apt',
+    'Infinite Grace Apartments',
+    '14 Community Way, Tech Enclave',
+    'floor-ig-3',
+    'Floor 3',
+    'room-ig-304',
+    'Room 304',
+    'IG-304',
     66000,
     66000,
     ResponsibilityStatus.FULFILLED
@@ -497,9 +583,9 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     '14 Community Way, Tech Enclave',
     'floor-ig-2',
     'Floor 2',
-    'room-ig-203',
-    'Room 203',
-    'IG-203',
+    'room-ig-201',
+    'Room 201',
+    'IG-201',
     66000,
     66000,
     ResponsibilityStatus.FULFILLED
@@ -512,68 +598,51 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     'prop-infinite-grace-apt',
     'Infinite Grace Apartments',
     '14 Community Way, Tech Enclave',
-    'floor-ig-3',
-    'Floor 3',
-    'room-ig-301',
-    'Room 301',
-    'IG-301',
+    'floor-ig-1',
+    'Floor 1',
+    'room-ig-101',
+    'Room 101',
+    'IG-101',
     66000,
     66000,
     ResponsibilityStatus.FULFILLED
   ),
   buildResp(
-    'resp-ig-08',
-    'fellow-ig-08',
-    'Victor Chukwu',
-    'victor.chukwu@infinitegrace.local',
+    'resp-ig-09',
+    'fellow-ig-09',
+    'Olumide Adeleke',
+    'olumide.adeleke@infinitegrace.local',
     'prop-infinite-grace-apt',
     'Infinite Grace Apartments',
     '14 Community Way, Tech Enclave',
-    'floor-ig-3',
-    'Floor 3',
-    'room-ig-302',
-    'Room 302',
-    'IG-302',
+    'floor-ig-1',
+    'Floor 1',
+    'room-ig-101',
+    'Room 101',
+    'IG-101',
+    66000,
+    66000,
+    ResponsibilityStatus.FULFILLED
+  ),
+  buildResp(
+    'resp-ig-10',
+    'fellow-ig-10',
+    'Zainab Aliyu',
+    'zainab.aliyu@infinitegrace.local',
+    'prop-infinite-grace-apt',
+    'Infinite Grace Apartments',
+    '14 Community Way, Tech Enclave',
+    'floor-ig-1',
+    'Floor 1',
+    'room-ig-101',
+    'Room 101',
+    'IG-101',
     66000,
     66000,
     ResponsibilityStatus.FULFILLED
   ),
 
-  // 14-17. FULFILLED (BedRock Hostel: 4 Fellows at ₦77,000 each)
-  buildResp(
-    'resp-br-03',
-    'fellow-br-03',
-    'Fatima Bello',
-    'fatima.bello@bedrock.local',
-    'prop-bedrock-hostel',
-    'BedRock Hostel',
-    'Block B, Academic Heights',
-    'floor-br-1',
-    'Floor 1',
-    'room-br-101',
-    'Room 101',
-    'BR-101',
-    77000,
-    77000,
-    ResponsibilityStatus.FULFILLED
-  ),
-  buildResp(
-    'resp-br-04',
-    'fellow-br-04',
-    'Emeka Anyanwu',
-    'emeka.anyanwu@bedrock.local',
-    'prop-bedrock-hostel',
-    'BedRock Hostel',
-    'Block B, Academic Heights',
-    'floor-br-1',
-    'Floor 1',
-    'room-br-102',
-    'Room 102',
-    'BR-102',
-    77000,
-    77000,
-    ResponsibilityStatus.FULFILLED
-  ),
+  // 16-21. FULFILLED - BedRock Hostel (6 Fellows at ₦77,000 each)
   buildResp(
     'resp-br-05',
     'fellow-br-05',
@@ -584,9 +653,9 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     'Block B, Academic Heights',
     'floor-br-2',
     'Floor 2',
-    'room-br-202',
-    'Room 202',
-    'BR-202',
+    'room-br-201',
+    'Room 201',
+    'BR-201',
     77000,
     77000,
     ResponsibilityStatus.FULFILLED
@@ -601,15 +670,83 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     'Block B, Academic Heights',
     'floor-br-2',
     'Floor 2',
-    'room-br-204',
-    'Room 204',
-    'BR-204',
+    'room-br-201',
+    'Room 201',
+    'BR-201',
+    77000,
+    77000,
+    ResponsibilityStatus.FULFILLED
+  ),
+  buildResp(
+    'resp-br-03',
+    'fellow-br-03',
+    'Fatima Bello',
+    'fatima.bello@bedrock.local',
+    'prop-bedrock-hostel',
+    'BedRock Hostel',
+    'Block B, Academic Heights',
+    'floor-br-1',
+    'Floor 1',
+    'room-br-105',
+    'Room 105',
+    'BR-105',
+    77000,
+    77000,
+    ResponsibilityStatus.FULFILLED
+  ),
+  buildResp(
+    'resp-br-07',
+    'fellow-br-07',
+    'Femi Babalola',
+    'femi.babalola@bedrock.local',
+    'prop-bedrock-hostel',
+    'BedRock Hostel',
+    'Block B, Academic Heights',
+    'floor-br-1',
+    'Floor 1',
+    'room-br-105',
+    'Room 105',
+    'BR-105',
+    77000,
+    77000,
+    ResponsibilityStatus.FULFILLED
+  ),
+  buildResp(
+    'resp-br-04',
+    'fellow-br-04',
+    'Emeka Anyanwu',
+    'emeka.anyanwu@bedrock.local',
+    'prop-bedrock-hostel',
+    'BedRock Hostel',
+    'Block B, Academic Heights',
+    'floor-br-1',
+    'Floor 1',
+    'room-br-101',
+    'Room 101',
+    'BR-101',
+    77000,
+    77000,
+    ResponsibilityStatus.FULFILLED
+  ),
+  buildResp(
+    'resp-br-08',
+    'fellow-br-08',
+    'Chinonso Ekeh',
+    'chinonso.ekeh@bedrock.local',
+    'prop-bedrock-hostel',
+    'BedRock Hostel',
+    'Block B, Academic Heights',
+    'floor-br-1',
+    'Floor 1',
+    'room-br-101',
+    'Room 101',
+    'BR-101',
     77000,
     77000,
     ResponsibilityStatus.FULFILLED
   ),
 
-  // 18-22. FULFILLED (MainBase Apartment: 5 Fellows at ₦70,000 each)
+  // 22-28. FULFILLED - MainBase Apartment (7 Fellows at ₦70,000 each)
   buildResp(
     'resp-mb-02',
     'fellow-mb-02',
@@ -620,9 +757,9 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     '12 MainBase Avenue',
     'floor-mb-1',
     'Floor 1',
-    'room-mb-11',
-    'Room 11',
-    'MB-011',
+    'room-mb-12',
+    'Room 12',
+    'MB-012',
     70000,
     70000,
     ResponsibilityStatus.FULFILLED
@@ -637,9 +774,9 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     '12 MainBase Avenue',
     'floor-mb-1',
     'Floor 1',
-    'room-mb-14',
-    'Room 14',
-    'MB-014',
+    'room-mb-12',
+    'Room 12',
+    'MB-012',
     70000,
     70000,
     ResponsibilityStatus.FULFILLED
@@ -652,11 +789,11 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     'prop-mainbase-apt',
     'MainBase Apartment',
     '12 MainBase Avenue',
-    'floor-mb-2',
-    'Floor 2',
-    'room-mb-21',
-    'Room 21',
-    'MB-021',
+    'floor-mb-1',
+    'Floor 1',
+    'room-mb-11',
+    'Room 11',
+    'MB-011',
     70000,
     70000,
     ResponsibilityStatus.FULFILLED
@@ -669,11 +806,28 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     'prop-mainbase-apt',
     'MainBase Apartment',
     '12 MainBase Avenue',
-    'floor-mb-2',
-    'Floor 2',
-    'room-mb-22',
-    'Room 22',
-    'MB-022',
+    'floor-mb-1',
+    'Floor 1',
+    'room-mb-11',
+    'Room 11',
+    'MB-011',
+    70000,
+    70000,
+    ResponsibilityStatus.FULFILLED
+  ),
+  buildResp(
+    'resp-mb-07',
+    'fellow-mb-07',
+    'Deborah Yakubu',
+    'deborah.yakubu@mainbase.local',
+    'prop-mainbase-apt',
+    'MainBase Apartment',
+    '12 MainBase Avenue',
+    'floor-mb-1',
+    'Floor 1',
+    'room-mb-11',
+    'Room 11',
+    'MB-011',
     70000,
     70000,
     ResponsibilityStatus.FULFILLED
@@ -688,20 +842,71 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     '12 MainBase Avenue',
     'floor-mb-2',
     'Floor 2',
-    'room-mb-25',
-    'Room 25',
-    'MB-025',
+    'room-mb-21',
+    'Room 21',
+    'MB-021',
+    70000,
+    70000,
+    ResponsibilityStatus.FULFILLED
+  ),
+  buildResp(
+    'resp-mb-08',
+    'fellow-mb-08',
+    'Usman Garba',
+    'usman.garba@mainbase.local',
+    'prop-mainbase-apt',
+    'MainBase Apartment',
+    '12 MainBase Avenue',
+    'floor-mb-2',
+    'Floor 2',
+    'room-mb-21',
+    'Room 21',
+    'MB-021',
     70000,
     70000,
     ResponsibilityStatus.FULFILLED
   ),
 
-  // 23-24. FULFILLED (Tangerine Hotel: 2 Fellows at ₦140,000 each)
+  // 29-32. FULFILLED - Tangerine Hotel (4 Fellows at ₦140,000 each)
   buildResp(
     'resp-th-03',
     'fellow-th-03',
     'Chiamaka Nnaji',
     'chiamaka.nnaji@tangerine.local',
+    'prop-tangerine-hotel',
+    'Tangerine Hotel',
+    'Tangerine Residency Boulevard',
+    'floor-th-4',
+    'Floor 4',
+    'room-th-402',
+    'Suite 402',
+    'TH-402',
+    140000,
+    140000,
+    ResponsibilityStatus.FULFILLED
+  ),
+  buildResp(
+    'resp-th-04',
+    'fellow-th-04',
+    'Oluwaseun Bakare',
+    'oluwaseun.bakare@tangerine.local',
+    'prop-tangerine-hotel',
+    'Tangerine Hotel',
+    'Tangerine Residency Boulevard',
+    'floor-th-2',
+    'Floor 2',
+    'room-th-205',
+    'Suite 205',
+    'TH-205',
+    140000,
+    140000,
+    ResponsibilityStatus.FULFILLED
+  ),
+  buildResp(
+    'resp-th-05',
+    'fellow-th-05',
+    'Tochukwu Okafor',
+    'tochukwu.okafor@tangerine.local',
     'prop-tangerine-hotel',
     'Tangerine Hotel',
     'Tangerine Residency Boulevard',
@@ -715,18 +920,18 @@ export const DEMO_COMMAND_CENTER_RESPONSIBILITIES: AccommodationResponsibility[]
     ResponsibilityStatus.FULFILLED
   ),
   buildResp(
-    'resp-th-04',
-    'fellow-th-04',
-    'Oluwaseun Bakare',
-    'oluwaseun.bakare@tangerine.local',
+    'resp-th-06',
+    'fellow-th-06',
+    'Stephanie Briggs',
+    'stephanie.briggs@tangerine.local',
     'prop-tangerine-hotel',
     'Tangerine Hotel',
     'Tangerine Residency Boulevard',
-    'floor-th-3',
-    'Floor 3',
-    'room-th-301',
-    'Suite 301',
-    'TH-301',
+    'floor-th-1',
+    'Floor 1',
+    'room-th-101',
+    'Suite 101',
+    'TH-101',
     140000,
     140000,
     ResponsibilityStatus.FULFILLED

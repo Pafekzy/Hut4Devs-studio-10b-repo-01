@@ -139,7 +139,7 @@ export const AccommodationAdminView: React.FC<AccommodationAdminViewProps> = ({
       (r) => (r.responsibilityId === respId || (r as any).respId === respId) && r.reconciliationStatus === 'MISMATCH'
     );
 
-  // Believable 24-Fellow population counts for top attention cards
+  // Believable 32-Fellow population counts for top attention cards
   const outstandingCount = effectiveResponsibilities.filter((r) => r.status === 'OUTSTANDING').length;
   const partiallyFulfilledCount = effectiveResponsibilities.filter((r) => r.status === 'PARTIALLY_FULFILLED').length;
   const awaitingReconciliationCount = effectiveResponsibilities.filter((r) => hasAwaitingReconciliation(r.id)).length;
@@ -577,72 +577,80 @@ export const AccommodationAdminView: React.FC<AccommodationAdminViewProps> = ({
             </span>
           </div>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             <div
               id="summary-properties-count"
-              className="p-4 sm:p-5 rounded-xl border-2 border-b-3 shadow-xs transition-all duration-150 hover:-translate-y-0.5 backdrop-blur-xs"
+              className="min-w-0 flex flex-col justify-between p-4 sm:p-5 rounded-xl border-2 border-b-3 shadow-xs transition-all duration-150 hover:-translate-y-0.5 backdrop-blur-xs min-h-[104px]"
               style={{
                 backgroundColor: isDark ? 'rgba(30, 27, 24, 0.45)' : 'rgba(247, 241, 231, 0.50)',
                 borderColor: isDark ? 'rgba(200, 141, 58, 0.25)' : 'rgba(90, 45, 12, 0.15)',
               }}
             >
-              <div className="flex items-center gap-2 mb-1.5">
+              <div className="flex items-center gap-2 mb-2 min-w-0">
                 <Building2 className="w-4 h-4 shrink-0 text-[#C88D3A]" aria-hidden="true" />
-                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>Properties</span>
+                <span className="text-xs font-bold uppercase tracking-wider truncate" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>
+                  Properties
+                </span>
               </div>
-              <p className="text-lg sm:text-2xl font-bold font-mono tracking-tight" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
-                Properties: {summary.propertiesCount}
+              <p className="text-2xl sm:text-3xl font-bold font-mono tracking-tight" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
+                {summary.propertiesCount}
               </p>
             </div>
 
             <div
               id="summary-rooms-count"
-              className="p-4 sm:p-5 rounded-xl border-2 border-b-3 shadow-xs transition-all duration-150 hover:-translate-y-0.5 backdrop-blur-xs"
+              className="min-w-0 flex flex-col justify-between p-4 sm:p-5 rounded-xl border-2 border-b-3 shadow-xs transition-all duration-150 hover:-translate-y-0.5 backdrop-blur-xs min-h-[104px]"
               style={{
                 backgroundColor: isDark ? 'rgba(30, 27, 24, 0.45)' : 'rgba(247, 241, 231, 0.50)',
                 borderColor: isDark ? 'rgba(200, 141, 58, 0.25)' : 'rgba(90, 45, 12, 0.15)',
               }}
             >
-              <div className="flex items-center gap-2 mb-1.5">
+              <div className="flex items-center gap-2 mb-2 min-w-0">
                 <DoorClosed className="w-4 h-4 shrink-0 text-[#C88D3A]" aria-hidden="true" />
-                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>Rooms represented</span>
+                <span className="text-xs font-bold uppercase tracking-wider truncate" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>
+                  Rooms Represented
+                </span>
               </div>
-              <p className="text-lg sm:text-2xl font-bold font-mono tracking-tight" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
-                Rooms represented: {summary.roomsRepresentedCount}
+              <p className="text-2xl sm:text-3xl font-bold font-mono tracking-tight" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
+                {summary.roomsRepresentedCount}
               </p>
             </div>
 
             <div
               id="summary-fellows-count"
-              className="p-4 sm:p-5 rounded-xl border-2 border-b-3 shadow-xs transition-all duration-150 hover:-translate-y-0.5 backdrop-blur-xs"
+              className="min-w-0 flex flex-col justify-between p-4 sm:p-5 rounded-xl border-2 border-b-3 shadow-xs transition-all duration-150 hover:-translate-y-0.5 backdrop-blur-xs min-h-[104px]"
               style={{
                 backgroundColor: isDark ? 'rgba(30, 27, 24, 0.45)' : 'rgba(247, 241, 231, 0.50)',
                 borderColor: isDark ? 'rgba(200, 141, 58, 0.25)' : 'rgba(90, 45, 12, 0.15)',
               }}
             >
-              <div className="flex items-center gap-2 mb-1.5">
+              <div className="flex items-center gap-2 mb-2 min-w-0">
                 <User className="w-4 h-4 shrink-0 text-[#C88D3A]" aria-hidden="true" />
-                <span className="text-xs font-bold uppercase tracking-wider" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>Fellows represented</span>
+                <span className="text-xs font-bold uppercase tracking-wider truncate" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>
+                  Fellows Represented
+                </span>
               </div>
-              <p className="text-lg sm:text-2xl font-bold font-mono tracking-tight" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
-                Fellows represented: {summary.fellowsRepresentedCount}
+              <p className="text-2xl sm:text-3xl font-bold font-mono tracking-tight" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
+                {summary.fellowsRepresentedCount}
               </p>
             </div>
 
             <div
               id="summary-outstanding-count"
-              className="p-4 sm:p-5 rounded-xl border-2 border-b-3 shadow-xs transition-all duration-150 hover:-translate-y-0.5 backdrop-blur-xs"
+              className="min-w-0 flex flex-col justify-between p-4 sm:p-5 rounded-xl border-2 border-b-3 shadow-xs transition-all duration-150 hover:-translate-y-0.5 backdrop-blur-xs min-h-[104px]"
               style={{
                 backgroundColor: isDark ? 'rgba(30, 27, 24, 0.45)' : 'rgba(247, 241, 231, 0.50)',
                 borderColor: isDark ? 'rgba(200, 141, 58, 0.25)' : 'rgba(90, 45, 12, 0.15)',
               }}
             >
-              <div className="flex items-center gap-2 mb-1.5">
+              <div className="flex items-center gap-2 mb-2 min-w-0">
                 <FileText className="w-4 h-4 shrink-0 text-[#C88D3A]" aria-hidden="true" />
-                <span className="text-xs font-bold uppercase tracking-wider text-[#B77620]">Outstanding responsibilities</span>
+                <span className="text-xs font-bold uppercase tracking-wider leading-snug" style={{ color: isDark ? '#D9C4AC' : '#B77620' }}>
+                  Outstanding Responsibilities
+                </span>
               </div>
-              <p className="text-lg sm:text-2xl font-bold font-mono tracking-tight text-[#B77620]">
-                Outstanding responsibilities: {summary.outstandingResponsibilitiesCount}
+              <p className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-[#B77620]">
+                {summary.outstandingResponsibilitiesCount}
               </p>
             </div>
           </div>
