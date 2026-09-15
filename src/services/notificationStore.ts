@@ -4,12 +4,29 @@
  * clarifications, and community events.
  */
 
+export type NotificationTargetWorkspace =
+  | 'room-captain'
+  | 'coordinator'
+  | 'accommodation-admin'
+  | 'welfare-workspace'
+  | 'member-home';
+
 export interface MemberNotification {
   id: string;
   memberId: string;
   title: string;
   message: string;
   feedbackId?: string;
+  targetWorkspace?: NotificationTargetWorkspace;
+  targetContextId?: string;
+  targetContextType?:
+    | 'DELEGATION'
+    | 'CLARIFICATION'
+    | 'RESPONSIBILITY'
+    | 'WELFARE'
+    | 'ROOM_ACTION'
+    | 'MEMBERSHIP_REQUEST'
+    | 'FEEDBACK';
   createdAt: string;
   read: boolean;
   type?:
@@ -17,7 +34,116 @@ export interface MemberNotification {
     | 'CLARIFICATION_REQUESTED'
     | 'STATUS_CHANGED'
     | 'RESOLVED'
+    | 'DELEGATED_TASK'
+    | 'ROOM_NOTICE'
+    | 'WELFARE_ALERT'
+    | 'FINANCIAL_UPDATE'
     | 'SYSTEM';
+}
+
+function getSeedNotificationsForMember(memberId: string): MemberNotification[] {
+  const now = new Date();
+  const tenMinsAgo = new Date(now.getTime() - 10 * 60 * 1000).toISOString();
+  const oneHourAgo = new Date(now.getTime() - 60 * 60 * 1000).toISOString();
+  const yesterday = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
+
+  if (memberId === 'member-chinedu-captain' || memberId === 'member-emmanuel-fellow') {
+    return [
+      {
+        id: `notif-rc-del-${memberId}`,
+        memberId,
+        title: 'Room 304 Occupancy Verification Delegated',
+        message: 'Coordinator Zainab Aliyu delegated room occupancy verification for David Adeleke (Room 304).',
+        type: 'DELEGATED_TASK',
+        targetWorkspace: 'room-captain',
+        targetContextId: 'req-2026-003',
+        targetContextType: 'DELEGATION',
+        createdAt: tenMinsAgo,
+        read: false,
+      },
+      {
+        id: `notif-rc-commons-${memberId}`,
+        memberId,
+        title: 'Room Commons: Study Hours Reminder',
+        message: 'Reminder: Shared quiet hours in Room 304 begin at 10:00 PM tonight.',
+        type: 'ROOM_NOTICE',
+        targetWorkspace: 'room-captain',
+        targetContextType: 'ROOM_ACTION',
+        createdAt: oneHourAgo,
+        read: false,
+      },
+      {
+        id: `notif-rc-prev-${memberId}`,
+        memberId,
+        title: 'Room Occupancy Confirmed',
+        message: 'Emmanuel Ukom assigned bed space verification was recorded in Room 304 history.',
+        type: 'ROOM_NOTICE',
+        targetWorkspace: 'room-captain',
+        createdAt: yesterday,
+        read: true,
+      },
+    ];
+  }
+
+  if (memberId === 'member-zainab-coordinator') {
+    return [
+      {
+        id: `notif-coord-req-1`,
+        memberId,
+        title: 'New Accommodation Request: Blessing Nwosu',
+        message: 'A new applicant submitted a residency request for Infinite Grace Apartment (Room 304).',
+        type: 'SYSTEM',
+        targetWorkspace: 'coordinator',
+        targetContextId: 'req-2026-001',
+        targetContextType: 'MEMBERSHIP_REQUEST',
+        createdAt: tenMinsAgo,
+        read: false,
+      },
+      {
+        id: `notif-coord-puz-1`,
+        memberId,
+        title: 'Missing Puzzle: Community Triage Required',
+        message: 'Community report logged for room Wi-Fi stability in Infinite Grace Apartment.',
+        type: 'CLARIFICATION_REQUESTED',
+        targetWorkspace: 'coordinator',
+        feedbackId: 'rep-demo-01',
+        targetContextType: 'FEEDBACK',
+        createdAt: oneHourAgo,
+        read: false,
+      },
+    ];
+  }
+
+  if (memberId === 'member-admin-financial') {
+    return [
+      {
+        id: `notif-fin-recon-1`,
+        memberId,
+        title: 'Payment Responsibility Attention: Emmanuel Ukom',
+        message: '₦46,000 verified for September 2026; ₦20,000 balance remaining requires review.',
+        type: 'FINANCIAL_UPDATE',
+        targetWorkspace: 'accommodation-admin',
+        targetContextId: 'resp-infinite-grace-2026-09',
+        targetContextType: 'RESPONSIBILITY',
+        createdAt: tenMinsAgo,
+        read: false,
+      },
+    ];
+  }
+
+  // Default Fellow notifications
+  return [
+    {
+      id: `notif-fellow-welcome-${memberId}`,
+      memberId,
+      title: 'Welcome to Hut4Devs Living Space',
+      message: 'Your active accommodation responsibility is tracked in your Fellow home workspace.',
+      type: 'SYSTEM',
+      targetWorkspace: 'member-home',
+      createdAt: yesterday,
+      read: false,
+    },
+  ];
 }
 
 class NotificationStore {
@@ -60,12 +186,16 @@ class NotificationStore {
     } catch {
       // Fallback to empty memory list
     }
+    if (!loaded || loaded.length === 0) {
+      loaded = getSeedNotificationsForMember(memberId);
+      this.saveForMember(memberId, loaded);
+    }
     this.notifications.set(memberId, loaded);
     return loaded;
   }
 
-  private saveForMember(memberId: string): void {
-    const list = this.notifications.get(memberId) || [];
+  private saveForMember(memberId: string, customList?: MemberNotification[]): void {
+    const list = customList || this.notifications.get(memberId) || [];
     try {
       if (typeof window !== 'undefined' && window.localStorage) {
         window.localStorage.setItem(this.getStorageKey(memberId), JSON.stringify(list));

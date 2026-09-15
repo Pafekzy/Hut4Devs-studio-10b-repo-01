@@ -20,6 +20,8 @@ import { FinancialNotesThread } from './FinancialNotesThread';
 import { Hut4DevsLogo } from './Hut4DevsLogo';
 import { ThemeToggle } from './ThemeToggle';
 import { MissingPuzzleModal } from './MissingPuzzleModal';
+import { MemberNotificationsDropdown } from './MemberNotificationsDropdown';
+import { MemberNotification, NotificationTargetWorkspace } from '../services/notificationStore';
 import {
   ShieldAlert,
   ArrowRight,
@@ -68,6 +70,7 @@ interface AccommodationAdminViewProps {
   currentMode?: ActiveMode;
   scopedRoles?: ScopedRoleAssignment[];
   onModeChange?: (mode: ActiveMode) => void;
+  onNavigate?: (notif: MemberNotification) => void;
 }
 
 type AttentionFilterType =
@@ -94,6 +97,7 @@ export const AccommodationAdminView: React.FC<AccommodationAdminViewProps> = ({
   currentMode = 'FINANCIAL_ADMIN',
   scopedRoles = [],
   onModeChange,
+  onNavigate,
 }) => {
   const [isPuzzleModalOpen, setIsPuzzleModalOpen] = useState(false);
 
@@ -195,6 +199,16 @@ export const AccommodationAdminView: React.FC<AccommodationAdminViewProps> = ({
           </div>
 
           <div className="flex items-center gap-2 sm:gap-3">
+            {currentMember && (
+              <MemberNotificationsDropdown
+                memberId={currentMember.id}
+                isDark={isDark}
+                onNavigate={onNavigate}
+                buttonId="admin-notifications-btn"
+                onOpenFeedbackReport={() => setIsPuzzleModalOpen(true)}
+              />
+            )}
+
             <button
               type="button"
               id="admin-btn-missing-puzzle"

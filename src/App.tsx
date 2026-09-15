@@ -11,6 +11,8 @@ import { PendingMembershipView } from './components/PendingMembershipView';
 import { RegistrationModal } from './components/RegistrationModal';
 import { Hut4DevsLogo } from './components/Hut4DevsLogo';
 import { ModeSwitcher } from './components/ModeSwitcher';
+import { MemberNotificationsDropdown } from './components/MemberNotificationsDropdown';
+import { MemberNotification, NotificationTargetWorkspace } from './services/notificationStore';
 import { DEMO_ACCOMMODATION_RESPONSIBILITY } from './data/demoAccommodation';
 import { DEMO_COMMAND_CENTER_RESPONSIBILITIES } from './data/demoCommandCenterPopulation';
 import {
@@ -321,6 +323,32 @@ export default function App() {
     }
   };
 
+  // Shared notification navigation handler across all stakeholder workspaces
+  const handleNotificationNavigate = (notif: MemberNotification) => {
+    if (!notif.targetWorkspace) return;
+    switch (notif.targetWorkspace) {
+      case 'coordinator':
+        handleModeChange('COORDINATOR');
+        break;
+      case 'room-captain':
+        handleModeChange('ROOM_CAPTAIN');
+        break;
+      case 'welfare-workspace':
+        handleModeChange('WELFARE_OFFICER');
+        break;
+      case 'accommodation-admin':
+        setView('accommodation-admin');
+        setActiveMode('FINANCIAL_ADMIN');
+        loadAdminAuditData();
+        break;
+      case 'member-home':
+        handleModeChange('FELLOW');
+        break;
+      default:
+        break;
+    }
+  };
+
   const handleEnter = () => {
     setView('member-home');
     if (typeof fetch === 'function') {
@@ -606,6 +634,7 @@ export default function App() {
           onSwitchToCaptain={() => handleModeChange('ROOM_CAPTAIN')}
           onSwitchToCoordinator={() => handleModeChange('COORDINATOR')}
           onLogout={handleLogout}
+          onNavigate={handleNotificationNavigate}
         />
       )}
 
@@ -648,6 +677,12 @@ export default function App() {
               </button>
 
               <div className="flex items-center gap-2.5">
+                <MemberNotificationsDropdown
+                  memberId={member.id}
+                  isDark={isDark}
+                  onNavigate={handleNotificationNavigate}
+                  buttonId="coordinator-notifications-btn"
+                />
                 <ModeSwitcher
                   member={member}
                   scopedRoles={scopedRoles}
@@ -700,6 +735,12 @@ export default function App() {
               </button>
 
               <div className="flex items-center gap-2.5">
+                <MemberNotificationsDropdown
+                  memberId={member.id}
+                  isDark={isDark}
+                  onNavigate={handleNotificationNavigate}
+                  buttonId="captain-notifications-btn"
+                />
                 <ModeSwitcher
                   member={member}
                   scopedRoles={scopedRoles}
@@ -722,7 +763,7 @@ export default function App() {
             </div>
           </header>
           <main className="max-w-6xl mx-auto p-4 sm:p-6 lg:p-8 space-y-6">
-            <CaptainWorkspaceView member={member} activeMode={activeMode} />
+            <CaptainWorkspaceView member={member} activeMode={activeMode} isDark={isDark} />
           </main>
         </div>
       )}
@@ -752,6 +793,12 @@ export default function App() {
               </button>
 
               <div className="flex items-center gap-2.5">
+                <MemberNotificationsDropdown
+                  memberId={member.id}
+                  isDark={isDark}
+                  onNavigate={handleNotificationNavigate}
+                  buttonId="welfare-notifications-btn"
+                />
                 <ModeSwitcher
                   member={member}
                   scopedRoles={scopedRoles}
@@ -797,6 +844,7 @@ export default function App() {
           currentMode={activeMode}
           scopedRoles={scopedRoles}
           onModeChange={handleModeChange}
+          onNavigate={handleNotificationNavigate}
         />
       )}
 

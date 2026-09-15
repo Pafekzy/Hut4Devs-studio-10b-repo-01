@@ -13,6 +13,7 @@ import { VouchSection } from './VouchSection';
 import { RecognitionView } from './RecognitionView';
 import { MissingPuzzleModal } from './MissingPuzzleModal';
 import { MemberNotificationsDropdown } from './MemberNotificationsDropdown';
+import { MemberNotification, NotificationTargetWorkspace } from '../services/notificationStore';
 import { peerSupportStore } from '../services/peerSupportStore';
 import { membershipStore } from '../services/membershipStore';
 import {
@@ -53,6 +54,7 @@ interface MemberHomeViewProps {
   onSwitchToAdmin?: () => void;
   onSwitchToCaptain?: () => void;
   onSwitchToCoordinator?: () => void;
+  onNavigate?: (notif: MemberNotification) => void;
 }
 
 type FellowWorkspaceTab =
@@ -76,6 +78,7 @@ export const MemberHomeView: React.FC<MemberHomeViewProps> = ({
   onSwitchToAdmin,
   onSwitchToCaptain,
   onSwitchToCoordinator,
+  onNavigate,
 }) => {
   const [activeTab, setActiveTab] = useState<FellowWorkspaceTab>('accommodation');
   const [showNotes, setShowNotes] = useState(false);
@@ -334,6 +337,8 @@ export const MemberHomeView: React.FC<MemberHomeViewProps> = ({
             <MemberNotificationsDropdown
               memberId={currentMember.id}
               isDark={isDark}
+              onNavigate={onNavigate}
+              buttonId="header-notifications-btn"
               onOpenFeedbackReport={(feedbackId) => {
                 setSelectedPuzzleReportId(feedbackId);
                 setIsPuzzleModalOpen(true);
