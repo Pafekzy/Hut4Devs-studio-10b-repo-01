@@ -322,7 +322,7 @@ export const AccommodationAdminView: React.FC<AccommodationAdminViewProps> = ({
             }}
           >
             <div className="flex items-center justify-between text-xs mb-1.5">
-              <span className="font-bold uppercase tracking-wider text-[10px] text-[#B77620]">Outstanding</span>
+              <span className="font-bold uppercase tracking-wider text-[10px] text-[#B77620]">Outstanding Dues</span>
               <AlertTriangle className="w-3.5 h-3.5 text-[#B77620]" />
             </div>
             <div className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-[#B77620]">{outstandingCount}</div>
@@ -589,7 +589,7 @@ export const AccommodationAdminView: React.FC<AccommodationAdminViewProps> = ({
               <div className="flex items-center gap-2 mb-2 min-w-0">
                 <Building2 className="w-4 h-4 shrink-0 text-[#C88D3A]" aria-hidden="true" />
                 <span className="text-xs font-bold uppercase tracking-wider truncate" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>
-                  Properties
+                  Properties: {summary.propertiesCount}
                 </span>
               </div>
               <p className="text-2xl sm:text-3xl font-bold font-mono tracking-tight" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
@@ -608,7 +608,7 @@ export const AccommodationAdminView: React.FC<AccommodationAdminViewProps> = ({
               <div className="flex items-center gap-2 mb-2 min-w-0">
                 <DoorClosed className="w-4 h-4 shrink-0 text-[#C88D3A]" aria-hidden="true" />
                 <span className="text-xs font-bold uppercase tracking-wider truncate" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>
-                  Rooms Represented
+                  Rooms represented: {summary.roomsRepresentedCount}
                 </span>
               </div>
               <p className="text-2xl sm:text-3xl font-bold font-mono tracking-tight" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
@@ -627,7 +627,7 @@ export const AccommodationAdminView: React.FC<AccommodationAdminViewProps> = ({
               <div className="flex items-center gap-2 mb-2 min-w-0">
                 <User className="w-4 h-4 shrink-0 text-[#C88D3A]" aria-hidden="true" />
                 <span className="text-xs font-bold uppercase tracking-wider truncate" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>
-                  Fellows Represented
+                  Fellows represented: {summary.fellowsRepresentedCount}
                 </span>
               </div>
               <p className="text-2xl sm:text-3xl font-bold font-mono tracking-tight" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
@@ -646,7 +646,7 @@ export const AccommodationAdminView: React.FC<AccommodationAdminViewProps> = ({
               <div className="flex items-center gap-2 mb-2 min-w-0">
                 <FileText className="w-4 h-4 shrink-0 text-[#C88D3A]" aria-hidden="true" />
                 <span className="text-xs font-bold uppercase tracking-wider leading-snug" style={{ color: isDark ? '#D9C4AC' : '#B77620' }}>
-                  Outstanding Responsibilities
+                  Outstanding responsibilities: {summary.outstandingResponsibilitiesCount}
                 </span>
               </div>
               <p className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-[#B77620]">
