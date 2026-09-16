@@ -25,7 +25,7 @@ export const AccommodationResponsibilityCard: React.FC<AccommodationResponsibili
     <article
       id={`responsibility-card-${responsibility.id}`}
       aria-labelledby={`responsibility-title-${responsibility.id}`}
-      className="rounded-2xl p-5 sm:p-7 border-2 border-b-4 transition-all duration-200 shadow-md backdrop-blur-md"
+      className="h4d-card-static rounded-2xl p-5 sm:p-7 border-2 border-b-4 transition-all duration-200 shadow-md backdrop-blur-md"
       style={{
         backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.65)',
         borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.25)',

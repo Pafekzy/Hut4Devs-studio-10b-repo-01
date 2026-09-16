@@ -508,11 +508,11 @@ export const MemberHomeView: React.FC<MemberHomeViewProps> = ({
                     onViewDetails={onViewResponsibilityDetails}
                   />
 
-                  {/* Enter My Room Action Card (Placed immediately BEFORE Accommodation Notes & Clarifications) */}
+                  {/* My Room Action Card (Placed immediately BEFORE Accommodation Notes & Clarifications) */}
                   {fellowRoom && (
                     <div
                       id="fellow-room-entry-card"
-                      className="p-4 sm:p-5 rounded-2xl border-2 border-b-4 transition-all duration-150 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+                      className="h4d-card-static p-4 sm:p-5 rounded-2xl border-2 border-b-4 transition-all duration-150 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4"
                       style={{
                         backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.75)',
                         borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',
@@ -551,23 +551,19 @@ export const MemberHomeView: React.FC<MemberHomeViewProps> = ({
 
                       <button
                         type="button"
-                        id="btn-enter-my-room"
+                        id="btn-my-room"
                         onClick={() => setIsInsideRoom(true)}
-                        className="px-5 py-2.5 text-xs sm:text-sm font-bold rounded-xl border-2 border-b-4 transition-all duration-150 cursor-pointer flex items-center justify-center gap-2 shadow-xs hover:-translate-y-0.5 active:translate-y-0.5 active:border-b-2 self-stretch sm:self-auto shrink-0"
-                        style={{
-                          backgroundColor: isDark ? '#C88D3A' : '#5A2D0C',
-                          borderColor: isDark ? '#915B15' : '#381B07',
-                          color: isDark ? '#241104' : '#FFF9EE',
-                        }}
+                        aria-label="My Room"
+                        className="h4d-btn-soft self-stretch sm:self-auto shrink-0"
                       >
-                        <span className="text-base leading-none">🛖</span>
-                        <span>Enter My Room</span>
+                        <span className="text-sm" aria-hidden="true">🛖</span>
+                        <span>My Room</span>
                       </button>
                     </div>
                   )}
 
                   {/* Contextual Financial Notes Toggle & Section */}
-                  <div className="bg-white/60 dark:bg-[#241004]/80 border border-[#C88D3A]/25 dark:border-[#C88D3A]/40 rounded-2xl p-4 shadow-xs">
+                  <div className="h4d-card-static bg-white/60 dark:bg-[#241004]/80 border border-[#C88D3A]/25 dark:border-[#C88D3A]/40 rounded-2xl p-4 shadow-xs">
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-2">
                         <MessageSquare className="w-4 h-4 text-[#C88D3A]" />

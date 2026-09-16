@@ -191,7 +191,7 @@ describe('🛖 Shared Room Experience & Belonging Hub', () => {
     expect(screen.getByText('Room 304 Living Traditions')).toBeInTheDocument();
   });
 
-  it('allows a Fellow in MemberHomeView to Enter My Room and exit back cleanly', () => {
+  it('allows a Fellow in MemberHomeView to enter My Room and exit back cleanly', () => {
     const mockMember: Member = {
       id: 'mem-1',
       displayName: 'Emmanuel Ukom',
@@ -211,12 +211,12 @@ describe('🛖 Shared Room Experience & Belonging Hub', () => {
       />
     );
 
-    // Enter My Room action card is visible before notes
-    expect(screen.getByText('Enter My Room')).toBeInTheDocument();
+    // My Room action card is visible before notes
+    expect(screen.getByText('My Room')).toBeInTheDocument();
     expect(screen.getByText(/Your Living Space/)).toBeInTheDocument();
 
-    // Click Enter My Room
-    fireEvent.click(screen.getByRole('button', { name: /Enter My Room/i }));
+    // Click My Room
+    fireEvent.click(screen.getByRole('button', { name: /My Room/i }));
 
     // Shared Room Workspace is now presented
     expect(screen.getByText(/Back to Fellow Accommodation/)).toBeInTheDocument();
@@ -230,7 +230,7 @@ describe('🛖 Shared Room Experience & Belonging Hub', () => {
     fireEvent.click(screen.getByRole('button', { name: /Back to Fellow Accommodation/i }));
 
     // Back to overview
-    expect(screen.getByText('Enter My Room')).toBeInTheDocument();
+    expect(screen.getByText('My Room')).toBeInTheDocument();
     expect(screen.queryByText(/Back to Fellow Accommodation/)).not.toBeInTheDocument();
   });
 });
