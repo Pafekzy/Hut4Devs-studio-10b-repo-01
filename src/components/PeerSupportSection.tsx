@@ -29,6 +29,8 @@ import {
 import { PeerSupportModal } from './PeerSupportModal';
 import { TrustTrailFeed } from './TrustTrailFeed';
 import { VouchSection } from './VouchSection';
+import { BeachFootstepsAnimation } from './BeachFootstepsAnimation';
+import { BallotBoxIllustration } from './BallotBoxIllustration';
 
 interface PeerSupportSectionProps {
   currentMember: Member;
@@ -360,7 +362,7 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
             </p>
 
             <div
-              className="p-3 rounded-xl border mb-4 flex items-center justify-between"
+              className="p-3 rounded-xl border mb-3 flex items-center justify-between"
               style={{
                 backgroundColor: isDark ? 'rgba(42, 34, 28, 0.4)' : '#FFFDF8',
                 borderColor: isDark ? 'rgba(200, 141, 58, 0.2)' : 'rgba(90, 45, 12, 0.12)',
@@ -372,6 +374,11 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
               <span className="font-mono font-bold text-xs" style={{ color: isDark ? '#FCD34D' : '#5A2D0C' }}>
                 {trailEvents.length} Verifiable Events
               </span>
+            </div>
+
+            {/* Walking Footprints Trail on Beach Sand Animation */}
+            <div className="mb-4">
+              <BeachFootstepsAnimation isDark={isDark} />
             </div>
           </div>
 
@@ -440,7 +447,7 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
             </p>
 
             <div
-              className="p-3 rounded-xl border mb-4 flex items-center justify-between"
+              className="p-3 rounded-xl border mb-3 flex items-center justify-between"
               style={{
                 backgroundColor: isDark ? 'rgba(42, 34, 28, 0.4)' : '#FFFDF8',
                 borderColor: isDark ? 'rgba(200, 141, 58, 0.2)' : 'rgba(90, 45, 12, 0.12)',
@@ -452,6 +459,11 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
               <span className="font-mono font-bold text-xs" style={{ color: isDark ? '#FCD34D' : '#5A2D0C' }}>
                 {vouches.length} Attestations
               </span>
+            </div>
+
+            {/* Static Ballot Box Attestation Illustration */}
+            <div className="mb-4">
+              <BallotBoxIllustration isDark={isDark} />
             </div>
           </div>
 
