@@ -24,7 +24,7 @@ export const RoomCultureSection: React.FC<RoomCultureSectionProps> = ({
     <div className="space-y-6" id="room-culture-section">
       {/* Intro Banner */}
       <div
-        className="p-5 sm:p-6 rounded-2xl border-2 border-b-4 transition-all shadow-xs backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+        className="h4d-card-static p-5 sm:p-6 rounded-2xl border-2 border-b-4 shadow-xs backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         style={{
           backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.75)',
           borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',
@@ -70,7 +70,7 @@ export const RoomCultureSection: React.FC<RoomCultureSectionProps> = ({
 
       {/* Community Pledge */}
       <div
-        className="p-5 rounded-2xl border-2 border-b-3 shadow-xs"
+        className="h4d-card-static p-5 rounded-2xl border-2 border-b-3 shadow-xs"
         style={{
           backgroundColor: isDark ? 'rgba(30, 27, 24, 0.55)' : 'rgba(255, 253, 248, 0.85)',
           borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',
@@ -97,7 +97,7 @@ export const RoomCultureSection: React.FC<RoomCultureSectionProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Card 1: Quiet Hours & Rest */}
         <div
-          className="p-5 rounded-2xl border-2 border-b-4 shadow-xs flex flex-col justify-between"
+          className="h4d-card-static p-5 rounded-2xl border-2 border-b-4 shadow-xs flex flex-col justify-between"
           style={{
             backgroundColor: isDark ? 'rgba(30, 27, 24, 0.55)' : 'rgba(255, 253, 248, 0.85)',
             borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',
@@ -167,7 +167,7 @@ export const RoomCultureSection: React.FC<RoomCultureSectionProps> = ({
 
         {/* Card 2: Cleaning & Hygiene Rhythms */}
         <div
-          className="p-5 rounded-2xl border-2 border-b-4 shadow-xs flex flex-col justify-between"
+          className="h4d-card-static p-5 rounded-2xl border-2 border-b-4 shadow-xs flex flex-col justify-between"
           style={{
             backgroundColor: isDark ? 'rgba(30, 27, 24, 0.55)' : 'rgba(255, 253, 248, 0.85)',
             borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',
@@ -233,7 +233,7 @@ export const RoomCultureSection: React.FC<RoomCultureSectionProps> = ({
 
         {/* Card 3: Power & Inverter Usage */}
         <div
-          className="p-5 rounded-2xl border-2 border-b-4 shadow-xs flex flex-col justify-between"
+          className="h4d-card-static p-5 rounded-2xl border-2 border-b-4 shadow-xs flex flex-col justify-between"
           style={{
             backgroundColor: isDark ? 'rgba(30, 27, 24, 0.55)' : 'rgba(255, 253, 248, 0.85)',
             borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',
@@ -287,7 +287,7 @@ export const RoomCultureSection: React.FC<RoomCultureSectionProps> = ({
 
       {/* Shared Traditions Section */}
       <div
-        className="p-5 sm:p-6 rounded-2xl border-2 border-b-4 shadow-xs"
+        className="h4d-card-static p-5 sm:p-6 rounded-2xl border-2 border-b-4 shadow-xs"
         style={{
           backgroundColor: isDark ? 'rgba(30, 27, 24, 0.55)' : 'rgba(255, 253, 248, 0.85)',
           borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',
@@ -307,27 +307,34 @@ export const RoomCultureSection: React.FC<RoomCultureSectionProps> = ({
           {cultureGuide.sharedTraditions.map((tradition, idx) => (
             <div
               key={idx}
-              className="p-4 rounded-xl border flex flex-col justify-between"
+              className="h4d-card-static p-4 rounded-xl border flex flex-col justify-between"
               style={{
-                backgroundColor: isDark ? 'rgba(42, 34, 28, 0.5)' : 'rgba(247, 241, 231, 0.6)',
-                borderColor: isDark ? 'rgba(200, 141, 58, 0.2)' : 'rgba(90, 45, 12, 0.12)',
+                backgroundColor: isDark ? 'rgba(42, 34, 28, 0.5)' : 'rgba(247, 241, 231, 0.75)',
+                borderColor: isDark ? 'rgba(200, 141, 58, 0.25)' : 'rgba(90, 45, 12, 0.18)',
               }}
             >
               <div>
-                <div className="flex items-center justify-between gap-2 mb-1.5">
+                <div className="flex items-center justify-between gap-2 mb-2">
                   <h5
                     className="font-bold text-xs"
                     style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
                   >
                     {tradition.title}
                   </h5>
-                  <span className="text-[10px] font-mono px-2 py-0.5 rounded font-semibold border bg-amber-500/10 text-amber-800 dark:text-amber-300 border-amber-500/25 shrink-0">
+                  <span
+                    className="text-[10px] font-mono font-bold px-2 py-0.5 rounded border shrink-0 shadow-2xs"
+                    style={{
+                      backgroundColor: isDark ? 'rgba(42, 34, 28, 0.9)' : '#FFFDF8',
+                      borderColor: isDark ? 'rgba(200, 141, 58, 0.40)' : 'rgba(90, 45, 12, 0.25)',
+                      color: isDark ? '#FCD34D' : '#5A2D0C',
+                    }}
+                  >
                     {tradition.cadence}
                   </span>
                 </div>
                 <p
                   className="text-xs leading-relaxed"
-                  style={{ color: isDark ? '#D9C4AC' : '#704728' }}
+                  style={{ color: isDark ? '#E5D6C5' : '#5A2D0C' }}
                 >
                   {tradition.description}
                 </p>

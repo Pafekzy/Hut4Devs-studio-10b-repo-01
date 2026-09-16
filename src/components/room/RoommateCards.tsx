@@ -27,7 +27,7 @@ export const RoommateCards: React.FC<RoommateCardsProps> = ({
     <div className="space-y-6" id="roommates-section">
       {/* Intro banner */}
       <div
-        className="p-4 sm:p-5 rounded-2xl border-2 border-b-4 transition-all shadow-xs backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+        className="h4d-card-static p-4 sm:p-5 rounded-2xl border-2 border-b-4 shadow-xs backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-3"
         style={{
           backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.75)',
           borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',
@@ -89,7 +89,7 @@ export const RoommateCards: React.FC<RoommateCardsProps> = ({
                   setSelectedRoommate(mate);
                 }
               }}
-              className="group p-5 rounded-2xl border-2 border-b-4 transition-all duration-150 cursor-pointer shadow-xs hover:-translate-y-1 hover:shadow-md active:translate-y-0.5 active:border-b-2 flex flex-col justify-between"
+              className="h4d-card-interactive group p-5 rounded-2xl border-2 border-b-4 flex flex-col justify-between"
               style={{
                 backgroundColor: isDark ? 'rgba(30, 27, 24, 0.55)' : 'rgba(255, 253, 248, 0.85)',
                 borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',

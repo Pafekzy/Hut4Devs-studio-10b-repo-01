@@ -121,7 +121,7 @@ export const LandingView: React.FC<LandingViewProps> = ({
                   type="button"
                   id="landing-open-registration-btn"
                   onClick={onOpenRegistration}
-                  className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-xs font-semibold bg-white/70 border border-[#C88D3A]/30 text-[#5A2D0C] hover:bg-[#FFF9EE] transition-colors cursor-pointer shadow-2xs"
+                  className="h4d-btn-soft w-full"
                 >
                   <span className="text-sm" aria-hidden="true">🛖</span>
                   <span>Submit Accommodation Membership Request</span>

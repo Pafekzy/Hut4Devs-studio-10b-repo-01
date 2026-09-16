@@ -139,12 +139,30 @@ export const MemberNotificationsDropdown: React.FC<MemberNotificationsDropdownPr
           }`}
         >
           {/* Header */}
-          <div className="p-3.5 border-b border-[#C88D3A]/20 flex items-center justify-between">
+          <div
+            className="p-3.5 border-b flex items-center justify-between"
+            style={{
+              borderColor: isDark ? 'rgba(200, 141, 58, 0.25)' : 'rgba(90, 45, 12, 0.15)',
+              backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : 'rgba(247, 241, 231, 0.7)',
+            }}
+          >
             <div className="flex items-center gap-2">
-              <Bell className="w-4 h-4 text-[#C88D3A]" />
-              <span className="font-serif font-bold text-sm">Notifications</span>
+              <Bell className="w-4 h-4 text-[#B77620] dark:text-[#C88D3A]" />
+              <span
+                className="font-serif font-bold text-sm"
+                style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
+              >
+                Notifications
+              </span>
               {unreadCount > 0 && (
-                <span className="px-1.5 py-0.2 rounded-md text-[10px] font-bold bg-[#C88D3A]/20 text-[#C88D3A]">
+                <span
+                  className="px-2 py-0.5 rounded-full text-[10px] font-bold border"
+                  style={{
+                    backgroundColor: isDark ? 'rgba(200, 141, 58, 0.25)' : '#FFFDF8',
+                    borderColor: isDark ? 'rgba(200, 141, 58, 0.40)' : 'rgba(90, 45, 12, 0.20)',
+                    color: isDark ? '#FCD34D' : '#5A2D0C',
+                  }}
+                >
                   {unreadCount} unread
                 </span>
               )}
@@ -155,7 +173,8 @@ export const MemberNotificationsDropdown: React.FC<MemberNotificationsDropdownPr
                 type="button"
                 id="notifications-mark-all-read-btn"
                 onClick={handleMarkAllAsRead}
-                className="text-[11px] font-semibold text-[#C88D3A] hover:underline flex items-center gap-1 cursor-pointer"
+                className="text-[11px] font-bold hover:underline flex items-center gap-1 cursor-pointer transition-colors"
+                style={{ color: isDark ? '#C88D3A' : '#B77620' }}
               >
                 <CheckCheck className="w-3.5 h-3.5" />
                 <span>Mark all read</span>
@@ -164,10 +183,16 @@ export const MemberNotificationsDropdown: React.FC<MemberNotificationsDropdownPr
           </div>
 
           {/* List */}
-          <div className="max-h-80 overflow-y-auto divide-y divide-[#C88D3A]/10">
+          <div
+            className="max-h-80 overflow-y-auto divide-y"
+            style={{ borderColor: isDark ? 'rgba(200, 141, 58, 0.15)' : 'rgba(90, 45, 12, 0.10)' }}
+          >
             {sortedNotifications.length === 0 ? (
-              <div className="p-6 text-center text-xs opacity-60">
-                No notifications yet. You're up to date!
+              <div
+                className="p-6 text-center text-xs font-medium"
+                style={{ color: isDark ? '#D9C4AC' : '#704728' }}
+              >
+                No notifications yet. You&apos;re up to date!
               </div>
             ) : (
               sortedNotifications.map((n) => {
@@ -181,41 +206,72 @@ export const MemberNotificationsDropdown: React.FC<MemberNotificationsDropdownPr
                       !n.read
                         ? isDark
                           ? 'bg-[#3E1F0B]/80 hover:bg-[#3E1F0B]'
-                          : 'bg-[#F7F1E7] hover:bg-[#F2E8D8]'
+                          : 'bg-[#F7F1E7] hover:bg-[#EFE5D5]'
                         : isDark
-                        ? 'hover:bg-[#1E0E04]'
-                        : 'hover:bg-[#FFF9EE]'
+                        ? 'hover:bg-[#231206]'
+                        : 'hover:bg-[#FAF4EB]'
                     }`}
                   >
-                    <div className="mt-0.5 shrink-0">
+                    <div className="mt-1 shrink-0">
                       {!n.read ? (
-                        <div className="w-2 h-2 rounded-full bg-[#C88D3A]" />
+                        <div className="w-2.5 h-2.5 rounded-full bg-[#B77620] dark:bg-[#C88D3A] ring-2 ring-[#C88D3A]/30" />
                       ) : (
-                        <div className="w-2 h-2 rounded-full bg-stone-400/40" />
+                        <div className="w-2 h-2 rounded-full bg-stone-400/50" />
                       )}
                     </div>
 
                     <div className="flex-1 space-y-1">
-                      <div className="font-bold text-[11px] text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center justify-between gap-1">
-                        <span className="truncate">{n.title}</span>
-                        <span className="text-[10px] opacity-60 font-normal shrink-0">
+                      <div className="flex items-center justify-between gap-2">
+                        <span
+                          className="font-bold text-xs truncate"
+                          style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
+                        >
+                          {n.title}
+                        </span>
+                        <span
+                          className="text-[10px] font-mono font-bold shrink-0 px-1.5 py-0.5 rounded border"
+                          style={{
+                            color: isDark ? '#FCD34D' : '#5A2D0C',
+                            backgroundColor: isDark ? 'rgba(42, 34, 28, 0.9)' : '#FFFDF8',
+                            borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',
+                          }}
+                        >
                           {new Date(n.createdAt).toLocaleTimeString([], {
                             hour: '2-digit',
                             minute: '2-digit',
                           })}
                         </span>
                       </div>
-                      <p className="text-xs opacity-80 line-clamp-2 leading-relaxed">{n.message}</p>
+                      <p
+                        className="text-xs leading-relaxed line-clamp-2"
+                        style={{ color: isDark ? '#E5D6C5' : '#5A2D0C' }}
+                      >
+                        {n.message}
+                      </p>
 
-                      <div className="pt-0.5 flex flex-wrap items-center gap-1.5">
+                      <div className="pt-1 flex flex-wrap items-center gap-1.5">
                         {wsLabel && (
-                          <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold text-[#C88D3A] bg-[#C88D3A]/10 px-1.5 py-0.5 rounded">
+                          <span
+                            className="inline-flex items-center gap-0.5 text-[10px] font-bold px-2 py-0.5 rounded border"
+                            style={{
+                              backgroundColor: isDark ? 'rgba(200, 141, 58, 0.20)' : '#FFFDF8',
+                              color: isDark ? '#FCD34D' : '#5A2D0C',
+                              borderColor: isDark ? 'rgba(200, 141, 58, 0.40)' : 'rgba(90, 45, 12, 0.20)',
+                            }}
+                          >
                             {wsLabel} <ArrowUpRight className="w-2.5 h-2.5" />
                           </span>
                         )}
                         {n.feedbackId && (
-                          <span className="inline-flex items-center gap-0.5 text-[10px] font-semibold text-[#8A5D3B] dark:text-[#E5D3BA] bg-[#5A2D0C]/5 dark:bg-white/5 px-1.5 py-0.5 rounded">
-                            Missing Puzzle #{n.feedbackId} →
+                          <span
+                            className="inline-flex items-center gap-0.5 text-[10px] font-bold px-2 py-0.5 rounded border"
+                            style={{
+                              backgroundColor: isDark ? 'rgba(42, 34, 28, 0.85)' : '#FFFDF8',
+                              color: isDark ? '#E5D3BA' : '#5A2D0C',
+                              borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',
+                            }}
+                          >
+                            Missing Puzzle #{n.feedbackId} &rarr;
                           </span>
                         )}
                       </div>
@@ -227,9 +283,14 @@ export const MemberNotificationsDropdown: React.FC<MemberNotificationsDropdownPr
                         onClick={(e) => handleMarkAsRead(n.id, e)}
                         title="Mark as read"
                         aria-label="Mark notification as read"
-                        className="p-1 rounded hover:bg-black/10 dark:hover:bg-white/10 opacity-60 hover:opacity-100 shrink-0 cursor-pointer"
+                        className="p-1 rounded-lg border transition-colors shrink-0 cursor-pointer"
+                        style={{
+                          borderColor: isDark ? 'rgba(200, 141, 58, 0.30)' : 'rgba(90, 45, 12, 0.20)',
+                          backgroundColor: isDark ? 'rgba(42, 34, 28, 0.8)' : '#FFFDF8',
+                          color: isDark ? '#FCD34D' : '#5A2D0C',
+                        }}
                       >
-                        <Check className="w-3 h-3" />
+                        <Check className="w-3.5 h-3.5" />
                       </button>
                     )}
                   </div>
@@ -239,7 +300,14 @@ export const MemberNotificationsDropdown: React.FC<MemberNotificationsDropdownPr
           </div>
 
           {/* Footer Transparency */}
-          <div className="p-2.5 bg-black/5 dark:bg-white/5 border-t border-[#C88D3A]/20 text-[10px] opacity-60 text-center font-mono">
+          <div
+            className="p-2.5 border-t text-[10px] text-center font-mono font-semibold"
+            style={{
+              borderColor: isDark ? 'rgba(200, 141, 58, 0.25)' : 'rgba(90, 45, 12, 0.15)',
+              backgroundColor: isDark ? 'rgba(20, 10, 3, 0.6)' : 'rgba(247, 241, 231, 0.8)',
+              color: isDark ? '#C88D3A' : '#704728',
+            }}
+          >
             Local browser persistence for this member session
           </div>
         </div>

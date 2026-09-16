@@ -39,7 +39,7 @@ export const RoomOverview: React.FC<RoomOverviewProps> = ({
       >
         {/* Metric 1: Capacity & Occupancy */}
         <div
-          className="p-4 sm:p-5 rounded-2xl border-2 border-b-4 transition-all duration-150 shadow-md backdrop-blur-md"
+          className="h4d-card-static p-4 sm:p-5 rounded-2xl border-2 border-b-4 shadow-md backdrop-blur-md"
           style={{
             backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.65)',
             borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.25)',
@@ -72,7 +72,7 @@ export const RoomOverview: React.FC<RoomOverviewProps> = ({
 
         {/* Metric 2: Vacancies */}
         <div
-          className="p-4 sm:p-5 rounded-2xl border-2 border-b-4 transition-all duration-150 shadow-md backdrop-blur-md"
+          className="h4d-card-static p-4 sm:p-5 rounded-2xl border-2 border-b-4 shadow-md backdrop-blur-md"
           style={{
             backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.65)',
             borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.25)',
@@ -101,7 +101,7 @@ export const RoomOverview: React.FC<RoomOverviewProps> = ({
 
         {/* Metric 3: Delegations Pending */}
         <div
-          className={`p-4 sm:p-5 rounded-2xl border-2 border-b-4 transition-all duration-150 shadow-md backdrop-blur-md ${
+          className={`h4d-card-static p-4 sm:p-5 rounded-2xl border-2 border-b-4 shadow-md backdrop-blur-md ${
             delegatedBedsCount > 0 ? 'ring-2 ring-purple-600/30' : ''
           }`}
           style={{
@@ -115,7 +115,9 @@ export const RoomOverview: React.FC<RoomOverviewProps> = ({
             </span>
             <ShieldCheck className="w-4 h-4 text-purple-600 dark:text-purple-400" />
           </div>
-          <div className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-purple-700 dark:text-purple-400">
+          <div
+            className="text-2xl sm:text-3xl font-bold font-mono tracking-tight text-purple-700 dark:text-purple-400"
+          >
             {delegatedBedsCount}
           </div>
           <div
@@ -130,7 +132,7 @@ export const RoomOverview: React.FC<RoomOverviewProps> = ({
 
         {/* Metric 4: Property Monthly Rate */}
         <div
-          className="p-4 sm:p-5 rounded-2xl border-2 border-b-4 transition-all duration-150 shadow-md backdrop-blur-md"
+          className="h4d-card-static p-4 sm:p-5 rounded-2xl border-2 border-b-4 shadow-md backdrop-blur-md"
           style={{
             backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.65)',
             borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.25)',
@@ -214,7 +216,7 @@ export const RoomOverview: React.FC<RoomOverviewProps> = ({
               <div
                 key={bed.id}
                 id={`bed-card-${bed.id}`}
-                className="p-4 sm:p-5 rounded-xl border-2 border-b-3 shadow-xs transition-all duration-150 backdrop-blur-xs flex flex-col justify-between"
+                className="h4d-card-static p-4 sm:p-5 rounded-xl border-2 border-b-3 shadow-xs backdrop-blur-xs flex flex-col justify-between"
                 style={{
                   backgroundColor: isDark ? 'rgba(30, 27, 24, 0.45)' : 'rgba(247, 241, 231, 0.50)',
                   borderColor: isDelegated

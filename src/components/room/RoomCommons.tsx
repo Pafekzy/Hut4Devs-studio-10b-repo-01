@@ -111,7 +111,7 @@ export const RoomCommons: React.FC<RoomCommonsProps> = ({
       {/* Main Commons Card */}
       <section
         aria-labelledby="room-commons-heading"
-        className="rounded-2xl p-5 sm:p-7 border-2 border-b-4 transition-all duration-200 shadow-md backdrop-blur-md"
+        className="h4d-card-static rounded-2xl p-5 sm:p-7 border-2 border-b-4 shadow-md backdrop-blur-md"
         style={{
           backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.65)',
           borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.25)',
@@ -280,7 +280,7 @@ export const RoomCommons: React.FC<RoomCommonsProps> = ({
               <article
                 key={notice.id}
                 id={`notice-card-${notice.id}`}
-                className="p-5 sm:p-6 rounded-xl border-2 border-b-3 shadow-xs transition-all duration-150 backdrop-blur-xs"
+                className="h4d-card-static p-5 sm:p-6 rounded-xl border-2 border-b-3 shadow-xs backdrop-blur-xs"
                 style={{
                   backgroundColor: isDark ? 'rgba(30, 27, 24, 0.45)' : 'rgba(247, 241, 231, 0.50)',
                   borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',

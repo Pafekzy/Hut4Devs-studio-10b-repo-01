@@ -26,7 +26,7 @@ export const RoomAlumniSection: React.FC<RoomAlumniSectionProps> = ({
     <div className="space-y-6" id="room-alumni-section">
       {/* Warm Community Memory Banner */}
       <div
-        className="p-5 sm:p-6 rounded-2xl border-2 border-b-4 transition-all shadow-xs backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-4"
+        className="h4d-card-static p-5 sm:p-6 rounded-2xl border-2 border-b-4 shadow-xs backdrop-blur-md flex flex-col sm:flex-row sm:items-center justify-between gap-4"
         style={{
           backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.75)',
           borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',
@@ -77,7 +77,7 @@ export const RoomAlumniSection: React.FC<RoomAlumniSectionProps> = ({
           <div
             key={alumnus.id}
             id={`alumni-card-${alumnus.id}`}
-            className="p-5 sm:p-6 rounded-2xl border-2 border-b-4 transition-all duration-150 shadow-xs hover:-translate-y-1 hover:shadow-md flex flex-col justify-between"
+            className="h4d-card-static p-5 sm:p-6 rounded-2xl border-2 border-b-4 shadow-xs flex flex-col justify-between"
             style={{
               backgroundColor: isDark ? 'rgba(30, 27, 24, 0.55)' : 'rgba(255, 253, 248, 0.85)',
               borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.20)',
