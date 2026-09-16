@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   PeerSupportAgreement,
   PeerSupportType,
   PeerLoanStatus,
+  TrustTrailEvent,
+  PeerVouch,
 } from '../domain/peerSupport';
 import { Member } from '../domain/auth';
 import {
@@ -21,14 +23,22 @@ import {
   Users,
   Info,
   DollarSign,
+  Footprints,
+  Layers,
 } from 'lucide-react';
 import { PeerSupportModal } from './PeerSupportModal';
+import { TrustTrailFeed } from './TrustTrailFeed';
+import { VouchSection } from './VouchSection';
 
 interface PeerSupportSectionProps {
   currentMember: Member;
   availableMembers: Member[];
   supports: PeerSupportAgreement[];
+  trailEvents?: TrustTrailEvent[];
+  vouches?: PeerVouch[];
   isDark?: boolean;
+  initialSubTab?: 'agreements' | 'trust-trails' | 'vouches';
+  onSubTabChange?: (subTab: 'agreements' | 'trust-trails' | 'vouches') => void;
   onCreateSupport: (data: {
     type: PeerSupportType;
     toMemberId?: string;
@@ -45,6 +55,14 @@ interface PeerSupportSectionProps {
   onRecordRepayment: (supportId: string, amount: number) => void;
   onConvertToGift: (supportId: string, reason: string) => void;
   onContributeToCampaign: (campaignId: string, amount: number, note?: string) => void;
+  onAddVouch?: (
+    targetMemberId: string,
+    targetMemberName: string,
+    context: string,
+    confidence: 'high' | 'moderate' | 'cautious',
+    scope: string,
+    notes: string
+  ) => void;
   onDeclineSupport?: (supportId: string, reason?: string) => void;
 }
 
@@ -52,16 +70,35 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
   currentMember,
   availableMembers,
   supports,
+  trailEvents = [],
+  vouches = [],
   isDark = false,
+  initialSubTab = 'agreements',
+  onSubTabChange,
   onCreateSupport,
   onRecordRepayment,
   onConvertToGift,
   onContributeToCampaign,
+  onAddVouch,
   onDeclineSupport,
 }) => {
+  const [hubSubTab, setHubSubTab] = useState<'agreements' | 'trust-trails' | 'vouches'>(initialSubTab);
   const [filterType, setFilterType] = useState<string>('all');
   const [isCreateModalOpen, setIsCreateModalOpen] = useState<boolean>(false);
   const [selectedInitialType, setSelectedInitialType] = useState<PeerSupportType>('gift');
+
+  useEffect(() => {
+    if (initialSubTab) {
+      setHubSubTab(initialSubTab);
+    }
+  }, [initialSubTab]);
+
+  const handleSubTabSwitch = (tab: 'agreements' | 'trust-trails' | 'vouches') => {
+    setHubSubTab(tab);
+    if (onSubTabChange) {
+      onSubTabChange(tab);
+    }
+  };
 
   // Modals for Actions
   const [repayModalSupport, setRepayModalSupport] = useState<PeerSupportAgreement | null>(null);
@@ -124,14 +161,14 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
 
   return (
     <div className="space-y-6">
-      {/* 3 Core Peer Support Channels (Top Surface) */}
+      {/* 3 Streamlined Peer Support & Trust Hub Panels */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {/* 1. GIFT Card */}
+        {/* CARD 1: CHOOSE SUPPORT PATH (Unified Gift, Lend, Contribute) */}
         <article
-          id="card-action-gift"
-          className="rounded-2xl p-5 sm:p-6 border-2 border-b-4 transition-all duration-200 shadow-md flex flex-col justify-between"
+          id="card-action-choose-path"
+          className="h4d-card-static rounded-2xl p-5 sm:p-6 border-2 border-b-4 shadow-md flex flex-col justify-between"
           style={{
-            backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.65)',
+            backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.75)',
             borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.25)',
           }}
         >
@@ -156,7 +193,7 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
                   style={{ backgroundColor: '#9333EA' }}
                   aria-hidden="true"
                 />
-                No Debt
+                Solidarity
               </span>
             </div>
 
@@ -164,38 +201,126 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
               className="font-serif text-xl sm:text-2xl font-bold tracking-tight mb-2"
               style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
             >
-              1. Give a Gift
+              Choose Support Path
             </h3>
 
-            <p
-              className="text-xs leading-relaxed mb-4"
-              style={{ color: isDark ? '#EAD6C0' : '#5A2D0C' }}
-            >
-              Support a fellow with zero expectation of repayment. Gifts cannot be weaponized or converted into debt later.
-            </p>
+            <div className="space-y-2 mb-4">
+              <div
+                className="p-2.5 rounded-xl border flex items-start gap-2 text-xs"
+                style={{
+                  backgroundColor: isDark ? 'rgba(42, 34, 28, 0.4)' : '#FFFDF8',
+                  borderColor: isDark ? 'rgba(200, 141, 58, 0.2)' : 'rgba(90, 45, 12, 0.12)',
+                }}
+              >
+                <Gift className="w-3.5 h-3.5 mt-0.5 text-purple-600 shrink-0" />
+                <div>
+                  <strong className="block text-[11px]" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
+                    1. Gift
+                  </strong>
+                  <span style={{ color: isDark ? '#D9C4AC' : '#704728' }}>Zero repayment obligation</span>
+                </div>
+              </div>
+
+              <div
+                className="p-2.5 rounded-xl border flex items-start gap-2 text-xs"
+                style={{
+                  backgroundColor: isDark ? 'rgba(42, 34, 28, 0.4)' : '#FFFDF8',
+                  borderColor: isDark ? 'rgba(200, 141, 58, 0.2)' : 'rgba(90, 45, 12, 0.12)',
+                }}
+              >
+                <HandCoins className="w-3.5 h-3.5 mt-0.5 text-amber-600 shrink-0" />
+                <div>
+                  <strong className="block text-[11px]" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
+                    2. Lend
+                  </strong>
+                  <span style={{ color: isDark ? '#D9C4AC' : '#704728' }}>Clear repayment timeline &amp; forgiveness</span>
+                </div>
+              </div>
+
+              <div
+                className="p-2.5 rounded-xl border flex items-start gap-2 text-xs"
+                style={{
+                  backgroundColor: isDark ? 'rgba(42, 34, 28, 0.4)' : '#FFFDF8',
+                  borderColor: isDark ? 'rgba(200, 141, 58, 0.2)' : 'rgba(90, 45, 12, 0.12)',
+                }}
+              >
+                <HeartHandshake className="w-3.5 h-3.5 mt-0.5 text-emerald-600 shrink-0" />
+                <div>
+                  <strong className="block text-[11px]" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
+                    3. Contribute
+                  </strong>
+                  <span style={{ color: isDark ? '#D9C4AC' : '#704728' }}>Shared community need &amp; chamber fund</span>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <button
-            type="button"
-            id="btn-open-gift-modal"
-            onClick={() => handleOpenCreate('gift')}
-            className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] w-full rounded-xl text-sm font-bold transition-all duration-150 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 border-b-3 active:border-b active:translate-y-[1px] shadow-sm ${
-              isDark
-                ? 'bg-[#C88D3A] text-[#241104] hover:bg-[#DDA250] border-[#915B15] focus-visible:ring-[#C88D3A] focus-visible:ring-offset-[#261205]'
-                : 'bg-[#5A2D0C] text-[#FFF9EE] hover:bg-[#432108] border-[#381B07] focus-visible:ring-[#5A2D0C] focus-visible:ring-offset-[#FFF9EE]'
-            }`}
-          >
-            <Plus className="w-4 h-4 shrink-0" aria-hidden="true" />
-            <span>Initiate Gift</span>
-          </button>
+          <div className="space-y-2 pt-2">
+            <button
+              type="button"
+              id="btn-initiate-peer-support"
+              onClick={() => handleOpenCreate('gift')}
+              className={`h4d-btn-soft inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] w-full rounded-xl text-sm font-bold transition-all duration-150 cursor-pointer border-b-3 active:border-b active:translate-y-[1px] shadow-sm ${
+                isDark
+                  ? 'bg-[#C88D3A] text-[#241104] hover:bg-[#DDA250] border-[#915B15]'
+                  : 'bg-[#5A2D0C] text-[#FFF9EE] hover:bg-[#432108] border-[#381B07]'
+              }`}
+            >
+              <Plus className="w-4 h-4 shrink-0" aria-hidden="true" />
+              <span>Initiate Support</span>
+            </button>
+
+            {/* Quick-select path triggers maintaining test & flow compatibility */}
+            <div className="flex items-center gap-1.5">
+              <button
+                type="button"
+                id="btn-open-gift-modal"
+                onClick={() => handleOpenCreate('gift')}
+                className="flex-1 py-1 px-2 rounded-lg text-[10px] font-bold border text-center transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : '#FFFDF8',
+                  borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                  color: isDark ? '#FCD34D' : '#5A2D0C',
+                }}
+              >
+                + Gift
+              </button>
+              <button
+                type="button"
+                id="btn-open-loan-modal"
+                onClick={() => handleOpenCreate('loan')}
+                className="flex-1 py-1 px-2 rounded-lg text-[10px] font-bold border text-center transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : '#FFFDF8',
+                  borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                  color: isDark ? '#FCD34D' : '#5A2D0C',
+                }}
+              >
+                + Lend
+              </button>
+              <button
+                type="button"
+                id="btn-open-contrib-modal"
+                onClick={() => handleOpenCreate('contribution')}
+                className="flex-1 py-1 px-2 rounded-lg text-[10px] font-bold border text-center transition-colors cursor-pointer"
+                style={{
+                  backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : '#FFFDF8',
+                  borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                  color: isDark ? '#FCD34D' : '#5A2D0C',
+                }}
+              >
+                + Campaign
+              </button>
+            </div>
+          </div>
         </article>
 
-        {/* 2. LEND / BORROW Card */}
+        {/* CARD 2: TRAILS OF TRUST (Nested Trust Ledger) */}
         <article
-          id="card-action-loan"
-          className="rounded-2xl p-5 sm:p-6 border-2 border-b-4 transition-all duration-200 shadow-md flex flex-col justify-between"
+          id="card-action-trust-trails"
+          className="h4d-card-static rounded-2xl p-5 sm:p-6 border-2 border-b-4 shadow-md flex flex-col justify-between"
           style={{
-            backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.65)',
+            backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.75)',
             borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.25)',
           }}
         >
@@ -205,7 +330,7 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
                 className="text-xs font-bold uppercase tracking-wider block"
                 style={{ color: isDark ? '#E5A955' : '#B77620' }}
               >
-                Peer Coordination
+                Immutable Ledger
               </span>
               <span
                 className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase border shadow-xs"
@@ -215,12 +340,8 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
                   borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
                 }}
               >
-                <span
-                  className="w-1.5 h-1.5 rounded-full mr-1.5 shadow-xs"
-                  style={{ backgroundColor: isDark ? '#C88D3A' : '#B77620' }}
-                  aria-hidden="true"
-                />
-                Clear Timelines
+                <Footprints className="w-3 h-3 mr-1 text-[#B77620] dark:text-[#C88D3A]" />
+                Integrity
               </span>
             </div>
 
@@ -228,38 +349,58 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
               className="font-serif text-xl sm:text-2xl font-bold tracking-tight mb-2"
               style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
             >
-              2. Lend or Borrow
+              Trails of Trust
             </h3>
 
             <p
               className="text-xs leading-relaxed mb-4"
               style={{ color: isDark ? '#EAD6C0' : '#5A2D0C' }}
             >
-              Coordinate direct peer loans with clear timelines. Lenders can later permanently forgive debt into a gift.
+              Append-only chronological audit trail capturing every gift, repayment, and pooled chamber contribution with transparent receipts.
             </p>
+
+            <div
+              className="p-3 rounded-xl border mb-4 flex items-center justify-between"
+              style={{
+                backgroundColor: isDark ? 'rgba(42, 34, 28, 0.4)' : '#FFFDF8',
+                borderColor: isDark ? 'rgba(200, 141, 58, 0.2)' : 'rgba(90, 45, 12, 0.12)',
+              }}
+            >
+              <span className="text-xs font-medium" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>
+                Recorded Events
+              </span>
+              <span className="font-mono font-bold text-xs" style={{ color: isDark ? '#FCD34D' : '#5A2D0C' }}>
+                {trailEvents.length} Verifiable Events
+              </span>
+            </div>
           </div>
 
           <button
             type="button"
-            id="btn-open-loan-modal"
-            onClick={() => handleOpenCreate('loan')}
-            className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] w-full rounded-xl text-sm font-bold transition-all duration-150 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 border-b-3 active:border-b active:translate-y-[1px] shadow-sm ${
-              isDark
-                ? 'bg-[#C88D3A] text-[#241104] hover:bg-[#DDA250] border-[#915B15] focus-visible:ring-[#C88D3A] focus-visible:ring-offset-[#261205]'
-                : 'bg-[#5A2D0C] text-[#FFF9EE] hover:bg-[#432108] border-[#381B07] focus-visible:ring-[#5A2D0C] focus-visible:ring-offset-[#FFF9EE]'
+            id="btn-view-trust-trails"
+            onClick={() => handleSubTabSwitch('trust-trails')}
+            className={`h4d-btn-soft inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] w-full rounded-xl text-sm font-bold transition-all duration-150 cursor-pointer border-b-3 active:border-b active:translate-y-[1px] shadow-sm ${
+              hubSubTab === 'trust-trails'
+                ? isDark
+                  ? 'bg-[#C88D3A] text-[#241104] border-[#915B15]'
+                  : 'bg-[#5A2D0C] text-[#FFF9EE] border-[#381B07]'
+                : isDark
+                ? 'bg-[#2E1809] text-[#FFF9EE] hover:bg-[#3E200C] border-[#4A240A]'
+                : 'bg-[#F7F1E7] text-[#5A2D0C] hover:bg-[#EFE5D5] border-[#D9C4AC]'
             }`}
           >
-            <Plus className="w-4 h-4 shrink-0" aria-hidden="true" />
-            <span>Initiate Peer Loan</span>
+            <Footprints className="w-4 h-4 shrink-0" aria-hidden="true" />
+            <span>{hubSubTab === 'trust-trails' ? 'Viewing Trust Ledger' : 'Explore Trust Ledger'}</span>
+            <ArrowRight className="w-3.5 h-3.5 shrink-0" />
           </button>
         </article>
 
-        {/* 3. CONTRIBUTE Card */}
+        {/* CARD 3: CONTEXTUAL VOUCHES (Nested Vouch Section) */}
         <article
-          id="card-action-contrib"
-          className="rounded-2xl p-5 sm:p-6 border-2 border-b-4 transition-all duration-200 shadow-md flex flex-col justify-between"
+          id="card-action-vouches"
+          className="h4d-card-static rounded-2xl p-5 sm:p-6 border-2 border-b-4 shadow-md flex flex-col justify-between"
           style={{
-            backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.65)',
+            backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.75)',
             borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.25)',
           }}
         >
@@ -269,7 +410,7 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
                 className="text-xs font-bold uppercase tracking-wider block"
                 style={{ color: isDark ? '#E5A955' : '#B77620' }}
               >
-                Shared Essentials
+                Peer Attestation
               </span>
               <span
                 className="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold tracking-wide uppercase border shadow-xs"
@@ -279,12 +420,8 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
                   borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
                 }}
               >
-                <span
-                  className="w-1.5 h-1.5 rounded-full mr-1.5 shadow-xs"
-                  style={{ backgroundColor: '#16A34A' }}
-                  aria-hidden="true"
-                />
-                Pooled Funds
+                <ShieldCheck className="w-3 h-3 mr-1 text-emerald-600" />
+                No Guarantor
               </span>
             </div>
 
@@ -292,520 +429,513 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
               className="font-serif text-xl sm:text-2xl font-bold tracking-tight mb-2"
               style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
             >
-              3. Chamber Contribution
+              Contextual Vouches
             </h3>
 
             <p
               className="text-xs leading-relaxed mb-4"
               style={{ color: isDark ? '#EAD6C0' : '#5A2D0C' }}
             >
-              Pool mutual resources for shared chamber necessities (solar inverters, mesh Wi-Fi) without social debt.
+              Vouch for fellows across specific character and skill domains (craft, living harmony, reliability) without financial liability or debt risk.
             </p>
+
+            <div
+              className="p-3 rounded-xl border mb-4 flex items-center justify-between"
+              style={{
+                backgroundColor: isDark ? 'rgba(42, 34, 28, 0.4)' : '#FFFDF8',
+                borderColor: isDark ? 'rgba(200, 141, 58, 0.2)' : 'rgba(90, 45, 12, 0.12)',
+              }}
+            >
+              <span className="text-xs font-medium" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>
+                Active Peer Vouches
+              </span>
+              <span className="font-mono font-bold text-xs" style={{ color: isDark ? '#FCD34D' : '#5A2D0C' }}>
+                {vouches.length} Attestations
+              </span>
+            </div>
           </div>
 
           <button
             type="button"
-            id="btn-open-contrib-modal"
-            onClick={() => handleOpenCreate('contribution')}
-            className={`inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] w-full rounded-xl text-sm font-bold transition-all duration-150 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 border-b-3 active:border-b active:translate-y-[1px] shadow-sm ${
-              isDark
-                ? 'bg-[#C88D3A] text-[#241104] hover:bg-[#DDA250] border-[#915B15] focus-visible:ring-[#C88D3A] focus-visible:ring-offset-[#261205]'
-                : 'bg-[#5A2D0C] text-[#FFF9EE] hover:bg-[#432108] border-[#381B07] focus-visible:ring-[#5A2D0C] focus-visible:ring-offset-[#FFF9EE]'
+            id="btn-view-vouches"
+            onClick={() => handleSubTabSwitch('vouches')}
+            className={`h4d-btn-soft inline-flex items-center justify-center gap-2 px-4 py-2.5 min-h-[44px] w-full rounded-xl text-sm font-bold transition-all duration-150 cursor-pointer border-b-3 active:border-b active:translate-y-[1px] shadow-sm ${
+              hubSubTab === 'vouches'
+                ? isDark
+                  ? 'bg-[#C88D3A] text-[#241104] border-[#915B15]'
+                  : 'bg-[#5A2D0C] text-[#FFF9EE] border-[#381B07]'
+                : isDark
+                ? 'bg-[#2E1809] text-[#FFF9EE] hover:bg-[#3E200C] border-[#4A240A]'
+                : 'bg-[#F7F1E7] text-[#5A2D0C] hover:bg-[#EFE5D5] border-[#D9C4AC]'
             }`}
           >
-            <Plus className="w-4 h-4 shrink-0" aria-hidden="true" />
-            <span>Create Shared Campaign</span>
+            <ShieldCheck className="w-4 h-4 shrink-0" aria-hidden="true" />
+            <span>{hubSubTab === 'vouches' ? 'Viewing Peer Vouches' : 'View & Give Vouches'}</span>
+            <ArrowRight className="w-3.5 h-3.5 shrink-0" />
           </button>
         </article>
       </div>
 
-      {/* Main List Section with Filters */}
-      <section
-        className="rounded-2xl p-5 sm:p-7 border-2 border-b-4 transition-all duration-200 shadow-md"
-        style={{
-          backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.65)',
-          borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.25)',
-        }}
+      {/* Nested Hub Sub-Tab Navigator */}
+      <div
+        className="flex items-center justify-between flex-wrap gap-3 pb-3 border-b-2"
+        style={{ borderColor: isDark ? '#3E200C' : '#EAE0D0' }}
       >
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b-2"
-          style={{ borderColor: isDark ? '#421E06' : '#EAE0D0' }}
-        >
-          <div>
-            <span
-              className="text-xs font-bold uppercase tracking-wider block mb-1"
-              style={{ color: isDark ? '#E5A955' : '#B77620' }}
-            >
-              Peer Support Agreements
-            </span>
-            <h2
-              className="font-serif text-xl sm:text-2xl font-bold tracking-tight"
-              style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
-            >
-              Active Agreements &amp; Campaigns
-            </h2>
-          </div>
-
-          {/* Filter Chips */}
-          <div
-            className="flex items-center gap-1 p-1 rounded-xl border"
-            style={{
-              backgroundColor: isDark ? 'rgba(30, 27, 24, 0.45)' : 'rgba(247, 241, 231, 0.50)',
-              borderColor: isDark ? 'rgba(200, 141, 58, 0.2)' : 'rgba(90, 45, 12, 0.15)',
-            }}
+        <div className="flex items-center gap-2 overflow-x-auto py-1">
+          <button
+            type="button"
+            id="hub-tab-agreements"
+            onClick={() => handleSubTabSwitch('agreements')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border-b-3 active:border-b active:translate-y-[1px] shadow-xs ${
+              hubSubTab === 'agreements'
+                ? isDark
+                  ? 'bg-[#C88D3A] text-[#241104] border-[#915B15]'
+                  : 'bg-[#5A2D0C] text-[#FFF9EE] border-[#381B07]'
+                : isDark
+                ? 'text-[#D9C4AC] hover:text-[#FFF9EE] hover:bg-[#3E200C] border-transparent'
+                : 'text-[#6D4223] hover:text-[#5A2D0C] hover:bg-[#EFE5D5] border-transparent'
+            }`}
           >
-            {[
-              { id: 'all', label: 'All Agreements' },
-              { id: 'loan', label: 'Peer Loans' },
-              { id: 'gift', label: 'Gifts' },
-              { id: 'contribution', label: 'Campaigns' },
-            ].map((tab) => (
-              <button
-                key={tab.id}
-                id={`filter-tab-${tab.id}`}
-                onClick={() => setFilterType(tab.id)}
-                className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
-                  filterType === tab.id
-                    ? isDark
-                      ? 'bg-[#C88D3A] text-[#241104] shadow-xs'
-                      : 'bg-[#5A2D0C] text-[#FFF9EE] shadow-xs'
-                    : isDark
-                    ? 'text-[#D9C4AC] hover:text-[#FFF9EE]'
-                    : 'text-[#6D4223] hover:text-[#5A2D0C]'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-        </div>
+            <HandCoins className="w-3.5 h-3.5" />
+            <span>Agreements &amp; Campaigns ({supports.length})</span>
+          </button>
 
-        {/* Agreements Stream */}
-        <div className="space-y-5">
-          {filteredSupports.length === 0 ? (
+          <button
+            type="button"
+            id="hub-tab-trust-trails"
+            onClick={() => handleSubTabSwitch('trust-trails')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border-b-3 active:border-b active:translate-y-[1px] shadow-xs ${
+              hubSubTab === 'trust-trails'
+                ? isDark
+                  ? 'bg-[#C88D3A] text-[#241104] border-[#915B15]'
+                  : 'bg-[#5A2D0C] text-[#FFF9EE] border-[#381B07]'
+                : isDark
+                ? 'text-[#D9C4AC] hover:text-[#FFF9EE] hover:bg-[#3E200C] border-transparent'
+                : 'text-[#6D4223] hover:text-[#5A2D0C] hover:bg-[#EFE5D5] border-transparent'
+            }`}
+          >
+            <Footprints className="w-3.5 h-3.5" />
+            <span>Trails of Trust ({trailEvents.length})</span>
+          </button>
+
+          <button
+            type="button"
+            id="hub-tab-vouches"
+            onClick={() => handleSubTabSwitch('vouches')}
+            className={`px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer border-b-3 active:border-b active:translate-y-[1px] shadow-xs ${
+              hubSubTab === 'vouches'
+                ? isDark
+                  ? 'bg-[#C88D3A] text-[#241104] border-[#915B15]'
+                  : 'bg-[#5A2D0C] text-[#FFF9EE] border-[#381B07]'
+                : isDark
+                ? 'text-[#D9C4AC] hover:text-[#FFF9EE] hover:bg-[#3E200C] border-transparent'
+                : 'text-[#6D4223] hover:text-[#5A2D0C] hover:bg-[#EFE5D5] border-transparent'
+            }`}
+          >
+            <ShieldCheck className="w-3.5 h-3.5" />
+            <span>Contextual Vouches ({vouches.length})</span>
+          </button>
+        </div>
+      </div>
+
+      {/* VIEW 1: ACTIVE AGREEMENTS & CAMPAIGNS */}
+      {hubSubTab === 'agreements' && (
+        <section
+          className="rounded-2xl p-5 sm:p-7 border-2 border-b-4 transition-all duration-200 shadow-md"
+          style={{
+            backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.65)',
+            borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.25)',
+          }}
+        >
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b-2"
+            style={{ borderColor: isDark ? '#421E06' : '#EAE0D0' }}
+          >
+            <div>
+              <span
+                className="text-xs font-bold uppercase tracking-wider block mb-1"
+                style={{ color: isDark ? '#E5A955' : '#B77620' }}
+              >
+                Peer Support Agreements
+              </span>
+              <h2
+                className="font-serif text-xl sm:text-2xl font-bold tracking-tight"
+                style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
+              >
+                Active Agreements &amp; Campaigns
+              </h2>
+            </div>
+
+            {/* Filter Chips */}
             <div
-              className="text-center py-12 text-xs rounded-xl border border-dashed"
+              className="flex items-center gap-1 p-1 rounded-xl border"
               style={{
                 backgroundColor: isDark ? 'rgba(30, 27, 24, 0.45)' : 'rgba(247, 241, 231, 0.50)',
-                borderColor: isDark ? 'rgba(200, 141, 58, 0.25)' : 'rgba(90, 45, 12, 0.2)',
-                color: isDark ? '#D9C4AC' : '#8A5D3B',
+                borderColor: isDark ? 'rgba(200, 141, 58, 0.2)' : 'rgba(90, 45, 12, 0.15)',
               }}
             >
-              No peer support agreements matching this filter.
-            </div>
-          ) : (
-            filteredSupports.map((support) => {
-              const isCurrentUserLender = support.fromMemberId === currentMember.id;
-              const remaining = support.amount - support.amountRepaid;
-              const isRepaid = support.amountRepaid >= support.amount;
-              const isForgiven = support.status === 'CONVERTED_TO_GIFT';
-              const isOverdue = support.status === 'OVERDUE';
-
-              return (
-                <div
-                  key={support.id}
-                  id={`peer-support-${support.id}`}
-                  className="rounded-2xl p-5 sm:p-6 border-2 border-b-4 transition-all duration-200 shadow-md space-y-4"
-                  style={{
-                    backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.65)',
-                    borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.25)',
-                  }}
+              {[
+                { id: 'all', label: 'All Agreements' },
+                { id: 'loan', label: 'Peer Loans' },
+                { id: 'gift', label: 'Gifts' },
+                { id: 'contribution', label: 'Campaigns' },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  id={`filter-tab-${tab.id}`}
+                  onClick={() => setFilterType(tab.id)}
+                  className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+                    filterType === tab.id
+                      ? isDark
+                        ? 'bg-[#C88D3A] text-[#241104] shadow-xs'
+                        : 'bg-[#5A2D0C] text-[#FFF9EE] shadow-xs'
+                      : isDark
+                      ? 'text-[#D9C4AC] hover:text-[#FFF9EE]'
+                      : 'text-[#6D4223] hover:text-[#5A2D0C]'
+                  }`}
                 >
-                  {/* Top Bar: Badges + Timestamp */}
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Agreements Stream */}
+          <div className="space-y-5">
+            {filteredSupports.length === 0 ? (
+              <div
+                className="text-center py-12 text-xs rounded-xl border border-dashed"
+                style={{
+                  backgroundColor: isDark ? 'rgba(30, 27, 24, 0.45)' : 'rgba(247, 241, 231, 0.50)',
+                  borderColor: isDark ? 'rgba(200, 141, 58, 0.25)' : 'rgba(90, 45, 12, 0.2)',
+                  color: isDark ? '#D9C4AC' : '#8A5D3B',
+                }}
+              >
+                No peer support agreements matching this filter.
+              </div>
+            ) : (
+              filteredSupports.map((support) => {
+                const isCurrentUserLender = support.fromMemberId === currentMember.id;
+                const remaining = support.amount - support.amountRepaid;
+                const isRepaid = support.amountRepaid >= support.amount;
+                const isForgiven = support.status === 'CONVERTED_TO_GIFT';
+                const isOverdue = support.status === 'OVERDUE';
+
+                return (
                   <div
-                    className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b"
-                    style={{ borderColor: isDark ? '#421E06' : '#EAE0D0' }}
-                  >
-                    <div className="flex flex-wrap items-center gap-2">
-                      {support.type === 'loan' && (
-                        <span
-                          className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase border shadow-xs"
-                          style={{
-                            backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : 'rgba(247, 241, 231, 0.7)',
-                            color: isDark ? '#F5C678' : '#8C4D11',
-                            borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
-                          }}
-                        >
-                          <span
-                            className="w-1.5 h-1.5 rounded-full mr-1.5 shadow-xs"
-                            style={{ backgroundColor: isDark ? '#C88D3A' : '#B77620' }}
-                            aria-hidden="true"
-                          />
-                          Peer Loan
-                        </span>
-                      )}
-                      {support.type === 'gift' && (
-                        <span
-                          className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase border shadow-xs"
-                          style={{
-                            backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : 'rgba(247, 241, 231, 0.7)',
-                            color: isDark ? '#D8B4E2' : '#6B21A8',
-                            borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
-                          }}
-                        >
-                          <span
-                            className="w-1.5 h-1.5 rounded-full mr-1.5 shadow-xs"
-                            style={{ backgroundColor: '#9333EA' }}
-                            aria-hidden="true"
-                          />
-                          Voluntary Gift
-                        </span>
-                      )}
-                      {support.type === 'contribution' && (
-                        <span
-                          className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase border shadow-xs"
-                          style={{
-                            backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : 'rgba(247, 241, 231, 0.7)',
-                            color: isDark ? '#86EFAC' : '#166534',
-                            borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
-                          }}
-                        >
-                          <span
-                            className="w-1.5 h-1.5 rounded-full mr-1.5 shadow-xs"
-                            style={{ backgroundColor: '#16A34A' }}
-                            aria-hidden="true"
-                          />
-                          Chamber Campaign
-                        </span>
-                      )}
-
-                      {isForgiven && (
-                        <span
-                          className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase border shadow-xs"
-                          style={{
-                            backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : 'rgba(247, 241, 231, 0.7)',
-                            color: isDark ? '#F5C678' : '#B77620',
-                            borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
-                          }}
-                        >
-                          <Sparkles className="w-3.5 h-3.5 mr-1" /> Converted to Gift (Forgiven)
-                        </span>
-                      )}
-
-                      {isOverdue && (
-                        <span
-                          className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase border shadow-xs"
-                          style={{
-                            backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : 'rgba(247, 241, 231, 0.7)',
-                            color: isDark ? '#FCA5A5' : '#B91C1C',
-                            borderColor: isDark ? 'rgba(239, 68, 68, 0.3)' : 'rgba(185, 28, 28, 0.2)',
-                          }}
-                        >
-                          <AlertTriangle className="w-3.5 h-3.5 mr-1" /> Not Advisable (Delayed)
-                        </span>
-                      )}
-
-                      {isRepaid && !isForgiven && support.type === 'loan' && (
-                        <span
-                          className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase border shadow-xs"
-                          style={{
-                            backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : 'rgba(247, 241, 231, 0.7)',
-                            color: isDark ? '#86EFAC' : '#15803D',
-                            borderColor: isDark ? 'rgba(34, 197, 94, 0.3)' : 'rgba(21, 128, 61, 0.2)',
-                          }}
-                        >
-                          <CheckCircle2 className="w-3.5 h-3.5 mr-1" /> Fully Repaid
-                        </span>
-                      )}
-                    </div>
-
-                    <div
-                      className="text-xs flex items-center gap-1 font-medium"
-                      style={{ color: isDark ? '#C49B75' : '#8A5D3B' }}
-                    >
-                      <Calendar className="w-3.5 h-3.5" />
-                      <span>{new Date(support.createdAt).toLocaleDateString()}</span>
-                    </div>
-                  </div>
-
-                  {/* Middle Area: Participants & Details Card */}
-                  <div
-                    className="p-3.5 rounded-xl border"
+                    key={support.id}
+                    id={`peer-support-${support.id}`}
+                    className="rounded-2xl p-5 sm:p-6 border-2 border-b-4 transition-all duration-200 shadow-md space-y-4"
                     style={{
-                      backgroundColor: isDark ? 'rgba(30, 27, 24, 0.45)' : 'rgba(247, 241, 231, 0.50)',
-                      borderColor: isDark ? 'rgba(200, 141, 58, 0.2)' : 'rgba(90, 45, 12, 0.15)',
+                      backgroundColor: isDark ? 'rgba(23, 21, 19, 0.55)' : 'rgba(255, 253, 248, 0.65)',
+                      borderColor: isDark ? 'rgba(200, 141, 58, 0.35)' : 'rgba(90, 45, 12, 0.25)',
                     }}
                   >
-                    {support.type === 'contribution' ? (
-                      <div>
-                        <h4
-                          className="font-serif font-bold text-base sm:text-lg tracking-tight"
-                          style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
-                        >
-                          {support.title}
-                        </h4>
-                        <p
-                          className="text-xs mt-1"
-                          style={{ color: isDark ? '#EAD6C0' : '#5A2D0C' }}
-                        >
-                          {support.purpose}
-                        </p>
-                        <div
-                          className="mt-2 text-xs flex items-center gap-2 font-medium"
-                          style={{ color: isDark ? '#C49B75' : '#8A5D3B' }}
-                        >
-                          <span>Organized by: <strong style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>{support.fromMemberName}</strong></span>
-                          <span>&bull;</span>
-                          <span>{support.contributors?.length || 0} Peer Contributors</span>
-                        </div>
-                      </div>
-                    ) : (
-                      <div>
-                        <div
-                          className="text-sm font-bold flex items-center gap-2"
-                          style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
-                        >
-                          <span>{support.fromMemberName}</span>
-                          <ArrowRight className="w-3.5 h-3.5 opacity-60" />
-                          <span>{support.toMemberName}</span>
-                        </div>
-                        <p
-                          className="text-xs mt-1"
-                          style={{ color: isDark ? '#EAD6C0' : '#5A2D0C' }}
-                        >
-                          {support.purpose}
-                        </p>
-                        {support.repaymentPeriod && (
-                          <p
-                            className="text-xs mt-1.5 font-medium"
-                            style={{ color: isDark ? '#C49B75' : '#8A5D3B' }}
+                    {/* Top Bar: Badges + Timestamp */}
+                    <div
+                      className="flex flex-wrap items-center justify-between gap-2 pb-3 border-b"
+                      style={{ borderColor: isDark ? '#421E06' : '#EAE0D0' }}
+                    >
+                      <div className="flex flex-wrap items-center gap-2">
+                        {support.type === 'loan' && (
+                          <span
+                            className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase border shadow-xs"
+                            style={{
+                              backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : 'rgba(247, 241, 231, 0.7)',
+                              color: isDark ? '#F5C678' : '#8C4D11',
+                              borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                            }}
                           >
-                            Repayment Plan: <strong style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>{support.repaymentPeriod}</strong> ({support.repaymentDate})
-                          </p>
+                            <span
+                              className="w-1.5 h-1.5 rounded-full mr-1.5 shadow-xs"
+                              style={{ backgroundColor: isDark ? '#C88D3A' : '#B77620' }}
+                              aria-hidden="true"
+                            />
+                            Peer Loan
+                          </span>
+                        )}
+                        {support.type === 'gift' && (
+                          <span
+                            className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase border shadow-xs"
+                            style={{
+                              backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : 'rgba(247, 241, 231, 0.7)',
+                              color: isDark ? '#D8B4E2' : '#6B21A8',
+                              borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                            }}
+                          >
+                            <span
+                              className="w-1.5 h-1.5 rounded-full mr-1.5 shadow-xs"
+                              style={{ backgroundColor: '#9333EA' }}
+                              aria-hidden="true"
+                            />
+                            Voluntary Gift
+                          </span>
+                        )}
+                        {support.type === 'contribution' && (
+                          <span
+                            className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold tracking-wide uppercase border shadow-xs"
+                            style={{
+                              backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : 'rgba(247, 241, 231, 0.7)',
+                              color: isDark ? '#86EFAC' : '#166534',
+                              borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                            }}
+                          >
+                            <span
+                              className="w-1.5 h-1.5 rounded-full mr-1.5 shadow-xs"
+                              style={{ backgroundColor: '#16A34A' }}
+                              aria-hidden="true"
+                            />
+                            Shared Campaign
+                          </span>
+                        )}
+
+                        {/* Status Badges */}
+                        {isForgiven && (
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-purple-500/10 text-purple-700 dark:text-purple-300 border border-purple-500/30">
+                            <Gift className="w-3 h-3 mr-1" />
+                            Forgiven into Gift
+                          </span>
+                        )}
+                        {isRepaid && !isForgiven && (
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 border border-emerald-500/30">
+                            <CheckCircle2 className="w-3 h-3 mr-1" />
+                            Fully Repaid
+                          </span>
+                        )}
+                        {isOverdue && !isRepaid && (
+                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-bold uppercase tracking-wide bg-rose-500/10 text-rose-700 dark:text-rose-300 border border-rose-500/30">
+                            <AlertTriangle className="w-3 h-3 mr-1" />
+                            Overdue
+                          </span>
                         )}
                       </div>
-                    )}
-                  </div>
 
-                  {/* 3-Column Figures Grid (matching Accommodation card) */}
-                  <div
-                    className="grid grid-cols-3 gap-2 sm:gap-4 py-3 sm:py-4 border-t-2 border-b-2"
-                    style={{ borderColor: isDark ? '#421E06' : '#EAE0D0' }}
-                  >
-                    <div>
                       <span
-                        className="text-[11px] sm:text-xs block mb-1 truncate font-medium"
-                        style={{ color: isDark ? '#C49B75' : '#8A5D3B' }}
+                        className="text-xs font-mono font-medium"
+                        style={{ color: isDark ? '#D9C4AC' : '#8A5D3B' }}
                       >
-                        {support.type === 'contribution' ? 'Raised So Far' : 'Agreement Amount'}
-                      </span>
-                      <span
-                        className="text-sm sm:text-base md:text-lg font-bold truncate block"
-                        style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
-                      >
-                        {support.currency}{support.amount.toLocaleString()}
+                        {new Date(support.createdAt).toLocaleDateString(undefined, {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
                       </span>
                     </div>
 
-                    <div>
-                      <span
-                        className="text-[11px] sm:text-xs block mb-1 truncate font-medium"
-                        style={{ color: isDark ? '#C49B75' : '#8A5D3B' }}
-                      >
-                        {support.type === 'contribution' ? 'Target Goal' : 'Amount Repaid'}
-                      </span>
-                      <span
-                        className="text-sm sm:text-base md:text-lg font-bold truncate block"
-                        style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
-                      >
-                        {support.type === 'contribution' && support.targetAmount
-                          ? `${support.currency}${support.targetAmount.toLocaleString()}`
-                          : `${support.currency}${support.amountRepaid.toLocaleString()}`}
-                      </span>
-                    </div>
-
-                    <div>
-                      <span
-                        className="text-[11px] sm:text-xs block mb-1 truncate font-medium"
-                        style={{ color: isDark ? '#C49B75' : '#8A5D3B' }}
-                      >
-                        {support.type === 'contribution' ? 'Remaining Goal' : 'Remaining Balance'}
-                      </span>
-                      <span
-                        className="text-sm sm:text-base md:text-lg font-bold truncate block"
-                        style={{ color: isDark ? '#F5C678' : '#B77620' }}
-                      >
-                        {support.type === 'contribution' && support.targetAmount
-                          ? `${support.currency}${Math.max(0, support.targetAmount - support.amount).toLocaleString()}`
-                          : `${support.currency}${Math.max(0, support.amount - support.amountRepaid).toLocaleString()}`}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Campaign Progress Bar */}
-                  {support.type === 'contribution' && support.targetAmount && (
-                    <div className="space-y-1.5">
-                      <div
-                        className="flex justify-between text-xs font-semibold"
-                        style={{ color: isDark ? '#D9C4AC' : '#5A2D0C' }}
-                      >
-                        <span>Campaign Progress ({Math.round((support.amount / support.targetAmount) * 100)}%)</span>
-                        <span>
-                          {support.currency}{support.amount.toLocaleString()} of {support.currency}{support.targetAmount.toLocaleString()}
-                        </span>
+                    {/* Parties & Purpose */}
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <span
+                            className="font-bold text-base"
+                            style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
+                          >
+                            {support.fromMemberName}
+                          </span>
+                          <span
+                            className="text-xs font-medium"
+                            style={{ color: isDark ? '#D9C4AC' : '#8A5D3B' }}
+                          >
+                            →
+                          </span>
+                          <span
+                            className="font-bold text-base"
+                            style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
+                          >
+                            {support.type === 'contribution'
+                              ? support.title || 'Chamber Campaign'
+                              : support.toMemberName}
+                          </span>
+                        </div>
+                        <p
+                          className="text-xs leading-relaxed"
+                          style={{ color: isDark ? '#D9C4AC' : '#6F4E37' }}
+                        >
+                          {support.purpose}
+                        </p>
                       </div>
-                      <div
-                        className="w-full rounded-full h-2.5 overflow-hidden border"
-                        style={{
-                          backgroundColor: isDark ? 'rgba(30, 27, 24, 0.45)' : 'rgba(247, 241, 231, 0.50)',
-                          borderColor: isDark ? 'rgba(200, 141, 58, 0.25)' : 'rgba(90, 45, 12, 0.15)',
-                        }}
-                      >
+
+                      {/* Amounts */}
+                      <div className="text-left md:text-right shrink-0">
                         <div
-                          className="h-full rounded-full transition-all duration-300"
-                          style={{
-                            backgroundColor: isDark ? '#C88D3A' : '#B77620',
-                            width: `${Math.min(100, Math.round((support.amount / support.targetAmount) * 100))}%`,
-                          }}
-                        />
+                          className="font-mono font-bold text-xl sm:text-2xl"
+                          style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
+                        >
+                          ₦{support.amount.toLocaleString()}
+                        </div>
+                        {support.type === 'loan' && (
+                          <div
+                            className="text-xs font-mono"
+                            style={{ color: isDark ? '#E5A955' : '#B77620' }}
+                          >
+                            Repaid: ₦{support.amountRepaid.toLocaleString()} / Remaining: ₦{remaining.toLocaleString()}
+                          </div>
+                        )}
                       </div>
                     </div>
-                  )}
 
-                  {/* Forgiven Reason Callout */}
-                  {isForgiven && (
-                    <div
-                      className="p-3 rounded-xl border text-xs"
-                      style={{
-                        backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : 'rgba(247, 241, 231, 0.7)',
-                        borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
-                        color: isDark ? '#FFF9EE' : '#5A2D0C',
-                      }}
-                    >
-                      <div className="font-bold flex items-center gap-1.5 mb-1" style={{ color: isDark ? '#F5C678' : '#B77620' }}>
-                        <Gift className="w-3.5 h-3.5" />
-                        <span>Debt Permanently Converted to Gift</span>
+                    {/* Progress Bar for Loans & Campaigns */}
+                    {support.type === 'loan' && (
+                      <div className="space-y-1">
+                        <div
+                          className="w-full h-2 rounded-full overflow-hidden"
+                          style={{ backgroundColor: isDark ? '#3E200C' : '#EAE0D0' }}
+                        >
+                          <div
+                            className="h-full rounded-full transition-all duration-300"
+                            style={{
+                              width: `${Math.min(100, Math.round((support.amountRepaid / support.amount) * 100))}%`,
+                              backgroundColor: isForgiven ? '#9333EA' : isRepaid ? '#16A34A' : '#C88D3A',
+                            }}
+                          />
+                        </div>
+                        <div className="flex justify-between text-[11px] font-mono">
+                          <span style={{ color: isDark ? '#D9C4AC' : '#8A5D3B' }}>
+                            {Math.round((support.amountRepaid / support.amount) * 100)}% Repaid
+                          </span>
+                          {support.repaymentDate && (
+                            <span style={{ color: isDark ? '#D9C4AC' : '#8A5D3B' }}>
+                              Due: {new Date(support.repaymentDate).toLocaleDateString()}
+                            </span>
+                          )}
+                        </div>
                       </div>
-                      <p className="leading-relaxed opacity-90">
-                        {support.forgivenReason || 'Mutual solidarity celebration. Full balance forgiven.'}
-                      </p>
-                    </div>
-                  )}
+                    )}
 
-                  {/* Bottom Actions Bar */}
-                  <div
-                    className="pt-3 border-t flex flex-wrap items-center justify-between gap-3 text-xs"
-                    style={{ borderColor: isDark ? '#421E06' : '#EAE0D0' }}
-                  >
+                    {/* Action Buttons for Agreements */}
                     <div
-                      className="text-xs font-medium"
-                      style={{ color: isDark ? '#C49B75' : '#8A5D3B' }}
+                      className="pt-3 border-t flex flex-wrap items-center justify-end gap-2.5"
+                      style={{ borderColor: isDark ? '#421E06' : '#EAE0D0' }}
                     >
-                      {support.notes && <span><strong>Context:</strong> {support.notes}</span>}
-                    </div>
+                      {support.type === 'loan' && !isRepaid && !isForgiven && (
+                        <>
+                          <button
+                            type="button"
+                            id={`btn-repay-${support.id}`}
+                            onClick={() => handleOpenRepay(support)}
+                            className="px-3 py-1.5 rounded-lg text-xs font-bold border transition-all cursor-pointer bg-emerald-600 text-white hover:bg-emerald-700"
+                          >
+                            Record Repayment
+                          </button>
 
-                    <div className="flex items-center gap-2">
-                      {/* Campaign Contribution Action */}
-                      {support.type === 'contribution' && support.status !== 'REPAID' && (
+                          {isCurrentUserLender && (
+                            <button
+                              type="button"
+                              id={`btn-forgive-${support.id}`}
+                              onClick={() => handleOpenForgive(support)}
+                              className="px-3 py-1.5 rounded-lg text-xs font-bold border transition-all cursor-pointer bg-purple-600 text-white hover:bg-purple-700"
+                            >
+                              Forgive Debt into Gift
+                            </button>
+                          )}
+                        </>
+                      )}
+
+                      {support.type === 'contribution' && (
                         <button
                           type="button"
-                          id={`btn-contribute-campaign-${support.id}`}
+                          id={`btn-contrib-${support.id}`}
                           onClick={() => handleOpenCampaignContrib(support)}
-                          className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer border-b-3 active:border-b active:translate-y-[1px] shadow-sm ${
-                            isDark
-                              ? 'bg-[#C88D3A] text-[#241104] hover:bg-[#DDA250] border-[#915B15]'
-                              : 'bg-[#5A2D0C] text-[#FFF9EE] hover:bg-[#432108] border-[#381B07]'
-                          }`}
+                          className="px-3.5 py-1.5 rounded-lg text-xs font-bold border transition-all cursor-pointer bg-amber-600 text-white hover:bg-amber-700"
                         >
-                          <Plus className="w-3.5 h-3.5" />
-                          Contribute to Campaign
-                        </button>
-                      )}
-
-                      {/* Lender Action: Convert Debt to Gift */}
-                      {support.type === 'loan' && isCurrentUserLender && remaining > 0 && !isForgiven && (
-                        <button
-                          type="button"
-                          id={`btn-forgive-loan-${support.id}`}
-                          onClick={() => handleOpenForgive(support)}
-                          className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer border border-b-3 active:border-b active:translate-y-[1px] ${
-                            isDark
-                              ? 'bg-[rgba(42,34,28,0.7)] text-[#F5C678] border-[#C88D3A]/40 hover:bg-[rgba(52,44,38,0.8)]'
-                              : 'bg-[#F7F1E7] text-[#5A2D0C] border-[#5A2D0C]/25 hover:bg-[#EFE5D5]'
-                          }`}
-                          title="Lender prerogative: permanently forgive outstanding balance into a voluntary gift"
-                        >
-                          <Gift className="w-3.5 h-3.5 text-[#B77620]" />
-                          Convert to Gift (Forgive)
-                        </button>
-                      )}
-
-                      {/* Repayment Action */}
-                      {support.type === 'loan' && remaining > 0 && !isForgiven && (
-                        <button
-                          type="button"
-                          id={`btn-record-repay-${support.id}`}
-                          onClick={() => handleOpenRepay(support)}
-                          className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl text-xs font-bold transition-all duration-150 cursor-pointer border-b-3 active:border-b active:translate-y-[1px] shadow-sm ${
-                            isDark
-                              ? 'bg-[#C88D3A] text-[#241104] hover:bg-[#DDA250] border-[#915B15]'
-                              : 'bg-[#5A2D0C] text-[#FFF9EE] hover:bg-[#432108] border-[#381B07]'
-                          }`}
-                        >
-                          <ShieldCheck className="w-3.5 h-3.5" />
-                          Record Repayment
+                          + Contribute to Fund
                         </button>
                       )}
                     </div>
                   </div>
-                </div>
-              );
-            })
-          )}
-        </div>
-      </section>
+                );
+              })
+            )}
+          </div>
+        </section>
+      )}
 
-      {/* MODAL 1: Create Peer Support (Gift / Loan / Contribution) */}
+      {/* VIEW 2: TRAILS OF TRUST FEED */}
+      {hubSubTab === 'trust-trails' && (
+        <div className="animate-in fade-in duration-150">
+          <TrustTrailFeed trailEvents={trailEvents} availableMembers={availableMembers} isDark={isDark} />
+        </div>
+      )}
+
+      {/* VIEW 3: CONTEXTUAL VOUCHES */}
+      {hubSubTab === 'vouches' && (
+        <div className="animate-in fade-in duration-150">
+          <VouchSection
+            vouches={vouches}
+            availableMembers={availableMembers}
+            currentMember={currentMember}
+            isDark={isDark}
+            onAddVouch={onAddVouch || (() => {})}
+          />
+        </div>
+      )}
+
+      {/* MODAL: CREATE PEER SUPPORT */}
       {isCreateModalOpen && (
         <PeerSupportModal
-          currentMember={currentMember}
-          availableMembers={availableMembers}
-          initialType={selectedInitialType}
-          isDark={isDark}
           onClose={() => setIsCreateModalOpen(false)}
-          onSubmitSupport={(data) => {
-            onCreateSupport(data);
-            setIsCreateModalOpen(false);
-          }}
+          availableMembers={availableMembers}
+          currentMember={currentMember}
+          initialType={selectedInitialType}
+          onSubmitSupport={onCreateSupport}
+          isDark={isDark}
         />
       )}
 
-      {/* MODAL 2: Record Repayment */}
+      {/* MODAL: RECORD REPAYMENT */}
       {repayModalSupport && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-[#24211F] text-[#2B211B] dark:text-[#FFF9EE] rounded-2xl max-w-sm w-full p-6 shadow-2xl border-2 border-stone-200 dark:border-[#C88D3A]/40 animate-in fade-in zoom-in-95">
-            <h3 className="font-serif font-bold text-[#5A2D0C] dark:text-[#FFF9EE] text-base">Record Loan Repayment</h3>
-            <p className="text-xs text-stone-600 dark:text-[#D9C4AC] mt-1">
-              Fulfilling agreement between {repayModalSupport.fromMemberName} and {repayModalSupport.toMemberName}.
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div
+            className="w-full max-w-md rounded-2xl p-6 border-2 border-b-4 shadow-xl space-y-4"
+            style={{
+              backgroundColor: isDark ? '#231206' : '#FFF9EE',
+              borderColor: isDark ? 'rgba(200, 141, 58, 0.4)' : 'rgba(90, 45, 12, 0.3)',
+            }}
+          >
+            <h3
+              className="font-serif text-lg font-bold"
+              style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
+            >
+              Record Loan Repayment
+            </h3>
+            <p className="text-xs" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>
+              Confirm repayment amount received from {repayModalSupport.toMemberName}.
             </p>
-
-            <form onSubmit={handleConfirmRepay} className="mt-4 space-y-3">
+            <form onSubmit={handleConfirmRepay} className="space-y-3">
               <div>
-                <label className="block text-xs font-semibold text-stone-700 dark:text-[#D9C4AC] mb-1">
-                  Repayment Amount ({repayModalSupport.currency})
+                <label className="block text-xs font-bold mb-1" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
+                  Amount (₦)
                 </label>
                 <input
                   type="number"
-                  min={100}
-                  max={repayModalSupport.amount - repayModalSupport.amountRepaid}
+                  min="1000"
+                  step="500"
                   value={repayAmount}
                   onChange={(e) => setRepayAmount(Number(e.target.value))}
+                  className="w-full px-3 py-2 rounded-xl text-sm border font-mono"
+                  style={{
+                    backgroundColor: isDark ? 'rgba(42, 34, 28, 0.7)' : '#FFFDF8',
+                    borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                    color: isDark ? '#FFF9EE' : '#5A2D0C',
+                  }}
                   required
-                  className="w-full px-3 py-2 text-xs bg-white dark:bg-[#180A02] text-[#5A2D0C] dark:text-[#FFF9EE] border border-stone-300 dark:border-[#C88D3A]/40 rounded-xl outline-none focus:border-[#C88D3A] font-semibold"
                 />
               </div>
-
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-stone-100 dark:border-[#C88D3A]/20">
+              <div className="flex justify-end gap-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setRepayModalSupport(null)}
-                  className="px-3.5 py-2 text-xs font-semibold text-stone-600 dark:text-[#D9C4AC] hover:bg-stone-100 dark:hover:bg-[#1E1B18] rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs font-bold border cursor-pointer"
+                  style={{
+                    backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : '#F7F1E7',
+                    borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                    color: isDark ? '#FFF9EE' : '#5A2D0C',
+                  }}
                 >
                   Cancel
                 </button>
                 <button
-                  id="btn-confirm-repay-modal"
                   type="submit"
-                  className="px-4 py-2 text-xs font-bold bg-[#5A2D0C] hover:bg-[#432108] text-[#FFF9EE] dark:bg-[#C88D3A] dark:hover:bg-[#DDA250] dark:text-[#241104] border-b-3 border-[#381B07] dark:border-[#915B15] active:border-b active:translate-y-[1px] rounded-xl shadow-xs transition-all cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs font-bold bg-emerald-600 text-white hover:bg-emerald-700 cursor-pointer"
                 >
                   Confirm Repayment
                 </button>
@@ -815,56 +945,61 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
         </div>
       )}
 
-      {/* MODAL 3: Convert Debt to Gift (Forgive Debt) */}
+      {/* MODAL: FORGIVE DEBT INTO GIFT */}
       {forgiveModalSupport && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-[#24211F] text-[#2B211B] dark:text-[#FFF9EE] rounded-2xl max-w-md w-full p-6 shadow-2xl border-2 border-stone-200 dark:border-[#C88D3A]/40 animate-in fade-in zoom-in-95">
-            <div className="flex items-center gap-2 mb-2">
-              <div className="p-2 bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-200 rounded-xl">
-                <Gift className="w-5 h-5 text-amber-700 dark:text-amber-400" />
-              </div>
-              <h3 className="font-serif font-bold text-[#5A2D0C] dark:text-[#FFF9EE] text-base">Convert Debt to Gift (Forgive)</h3>
-            </div>
-            <p className="text-xs text-stone-600 dark:text-[#D9C4AC] leading-relaxed">
-              As the original lender, you are choosing to permanently forgive the remaining{' '}
-              <strong className="text-[#5A2D0C] dark:text-[#FFF9EE]">
-                {forgiveModalSupport.currency}
-                {(forgiveModalSupport.amount - forgiveModalSupport.amountRepaid).toLocaleString()}
-              </strong>{' '}
-              owed by {forgiveModalSupport.toMemberName}.
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div
+            className="w-full max-w-md rounded-2xl p-6 border-2 border-b-4 shadow-xl space-y-4"
+            style={{
+              backgroundColor: isDark ? '#231206' : '#FFF9EE',
+              borderColor: isDark ? 'rgba(200, 141, 58, 0.4)' : 'rgba(90, 45, 12, 0.3)',
+            }}
+          >
+            <h3
+              className="font-serif text-lg font-bold"
+              style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
+            >
+              Permanently Forgive Debt into Gift
+            </h3>
+            <p className="text-xs" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>
+              Converting this loan of ₦{forgiveModalSupport.amount.toLocaleString()} into a gift permanently extinguishes repayment liability.
             </p>
-
-            <div className="mt-3 p-3 bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-700/60 rounded-xl text-[11px] text-emerald-950 dark:text-emerald-200">
-              <strong>Hut4Devs Invariant:</strong> Once converted, this agreement is permanently recorded
-              as a voluntary gift. It can NEVER be converted back to debt.
-            </div>
-
-            <form onSubmit={handleConfirmForgive} className="mt-4 space-y-3">
+            <form onSubmit={handleConfirmForgive} className="space-y-3">
               <div>
-                <label className="block text-xs font-semibold text-stone-700 dark:text-[#D9C4AC] mb-1">Reason / Note for Forgiveness</label>
+                <label className="block text-xs font-bold mb-1" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
+                  Solidarity Note
+                </label>
                 <textarea
                   value={forgiveReason}
                   onChange={(e) => setForgiveReason(e.target.value)}
-                  rows={3}
+                  rows={2}
+                  className="w-full px-3 py-2 rounded-xl text-sm border"
+                  style={{
+                    backgroundColor: isDark ? 'rgba(42, 34, 28, 0.7)' : '#FFFDF8',
+                    borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                    color: isDark ? '#FFF9EE' : '#5A2D0C',
+                  }}
                   required
-                  className="w-full px-3 py-2 text-xs bg-white dark:bg-[#180A02] text-[#5A2D0C] dark:text-[#FFF9EE] border border-stone-300 dark:border-[#C88D3A]/40 rounded-xl outline-none focus:border-[#C88D3A]"
                 />
               </div>
-
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-stone-100 dark:border-[#C88D3A]/20">
+              <div className="flex justify-end gap-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setForgiveModalSupport(null)}
-                  className="px-3.5 py-2 text-xs font-semibold text-stone-600 dark:text-[#D9C4AC] hover:bg-stone-100 dark:hover:bg-[#1E1B18] rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs font-bold border cursor-pointer"
+                  style={{
+                    backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : '#F7F1E7',
+                    borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                    color: isDark ? '#FFF9EE' : '#5A2D0C',
+                  }}
                 >
                   Cancel
                 </button>
                 <button
-                  id="btn-confirm-forgive-modal"
                   type="submit"
-                  className="px-4 py-2 text-xs font-bold bg-emerald-700 hover:bg-emerald-800 text-white border-b-3 border-emerald-900 active:border-b active:translate-y-[1px] rounded-xl shadow-xs transition-all cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs font-bold bg-purple-600 text-white hover:bg-purple-700 cursor-pointer"
                 >
-                  Permanently Convert to Gift
+                  Confirm Forgiveness
                 </button>
               </div>
             </form>
@@ -872,55 +1007,76 @@ export const PeerSupportSection: React.FC<PeerSupportSectionProps> = ({
         </div>
       )}
 
-      {/* MODAL 4: Contribute to Campaign */}
+      {/* MODAL: CAMPAIGN CONTRIBUTION */}
       {campaignModal && (
-        <div className="fixed inset-0 bg-black/70 backdrop-blur-xs flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-[#24211F] text-[#2B211B] dark:text-[#FFF9EE] rounded-2xl max-w-sm w-full p-6 shadow-2xl border-2 border-stone-200 dark:border-[#C88D3A]/40 animate-in fade-in zoom-in-95">
-            <h3 className="font-serif font-bold text-[#5A2D0C] dark:text-[#FFF9EE] text-base">Contribute to Campaign</h3>
-            <p className="text-xs text-stone-600 dark:text-[#D9C4AC] mt-1">
-              Adding your solidarity support to "{campaignModal.title}".
-            </p>
-
-            <form onSubmit={handleConfirmCampaignContrib} className="mt-4 space-y-3">
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-xs flex items-center justify-center p-4">
+          <div
+            className="w-full max-w-md rounded-2xl p-6 border-2 border-b-4 shadow-xl space-y-4"
+            style={{
+              backgroundColor: isDark ? '#231206' : '#FFF9EE',
+              borderColor: isDark ? 'rgba(200, 141, 58, 0.4)' : 'rgba(90, 45, 12, 0.3)',
+            }}
+          >
+            <h3
+              className="font-serif text-lg font-bold"
+              style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}
+            >
+              Contribute to {campaignModal.title || 'Chamber Fund'}
+            </h3>
+            <form onSubmit={handleConfirmCampaignContrib} className="space-y-3">
               <div>
-                <label className="block text-xs font-semibold text-stone-700 dark:text-[#D9C4AC] mb-1">
-                  Contribution Amount ({campaignModal.currency})
+                <label className="block text-xs font-bold mb-1" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
+                  Contribution Amount (₦)
                 </label>
                 <input
                   type="number"
-                  min={1000}
-                  step={1000}
+                  min="1000"
+                  step="1000"
                   value={campaignContribAmount}
                   onChange={(e) => setCampaignContribAmount(Number(e.target.value))}
+                  className="w-full px-3 py-2 rounded-xl text-sm border font-mono"
+                  style={{
+                    backgroundColor: isDark ? 'rgba(42, 34, 28, 0.7)' : '#FFFDF8',
+                    borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                    color: isDark ? '#FFF9EE' : '#5A2D0C',
+                  }}
                   required
-                  className="w-full px-3 py-2 text-xs bg-white dark:bg-[#180A02] text-[#5A2D0C] dark:text-[#FFF9EE] border border-stone-300 dark:border-[#C88D3A]/40 rounded-xl outline-none focus:border-[#C88D3A] font-semibold"
                 />
               </div>
-
               <div>
-                <label className="block text-xs font-semibold text-stone-700 dark:text-[#D9C4AC] mb-1">Optional Note</label>
+                <label className="block text-xs font-bold mb-1" style={{ color: isDark ? '#FFF9EE' : '#5A2D0C' }}>
+                  Note
+                </label>
                 <input
                   type="text"
                   value={campaignContribNote}
                   onChange={(e) => setCampaignContribNote(e.target.value)}
-                  className="w-full px-3 py-2 text-xs bg-white dark:bg-[#180A02] text-[#5A2D0C] dark:text-[#FFF9EE] border border-stone-300 dark:border-[#C88D3A]/40 rounded-xl outline-none focus:border-[#C88D3A]"
+                  className="w-full px-3 py-2 rounded-xl text-sm border"
+                  style={{
+                    backgroundColor: isDark ? 'rgba(42, 34, 28, 0.7)' : '#FFFDF8',
+                    borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                    color: isDark ? '#FFF9EE' : '#5A2D0C',
+                  }}
                 />
               </div>
-
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-stone-100 dark:border-[#C88D3A]/20">
+              <div className="flex justify-end gap-2 pt-2">
                 <button
                   type="button"
                   onClick={() => setCampaignModal(null)}
-                  className="px-3.5 py-2 text-xs font-semibold text-stone-600 dark:text-[#D9C4AC] hover:bg-stone-100 dark:hover:bg-[#1E1B18] rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs font-bold border cursor-pointer"
+                  style={{
+                    backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : '#F7F1E7',
+                    borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
+                    color: isDark ? '#FFF9EE' : '#5A2D0C',
+                  }}
                 >
                   Cancel
                 </button>
                 <button
-                  id="btn-confirm-campaign-contrib"
                   type="submit"
-                  className="px-4 py-2 text-xs font-bold bg-purple-700 hover:bg-purple-800 text-white border-b-3 border-purple-900 active:border-b active:translate-y-[1px] rounded-xl shadow-xs transition-all cursor-pointer"
+                  className="px-4 py-2 rounded-xl text-xs font-bold bg-amber-600 text-white hover:bg-amber-700 cursor-pointer"
                 >
-                  Confirm Contribution
+                  Contribute
                 </button>
               </div>
             </form>

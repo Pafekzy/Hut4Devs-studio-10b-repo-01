@@ -435,12 +435,10 @@ export const MemberHomeView: React.FC<MemberHomeViewProps> = ({
             {[
               { id: 'accommodation', label: 'Accommodation', icon: Building },
               { id: 'peer-support', label: 'Peer Support Hub', icon: HandCoins },
-              { id: 'trust-trails', label: 'Trails of Trust', icon: Footprints },
-              { id: 'vouches', label: 'Contextual Vouches', icon: ShieldCheck },
               { id: 'recognition', label: 'Recognition', icon: Award },
             ].map((tab) => {
               const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
+              const isActive = activeTab === tab.id || (tab.id === 'peer-support' && (activeTab === 'trust-trails' || activeTab === 'vouches'));
               return (
                 <button
                   key={tab.id}
@@ -603,43 +601,27 @@ export const MemberHomeView: React.FC<MemberHomeViewProps> = ({
           </div>
         )}
 
-        {/* TAB 2: PEER SUPPORT HUB */}
-        {activeTab === 'peer-support' && (
+        {/* TAB 2: PEER SUPPORT HUB (Consolidated with Agreements, Trails of Trust, and Contextual Vouches) */}
+        {(activeTab === 'peer-support' || activeTab === 'trust-trails' || activeTab === 'vouches') && (
           <div className="animate-in fade-in duration-150">
             <PeerSupportSection
               currentMember={currentMember}
               availableMembers={availableMembers}
               supports={supports}
+              trailEvents={trailEvents}
+              vouches={vouches}
               isDark={isDark}
+              initialSubTab={activeTab === 'trust-trails' ? 'trust-trails' : activeTab === 'vouches' ? 'vouches' : 'agreements'}
               onCreateSupport={handleCreateSupport}
               onRecordRepayment={handleRecordRepayment}
               onConvertToGift={handleConvertToGift}
               onContributeToCampaign={handleContributeToCampaign}
-            />
-          </div>
-        )}
-
-        {/* TAB 3: TRUST TRAILS */}
-        {activeTab === 'trust-trails' && (
-          <div className="animate-in fade-in duration-150">
-            <TrustTrailFeed trailEvents={trailEvents} availableMembers={availableMembers} isDark={isDark} />
-          </div>
-        )}
-
-        {/* TAB 4: CONTEXTUAL VOUCHES */}
-        {activeTab === 'vouches' && (
-          <div className="animate-in fade-in duration-150">
-            <VouchSection
-              vouches={vouches}
-              availableMembers={availableMembers}
-              currentMember={currentMember}
-              isDark={isDark}
               onAddVouch={handleAddVouch}
             />
           </div>
         )}
 
-        {/* TAB 5: RECOGNITION */}
+        {/* TAB 3: RECOGNITION */}
         {activeTab === 'recognition' && (
           <div className="animate-in fade-in duration-150">
             <RecognitionView
