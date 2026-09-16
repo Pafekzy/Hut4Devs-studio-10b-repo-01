@@ -84,13 +84,13 @@ export const AccommodationResponsibilityCard: React.FC<AccommodationResponsibili
             style={{ color: isDark ? '#E5A955' : '#B77620' }}
             aria-hidden="true"
           />
-          <span>{responsibility.accommodationContext.property.name}</span>
+          <span>{responsibility.accommodationContext?.property?.name || (responsibility as any).propertyName || 'Infinite Grace Apartment'}</span>
         </div>
         <div className="hidden sm:inline text-stone-400" aria-hidden="true">&bull;</div>
         <div className="flex items-center gap-3">
-          <span>{responsibility.accommodationContext.floor.name}</span>
+          <span>{responsibility.accommodationContext?.floor?.name || 'Floor 3'}</span>
           <span aria-hidden="true">&bull;</span>
-          <span className="font-semibold">{responsibility.accommodationContext.room.name}</span>
+          <span className="font-semibold">{responsibility.accommodationContext?.room?.name || (responsibility as any).roomNumber || 'Room 304'}</span>
         </div>
       </div>
 

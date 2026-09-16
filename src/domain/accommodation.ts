@@ -76,8 +76,9 @@ export function calculateRemainingAmount(
 /**
  * Format currency in Nigerian Naira (₦)
  */
-export function formatNaira(amount: number): string {
-  return `₦${amount.toLocaleString('en-NG')}`;
+export function formatNaira(amount: number = 0): string {
+  const safeNum = typeof amount === 'number' && !isNaN(amount) ? amount : 0;
+  return `₦${safeNum.toLocaleString('en-NG')}`;
 }
 
 /**

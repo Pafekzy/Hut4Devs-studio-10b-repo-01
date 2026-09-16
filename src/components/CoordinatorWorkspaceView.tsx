@@ -15,6 +15,7 @@ import { RoomActions } from './room/RoomActions';
 import { RoomCommons } from './room/RoomCommons';
 import { RoomCommunication } from './room/RoomCommunication';
 import { RoomTrail } from './room/RoomTrail';
+import { SharedRoomWorkspace } from './room/SharedRoomWorkspace';
 import { DelegateCandidateChoiceModal } from './room/DelegateCandidateChoiceModal';
 import { AssignCandidateModal } from './room/AssignCandidateModal';
 import {
@@ -366,130 +367,15 @@ export const CoordinatorWorkspaceView: React.FC<CoordinatorWorkspaceViewProps> =
         <div className="space-y-6">
           {/* If a room is selected -> Show the Shared Room View */}
           {selectedRoom ? (
-            <div className="space-y-6">
-              {/* Back to Campus Rooms & Breadcrumb Bar */}
-              <div className="flex flex-wrap items-center justify-between gap-3 pb-3 border-b"
-                style={{ borderColor: isDark ? 'rgba(200, 141, 58, 0.20)' : 'rgba(90, 45, 12, 0.12)' }}
-              >
-                <div className="flex items-center gap-3">
-                  <button
-                    type="button"
-                    id="btn-back-to-rooms"
-                    onClick={() => setSelectedRoomId(null)}
-                    className="px-3 py-1.5 text-xs font-bold rounded-lg border-2 border-b-3 transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:translate-y-[1px]"
-                    style={{
-                      backgroundColor: isDark ? 'rgba(42, 34, 28, 0.6)' : 'rgba(255, 253, 248, 0.8)',
-                      borderColor: isDark ? 'rgba(200, 141, 58, 0.3)' : 'rgba(90, 45, 12, 0.2)',
-                      color: isDark ? '#FFF9EE' : '#5A2D0C',
-                    }}
-                  >
-                    <ArrowLeft className="w-3.5 h-3.5" />
-                    <span>Back to Campus Rooms</span>
-                  </button>
-
-                  <div className="text-xs font-medium" style={{ color: isDark ? '#D9C4AC' : '#704728' }}>
-                    <span>Lagos Yaba</span> &bull; <span>{selectedRoom.propertyName}</span> &bull;{' '}
-                    <strong className="font-bold text-[#B77620] dark:text-[#C88D3A]">{selectedRoom.roomNumber}</strong>
-                  </div>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  <span className="text-[10px] font-mono uppercase px-2 py-0.5 rounded font-bold border bg-amber-100 dark:bg-amber-950/70 text-amber-900 dark:text-amber-200 border-amber-300 dark:border-amber-700">
-                    Coordinator Coverage Mode
-                  </span>
-                </div>
-              </div>
-
-              {/* Shared Room Sub-Navigation */}
-              <nav
-                aria-label="Shared Room Navigation"
-                className="flex flex-wrap gap-2 border-b pb-2"
-                style={{ borderColor: isDark ? 'rgba(200, 141, 58, 0.20)' : 'rgba(90, 45, 12, 0.12)' }}
-              >
-                {(
-                  [
-                    { id: 'OVERVIEW', label: 'Overview & Bunks', icon: <Bed className="w-3.5 h-3.5" /> },
-                    { id: 'ACTIONS', label: 'Room Actions', icon: <Sparkles className="w-3.5 h-3.5" /> },
-                    { id: 'COMMONS', label: 'Room Commons', icon: <FileText className="w-3.5 h-3.5" /> },
-                    { id: 'COMMUNICATION', label: 'Communication', icon: <MessageSquare className="w-3.5 h-3.5" /> },
-                    { id: 'TRAIL', label: 'Room Trail', icon: <History className="w-3.5 h-3.5" /> },
-                  ] as { id: SharedRoomSubTab; label: string; icon: React.ReactNode }[]
-                ).map((st) => {
-                  const isActive = roomSubTab === st.id;
-
-                  return (
-                    <button
-                      key={st.id}
-                      type="button"
-                      id={`subtab-${st.id.toLowerCase()}`}
-                      onClick={() => setRoomSubTab(st.id)}
-                      className={`px-3.5 py-1.5 text-xs font-bold rounded-xl border-2 border-b-3 transition-all duration-150 cursor-pointer flex items-center gap-1.5 active:translate-y-[1px] ${
-                        isActive
-                          ? isDark
-                            ? 'bg-[#C88D3A] text-[#241104] border-[#915B15] shadow-xs'
-                            : 'bg-[#5A2D0C] text-[#FFF9EE] border-[#381B07] shadow-xs'
-                          : isDark
-                          ? 'bg-[rgba(30,27,24,0.5)] text-[#D9C4AC] border-[rgba(200,141,58,0.2)]'
-                          : 'bg-[rgba(255,253,248,0.7)] text-[#704728] border-[rgba(90,45,12,0.15)]'
-                      }`}
-                    >
-                      {st.icon}
-                      <span>{st.label}</span>
-                    </button>
-                  );
-                })}
-              </nav>
-
-              {/* Render Shared Sub-Component */}
-              {roomSubTab === 'OVERVIEW' && (
-                <RoomOverview
-                  room={selectedRoom}
-                  isDark={isDark}
-                  isCoordinatorView={true}
-                  onOpenDelegateChoice={(bedId) => setDelegateModalData({ room: selectedRoom, bedId })}
-                  onOpenDirectAssign={(bedId) => setAssignModalData({ room: selectedRoom, bedId })}
-                />
-              )}
-
-              {roomSubTab === 'ACTIONS' && (
-                <RoomActions
-                  room={selectedRoom}
-                  isDark={isDark}
-                  activeMemberId={member.id}
-                  activeMemberName={member.displayName}
-                  actingCapacity={attribution.actingCapacity}
-                  isCaptain={false}
-                  isCoordinator={true}
-                />
-              )}
-
-              {roomSubTab === 'COMMONS' && (
-                <RoomCommons
-                  room={selectedRoom}
-                  isDark={isDark}
-                  activeMemberName={member.displayName}
-                  actingCapacity={attribution.actingCapacity}
-                  canPost={true}
-                />
-              )}
-
-              {roomSubTab === 'COMMUNICATION' && (
-                <RoomCommunication
-                  room={selectedRoom}
-                  isDark={isDark}
-                  activeMemberId={member.id}
-                  activeMemberName={member.displayName}
-                  actingCapacity={attribution.actingCapacity}
-                />
-              )}
-
-              {roomSubTab === 'TRAIL' && (
-                <RoomTrail
-                  room={selectedRoom}
-                  isDark={isDark}
-                />
-              )}
-            </div>
+            <SharedRoomWorkspace
+              room={selectedRoom}
+              viewerRole="COORDINATOR"
+              currentMember={member}
+              isDark={isDark}
+              onBack={() => setSelectedRoomId(null)}
+              onOpenDelegateChoice={(bedId) => setDelegateModalData({ room: selectedRoom, bedId })}
+              onOpenDirectAssign={(bedId) => setAssignModalData({ room: selectedRoom, bedId })}
+            />
           ) : (
             /* Campus Rooms Grid & Overview */
             <div className="space-y-6">
