@@ -158,4 +158,80 @@ describe('Fix a Puzzle - Refined Information Architecture & Form Controls', () =
     expect(screen.queryByRole('button', { name: /Promote to Under Review/i })).toBeNull();
     expect(screen.queryByRole('button', { name: /Mark as Implemented/i })).toBeNull();
   });
+
+  it('6. Post-submission participation step flow: Submit -> Participation Step -> Community Board', async () => {
+    render(
+      <MissingPuzzleModal
+        isOpen={true}
+        onClose={() => {}}
+        currentMember={currentFellow}
+        isDark={false}
+      />
+    );
+
+    // Switch to Spot & Log
+    fireEvent.click(screen.getByTestId('tab-btn-report-puzzle'));
+
+    // Fill the form
+    fireEvent.change(screen.getByLabelText(/Issue Title \*/i), {
+      target: { value: 'Wi-Fi disconnects every 30 minutes in East Wing' },
+    });
+    fireEvent.change(screen.getByLabelText(/App Location \/ Context \*/i), {
+      target: { value: 'East Wing Study Lounge' },
+    });
+    fireEvent.change(screen.getByLabelText(/Description & Observations \*/i), {
+      target: { value: 'Laptops drop connection periodically on the 5GHz network.' },
+    });
+
+    // Submit report
+    const submitBtn = screen.getByRole('button', { name: /Record Missing Puzzle Piece/i });
+    const form = submitBtn.closest('form')!;
+    fireEvent.submit(form);
+
+    // After submission, verify participation step is shown and NOT immediately on Community Board
+    await waitFor(() => {
+      expect(screen.getByText(/Missing Puzzle Placed/i)).toBeDefined();
+    });
+
+    expect(
+      screen.getByText(/How would you like to participate in the solution/i)
+    ).toBeDefined();
+
+    // Verify "Just log it" is default selected
+    const justLogOption = screen.getByRole('radio', { name: /Just log it/i });
+    expect(justLogOption.getAttribute('aria-checked')).toBe('true');
+
+    // Verify all 5 choices are present
+    expect(screen.getByText('Just log it')).toBeDefined();
+    expect(screen.getByText('Contact me for clarification')).toBeDefined();
+    expect(screen.getByText('I can help test the fix')).toBeDefined();
+    expect(screen.getByText('I want to contribute to fixing it')).toBeDefined();
+    expect(screen.getByText('Consult me when designing the solution')).toBeDefined();
+
+    // Select "I can help test the fix"
+    const helpTestOption = screen.getByRole('radio', { name: /I can help test the fix/i });
+    fireEvent.click(helpTestOption);
+    await waitFor(() => {
+      expect(helpTestOption.getAttribute('aria-checked')).toBe('true');
+    });
+
+    // Click "Save Participation & View Community Puzzle Board"
+    const saveBtn = screen.getByRole('button', {
+      name: /Save Participation & View Community Puzzle Board/i,
+    });
+    fireEvent.click(saveBtn);
+
+    // Should now transition to Community Puzzle Board
+    await waitFor(() => {
+      expect(screen.getByText(/See What Is Already Being Solved/i)).toBeDefined();
+    });
+
+    // Verify the report in the store has the attached involvement
+    const reports = puzzleFeedbackStore.getReports();
+    const createdReport = reports.find(
+      (r) => r.title === 'Wi-Fi disconnects every 30 minutes in East Wing'
+    );
+    expect(createdReport).toBeDefined();
+    expect(createdReport?.involvementPreference).toBe('HELP_TEST');
+  });
 });

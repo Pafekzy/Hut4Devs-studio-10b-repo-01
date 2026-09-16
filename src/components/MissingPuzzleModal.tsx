@@ -63,13 +63,13 @@ const INVOLVEMENT_OPTIONS: {
   {
     id: 'CONTACT_ME',
     title: 'Contact me for clarification',
-    description: 'Reach out to my room or contact info if reproduction details are needed.',
+    description: 'Reach out to me if reproduction details or additional context are needed.',
     icon: MessageSquare,
   },
   {
     id: 'HELP_TEST',
     title: 'I can help test the fix',
-    description: 'Give me access to verify the staged patch in my accommodation setting.',
+    description: 'Give me access to verify the staged patch in my accommodation/community setting.',
     icon: UserCheck,
   },
   {
@@ -303,15 +303,15 @@ export const MissingPuzzleModal: React.FC<MissingPuzzleModalProps> = ({
         setActiveView('COMMUNITY_BOARD');
       }
 
-      if (!submittedReport) {
-        setIsSlotted(false);
-        setTitle('');
-        setDescription('');
-        setLocationContext('');
-        setErrorMsg('');
-      }
+      setIsSlotted(false);
+      setTitle('');
+      setDescription('');
+      setLocationContext('');
+      setErrorMsg('');
+      setSubmittedReport(null);
+      setSelectedInvolvement(null);
     }
-  }, [isOpen, submittedReport, initialReportId, currentMember.id]);
+  }, [isOpen, initialReportId, currentMember.id]);
 
   // Subscribe to store updates for real-time responsiveness
   useEffect(() => {
@@ -387,6 +387,7 @@ export const MissingPuzzleModal: React.FC<MissingPuzzleModalProps> = ({
       );
 
       setSubmittedReport(report);
+      setSelectedInvolvement('JUST_LOG');
       setPersistenceStatus(persistence);
       setAllReports(puzzleFeedbackStore.getReports());
     } catch (err: any) {
@@ -397,6 +398,7 @@ export const MissingPuzzleModal: React.FC<MissingPuzzleModalProps> = ({
   };
 
   const handleSelectInvolvement = async (inv: MissingPuzzleInvolvement) => {
+    setSelectedInvolvement(inv);
     if (!submittedReport) return;
     try {
       const updated = await puzzleFeedbackStore.updateInvolvementForMember(
@@ -405,16 +407,44 @@ export const MissingPuzzleModal: React.FC<MissingPuzzleModalProps> = ({
         inv
       );
       setSubmittedReport({ ...updated });
-      setSelectedInvolvement(inv);
       setAllReports(puzzleFeedbackStore.getReports());
     } catch {
       const fallback = puzzleFeedbackStore.updateInvolvement(submittedReport.id, inv);
       if (fallback) {
         setSubmittedReport({ ...fallback });
-        setSelectedInvolvement(inv);
         setAllReports(puzzleFeedbackStore.getReports());
       }
     }
+  };
+
+  const handleSaveAndNavigateToBoard = async () => {
+    if (submittedReport) {
+      const invToSave = selectedInvolvement || submittedReport.involvementPreference || 'JUST_LOG';
+      if (invToSave !== submittedReport.involvementPreference) {
+        try {
+          await puzzleFeedbackStore.updateInvolvementForMember(
+            submittedReport.id,
+            currentMember,
+            invToSave
+          );
+        } catch {
+          puzzleFeedbackStore.updateInvolvement(submittedReport.id, invToSave);
+        }
+      }
+      setAllReports(puzzleFeedbackStore.getReports());
+      // Direct user to view the community board with their item highlighted in search if desired
+      setBoardSearch(submittedReport.title);
+      setBoardStatusFilter('ALL');
+      setBoardCategoryFilter('ALL');
+    }
+    setActiveView('COMMUNITY_BOARD');
+    setSubmittedReport(null);
+    setSelectedInvolvement(null);
+    setIsSlotted(false);
+    setTitle('');
+    setDescription('');
+    setLocationContext('');
+    setErrorMsg('');
   };
 
   const handleSendClarificationReply = async (reportId: string) => {
@@ -1219,51 +1249,66 @@ export const MissingPuzzleModal: React.FC<MissingPuzzleModalProps> = ({
 
                 {/* Involvement Preference Question */}
                 <div
-                  className={`p-4 rounded-2xl border ${
-                    isDark ? 'bg-[#231004] border-[#C88D3A]/40' : 'bg-[#FFF9EE] border-[#C88D3A]/40'
+                  className={`p-5 rounded-2xl border ${
+                    isDark ? 'bg-[#231004] border-[#C88D3A]/40' : 'bg-[#FDFBF7] border-[#5A2D0C]/15 shadow-xs'
                   }`}
                 >
-                  <div className="mb-3 text-center sm:text-left">
-                    <h4 className="font-serif font-bold text-sm text-[#5A2D0C] dark:text-[#FFF9EE]">
+                  <div className="mb-4 text-center sm:text-left space-y-1">
+                    <h4 className="font-serif font-bold text-sm sm:text-base text-[#5A2D0C] dark:text-[#FFF9EE]">
                       How would you like to participate in the solution?
                     </h4>
-                    <p className="text-[11px] opacity-70">
+                    <p className="text-xs opacity-80">
                       Hut4Devs is built by us and for us-all. Select your intended involvement:
                     </p>
                   </div>
 
-                  <div className="space-y-2">
+                  <div className="space-y-2.5" role="radiogroup" aria-label="Participation choices">
                     {INVOLVEMENT_OPTIONS.map((opt) => {
                       const isSelected =
-                        selectedInvolvement === opt.id ||
-                        submittedReport.involvementPreference === opt.id;
+                        (selectedInvolvement || submittedReport.involvementPreference || 'JUST_LOG') === opt.id;
                       const Icon = opt.icon;
 
                       return (
                         <button
                           key={opt.id}
                           type="button"
+                          role="radio"
+                          aria-checked={isSelected}
+                          id={`involvement-option-${opt.id}`}
                           onClick={() => handleSelectInvolvement(opt.id)}
-                          className={`w-full p-3 rounded-xl border text-left flex items-start gap-3 transition-all cursor-pointer ${
+                          className={`w-full p-3.5 rounded-xl border text-left flex items-start gap-3.5 transition-all cursor-pointer ${
                             isSelected
-                              ? 'bg-[#5A2D0C] text-[#FFF9EE] border-[#C88D3A] shadow-md ring-1 ring-[#C88D3A]'
+                              ? isDark
+                                ? 'bg-[#2F1707] text-[#FFF9EE] border-[#C88D3A] ring-2 ring-[#C88D3A] shadow-md'
+                                : 'bg-[#FFF9EE] text-[#5A2D0C] border-[#C88D3A] ring-2 ring-[#C88D3A] shadow-md'
                               : isDark
                               ? 'bg-[#180A02] border-[#C88D3A]/20 hover:border-[#C88D3A]/50 text-[#FFF9EE]'
-                              : 'bg-white border-[#5A2D0C]/15 hover:border-[#C88D3A]/60 text-[#5A2D0C]'
+                              : 'bg-white border-[#5A2D0C]/15 hover:border-[#C88D3A]/60 text-[#5A2D0C] shadow-xs'
                           }`}
                         >
                           <div
-                            className={`p-2 rounded-lg shrink-0 ${
+                            className={`p-2 rounded-lg shrink-0 transition-colors ${
                               isSelected
-                                ? 'bg-[#C88D3A] text-[#5A2D0C]'
+                                ? 'bg-[#C88D3A] text-white shadow-xs'
                                 : 'bg-[#C88D3A]/10 text-[#C88D3A]'
                             }`}
                           >
                             <Icon className="w-4 h-4" />
                           </div>
-                          <div className="space-y-0.5">
-                            <div className="font-bold text-xs">{opt.title}</div>
-                            <div className="text-[11px] opacity-75">{opt.description}</div>
+                          <div className="space-y-0.5 flex-1 min-w-0">
+                            <div className="flex items-center justify-between gap-2">
+                              <span className="font-bold text-xs text-[#5A2D0C] dark:text-[#FFF9EE]">
+                                {opt.title}
+                              </span>
+                              {isSelected && (
+                                <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#C88D3A]/20 text-[#B77620] dark:text-[#E2AB5D] border border-[#C88D3A]/40 shrink-0">
+                                  Selected
+                                </span>
+                              )}
+                            </div>
+                            <p className="text-[11px] opacity-75 leading-snug">
+                              {opt.description}
+                            </p>
                           </div>
                         </button>
                       );
@@ -1271,20 +1316,23 @@ export const MissingPuzzleModal: React.FC<MissingPuzzleModalProps> = ({
                   </div>
                 </div>
 
-                <div className="flex items-center justify-between gap-3 pt-2">
+                {/* Final CTA & Navigation Actions */}
+                <div className="flex flex-col sm:flex-row items-center justify-between gap-3 pt-2">
                   <button
                     type="button"
                     onClick={handleResetForAnother}
-                    className="text-xs font-semibold text-[#B77620] hover:underline cursor-pointer"
+                    className="text-xs font-semibold text-[#B77620] dark:text-[#E2AB5D] hover:underline cursor-pointer order-2 sm:order-1"
                   >
                     + Log another missing piece
                   </button>
+
                   <button
                     type="button"
-                    onClick={() => setActiveView('MY_TRAIL')}
-                    className="px-5 py-2 text-xs font-bold rounded-xl bg-[#C88D3A] text-white hover:bg-[#B77620] transition-colors cursor-pointer"
+                    id="save-participation-btn"
+                    onClick={handleSaveAndNavigateToBoard}
+                    className="w-full sm:w-auto px-6 py-2.5 text-xs font-bold rounded-xl bg-[#5A2D0C] text-[#FFF9EE] border-2 border-[#C88D3A] hover:bg-[#3D1E08] active:translate-y-[1px] transition-all shadow-md cursor-pointer flex items-center justify-center gap-2 order-1 sm:order-2"
                   >
-                    View in My Reports &amp; Community Trail →
+                    <span>Save Participation &amp; View Community Puzzle Board →</span>
                   </button>
                 </div>
               </div>
@@ -1484,22 +1532,28 @@ export const MissingPuzzleModal: React.FC<MissingPuzzleModalProps> = ({
                         {item.status !== 'RESOLVED' && item.status !== 'CLOSED' && (
                           <div className="flex flex-wrap items-center gap-2 pt-1">
                             <span className="text-[11px] font-semibold opacity-70">Update preference:</span>
-                            {(['HELP_TEST', 'CONTRIBUTE_FIX', 'CONTACT_ME', 'JUST_LOG'] as MissingPuzzleInvolvement[]).map(
-                              (inv) => (
-                                <button
-                                  key={inv}
-                                  type="button"
-                                  onClick={() => handleUpdateInvolvementInLedger(item.id, inv)}
-                                  className={`px-2.5 py-1 rounded-md text-[10px] font-bold transition-all cursor-pointer ${
-                                    item.involvementPreference === inv
-                                      ? 'bg-[#C88D3A] text-white'
-                                      : 'bg-black/5 dark:bg-white/5 opacity-70 hover:opacity-100'
-                                  }`}
-                                >
-                                  {inv}
-                                </button>
-                              )
-                            )}
+                            {(
+                              [
+                                'JUST_LOG',
+                                'CONTACT_ME',
+                                'HELP_TEST',
+                                'CONTRIBUTE_FIX',
+                                'CONSULT_DESIGN',
+                              ] as MissingPuzzleInvolvement[]
+                            ).map((inv) => (
+                              <button
+                                key={inv}
+                                type="button"
+                                onClick={() => handleUpdateInvolvementInLedger(item.id, inv)}
+                                className={`px-2.5 py-1 rounded-md text-[10px] font-bold transition-all cursor-pointer ${
+                                  item.involvementPreference === inv
+                                    ? 'bg-[#C88D3A] text-white shadow-xs'
+                                    : 'bg-black/5 dark:bg-white/5 opacity-70 hover:opacity-100'
+                                }`}
+                              >
+                                {formatInvolvementLabel(inv)}
+                              </button>
+                            ))}
                           </div>
                         )}
                       </div>
