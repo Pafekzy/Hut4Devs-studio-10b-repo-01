@@ -1,9 +1,20 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import React from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MissingPuzzleModal } from '../components/MissingPuzzleModal';
 import { Member, MemberRole } from '../domain/auth';
 import { puzzleFeedbackStore } from '../services/puzzleFeedbackStore';
+
+vi.mock('firebase/firestore', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('firebase/firestore')>();
+
+  return {
+    ...actual,
+    setDoc: vi.fn().mockRejectedValue(new Error('TEST_FIRESTORE_UNAVAILABLE')),
+    updateDoc: vi.fn().mockRejectedValue(new Error('TEST_FIRESTORE_UNAVAILABLE')),
+  };
+});
+
 
 describe('Fix a Puzzle - Refined Information Architecture & Form Controls', () => {
   const currentFellow: Member = {
