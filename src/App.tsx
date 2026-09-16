@@ -44,7 +44,8 @@ import {
 } from './services/authClient';
 import { auth, onAuthStateChanged, signOutUser } from './services/firebase';
 import { firebaseMembershipSync, UserSessionState } from './services/firebaseMembershipSync';
-import { Loader2 } from 'lucide-react';
+import { ThemeToggle } from './components/ThemeToggle';
+import { Loader2, LogOut } from 'lucide-react';
 
 type AppView =
   | 'landing'
@@ -659,24 +660,32 @@ export default function App() {
             isDark ? 'bg-[#2F1707] text-[#FFF9EE]' : 'bg-[#F7F1E7] text-[#5A2D0C]'
           }`}
         >
+          {/* Suspended Sticky Top Application Shell Header */}
           <header
-            className="border-b transition-colors duration-200"
+            className="sticky top-0 z-30 w-full pt-2.5 sm:pt-3 pb-2.5 sm:pb-3 px-4 sm:px-6 transition-colors duration-200"
             style={{
-              borderColor: isDark ? '#3E200C' : '#EAE0D0',
-              backgroundColor: isDark ? 'rgba(47, 23, 7, 0.95)' : 'rgba(247, 241, 231, 0.95)',
+              backgroundColor: isDark ? 'rgba(47, 23, 7, 0.88)' : 'rgba(247, 241, 231, 0.88)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
             }}
           >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+            <div
+              className={`max-w-6xl mx-auto px-4 sm:px-5 h-16 rounded-2xl border flex items-center justify-between gap-3 transition-all shadow-[0_4px_20px_-4px_rgba(90,45,12,0.08)] ${
+                isDark
+                  ? 'bg-[#3E200C]/95 border-[#623416] text-[#FFF9EE] shadow-[0_4px_24px_-4px_rgba(0,0,0,0.5)]'
+                  : 'bg-[#FFF9EE]/95 border-[#C88D3A]/25 text-[#5A2D0C]'
+              }`}
+            >
               <button
                 type="button"
-                onClick={() => setView('landing')}
-                className="inline-flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C88D3A] rounded-lg cursor-pointer"
-                title="Return to Public Landing"
+                onClick={() => setView('member-home')}
+                className="inline-flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C88D3A] rounded-lg cursor-pointer shrink-0"
+                title="Return to Member Home"
               >
                 <Hut4DevsLogo isDark={isDark} size="sm" showWordmark={true} />
               </button>
 
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-1.5 sm:gap-2.5">
                 <MemberNotificationsDropdown
                   memberId={member.id}
                   isDark={isDark}
@@ -690,6 +699,7 @@ export default function App() {
                   onModeChange={handleModeChange}
                   isDark={isDark}
                 />
+                <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
                 <button
                   type="button"
                   id="coordinator-logout-btn"
@@ -699,7 +709,8 @@ export default function App() {
                     isDark ? 'text-[#C88D3A] hover:text-[#FFF9EE]' : 'text-[#8A5D3B] hover:text-[#5A2D0C]'
                   }`}
                 >
-                  Log Out
+                  <LogOut className="w-4 h-4 shrink-0 sm:hidden" />
+                  <span className="hidden sm:inline">Log Out</span>
                 </button>
               </div>
             </div>
@@ -717,24 +728,32 @@ export default function App() {
             isDark ? 'bg-[#2F1707] text-[#FFF9EE]' : 'bg-[#F7F1E7] text-[#5A2D0C]'
           }`}
         >
+          {/* Suspended Sticky Top Application Shell Header */}
           <header
-            className="border-b transition-colors duration-200"
+            className="sticky top-0 z-30 w-full pt-2.5 sm:pt-3 pb-2.5 sm:pb-3 px-4 sm:px-6 transition-colors duration-200"
             style={{
-              borderColor: isDark ? '#3E200C' : '#EAE0D0',
-              backgroundColor: isDark ? 'rgba(47, 23, 7, 0.95)' : 'rgba(247, 241, 231, 0.95)',
+              backgroundColor: isDark ? 'rgba(47, 23, 7, 0.88)' : 'rgba(247, 241, 231, 0.88)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
             }}
           >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+            <div
+              className={`max-w-6xl mx-auto px-4 sm:px-5 h-16 rounded-2xl border flex items-center justify-between gap-3 transition-all shadow-[0_4px_20px_-4px_rgba(90,45,12,0.08)] ${
+                isDark
+                  ? 'bg-[#3E200C]/95 border-[#623416] text-[#FFF9EE] shadow-[0_4px_24px_-4px_rgba(0,0,0,0.5)]'
+                  : 'bg-[#FFF9EE]/95 border-[#C88D3A]/25 text-[#5A2D0C]'
+              }`}
+            >
               <button
                 type="button"
-                onClick={() => setView('landing')}
-                className="inline-flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C88D3A] rounded-lg cursor-pointer"
-                title="Return to Public Landing"
+                onClick={() => setView('member-home')}
+                className="inline-flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C88D3A] rounded-lg cursor-pointer shrink-0"
+                title="Return to Member Home"
               >
                 <Hut4DevsLogo isDark={isDark} size="sm" showWordmark={true} />
               </button>
 
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-1.5 sm:gap-2.5">
                 <MemberNotificationsDropdown
                   memberId={member.id}
                   isDark={isDark}
@@ -748,6 +767,7 @@ export default function App() {
                   onModeChange={handleModeChange}
                   isDark={isDark}
                 />
+                <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
                 <button
                   type="button"
                   id="captain-logout-btn"
@@ -757,7 +777,8 @@ export default function App() {
                     isDark ? 'text-[#C88D3A] hover:text-[#FFF9EE]' : 'text-[#8A5D3B] hover:text-[#5A2D0C]'
                   }`}
                 >
-                  Log Out
+                  <LogOut className="w-4 h-4 shrink-0 sm:hidden" />
+                  <span className="hidden sm:inline">Log Out</span>
                 </button>
               </div>
             </div>
@@ -775,24 +796,32 @@ export default function App() {
             isDark ? 'bg-[#2F1707] text-[#FFF9EE]' : 'bg-[#F7F1E7] text-[#5A2D0C]'
           }`}
         >
+          {/* Suspended Sticky Top Application Shell Header */}
           <header
-            className="border-b transition-colors duration-200"
+            className="sticky top-0 z-30 w-full pt-2.5 sm:pt-3 pb-2.5 sm:pb-3 px-4 sm:px-6 transition-colors duration-200"
             style={{
-              borderColor: isDark ? '#3E200C' : '#EAE0D0',
-              backgroundColor: isDark ? 'rgba(47, 23, 7, 0.95)' : 'rgba(247, 241, 231, 0.95)',
+              backgroundColor: isDark ? 'rgba(47, 23, 7, 0.88)' : 'rgba(247, 241, 231, 0.88)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
             }}
           >
-            <div className="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+            <div
+              className={`max-w-6xl mx-auto px-4 sm:px-5 h-16 rounded-2xl border flex items-center justify-between gap-3 transition-all shadow-[0_4px_20px_-4px_rgba(90,45,12,0.08)] ${
+                isDark
+                  ? 'bg-[#3E200C]/95 border-[#623416] text-[#FFF9EE] shadow-[0_4px_24px_-4px_rgba(0,0,0,0.5)]'
+                  : 'bg-[#FFF9EE]/95 border-[#C88D3A]/25 text-[#5A2D0C]'
+              }`}
+            >
               <button
                 type="button"
-                onClick={() => setView('landing')}
-                className="inline-flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C88D3A] rounded-lg cursor-pointer"
-                title="Return to Public Landing"
+                onClick={() => setView('member-home')}
+                className="inline-flex items-center text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-[#C88D3A] rounded-lg cursor-pointer shrink-0"
+                title="Return to Member Home"
               >
                 <Hut4DevsLogo isDark={isDark} size="sm" showWordmark={true} />
               </button>
 
-              <div className="flex items-center gap-2.5">
+              <div className="flex items-center gap-1.5 sm:gap-2.5">
                 <MemberNotificationsDropdown
                   memberId={member.id}
                   isDark={isDark}
@@ -806,6 +835,7 @@ export default function App() {
                   onModeChange={handleModeChange}
                   isDark={isDark}
                 />
+                <ThemeToggle isDark={isDark} onToggle={toggleTheme} />
                 <button
                   type="button"
                   id="welfare-logout-btn"
@@ -815,7 +845,8 @@ export default function App() {
                     isDark ? 'text-[#C88D3A] hover:text-[#FFF9EE]' : 'text-[#8A5D3B] hover:text-[#5A2D0C]'
                   }`}
                 >
-                  Log Out
+                  <LogOut className="w-4 h-4 shrink-0 sm:hidden" />
+                  <span className="hidden sm:inline">Log Out</span>
                 </button>
               </div>
             </div>

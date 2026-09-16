@@ -279,37 +279,37 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
         className={`rounded-2xl border p-5 sm:p-6 transition-all shadow-xs ${
           isDark
             ? 'bg-[#3E200C] border-[#623416] text-[#FFF9EE]'
-            : 'bg-[#FFF9EE] border-[#C88D3A]/30 text-[#5A2D0C]'
+            : 'bg-[#FFF9EE] border-[#C88D3A]/35 text-[#5A2D0C]'
         }`}
       >
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <div className="flex flex-wrap items-center gap-2 mb-1.5">
-              <span className="px-2.5 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider bg-[#5A2D0C] text-[#FFF9EE]">
+            <div className="flex flex-wrap items-center gap-2 mb-2">
+              <span className="px-2.5 py-1 rounded-md text-[11px] font-bold uppercase tracking-wider bg-[#5A2D0C] text-[#FFF9EE] shadow-xs">
                 Room Captain Responsibility
               </span>
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-bold bg-[#C88D3A]/20 text-[#5A2D0C] dark:text-[#FFF9EE]">
+              <span className="px-2.5 py-1 rounded-md text-[11px] font-bold bg-[#C88D3A]/25 border border-[#C88D3A]/40 text-[#5A2D0C] dark:text-[#FFF9EE]">
                 Strictly Room-Scoped
               </span>
-              <span className="px-2 py-0.5 rounded-md text-[10px] font-mono text-[#5A2D0C]/70 dark:text-[#FFF9EE]/70 bg-black/5 dark:bg-white/5">
+              <span className="px-2.5 py-1 rounded-md text-[11px] font-mono font-medium text-[#5A2D0C] dark:text-[#FFF9EE] bg-[#F7F1E7] dark:bg-[#2F1707] border border-[#5A2D0C]/15 dark:border-white/15">
                 Authority: Delegated Verification Only
               </span>
             </div>
-            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#5A2D0C] dark:text-[#FFF9EE]">
+            <h1 className="font-serif text-2xl sm:text-3xl font-bold text-[#5A2D0C] dark:text-[#FFF9EE] tracking-tight">
               {captainScope.propertyName} &bull; {captainScope.roomName}
             </h1>
-            <p className="text-xs text-[#5A2D0C]/80 dark:text-[#FFF9EE]/80 mt-1 max-w-2xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-[#5A2D0C] dark:text-[#FFF9EE]/90 mt-1.5 max-w-2xl leading-relaxed font-normal">
               Serving as primary peer liaison, verifying occupancy delegations from the Accommodation Coordinator,
               and stewarding shared living space guidelines.
             </p>
           </div>
 
           <div className="flex flex-col sm:flex-row md:flex-col items-start md:items-end gap-2.5">
-            <div className="text-left md:text-right text-xs bg-[#F7F1E7] dark:bg-[#2F1707] border border-[#5A2D0C]/15 dark:border-[#623416] rounded-xl px-3.5 py-2">
-              <span className="text-[10px] text-[#5A2D0C]/60 dark:text-[#FFF9EE]/60 block uppercase font-semibold">
+            <div className="text-left md:text-right text-xs bg-white dark:bg-[#2F1707] border border-[#5A2D0C]/20 dark:border-[#623416] rounded-xl px-4 py-2.5 shadow-xs">
+              <span className="text-[10px] text-[#7A4B20] dark:text-[#E2C79E] block uppercase font-bold tracking-wider">
                 Attributed Capacity
               </span>
-              <span className="font-bold text-[#5A2D0C] dark:text-[#FFF9EE]">
+              <span className="font-bold text-sm text-[#5A2D0C] dark:text-[#FFF9EE]">
                 {attribution.actingCapacity}
               </span>
             </div>
@@ -319,9 +319,9 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
               type="button"
               id="btn-captain-spot-room-puzzle"
               onClick={() => setIsPuzzleModalOpen(true)}
-              className="px-3.5 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-[#C88D3A] text-[#FFF9EE] hover:bg-[#B77620] transition-all shadow-xs cursor-pointer active:scale-98"
+              className="px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 bg-[#C88D3A] hover:bg-[#B77620] text-[#FFF9EE] border-b-2 border-[#8E560C] transition-all shadow-xs cursor-pointer active:translate-y-[1px]"
             >
-              <Puzzle className="w-3.5 h-3.5" />
+              <Puzzle className="w-4 h-4 text-[#FFF9EE]" />
               <span>Spot a Room Puzzle</span>
             </button>
           </div>
@@ -331,50 +331,50 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
       {/* 2. ROOM PULSE: Concise Room-Level Summary */}
       <div
         id="room-pulse-summary"
-        className={`rounded-2xl border p-5 transition-all shadow-xs ${
+        className={`rounded-2xl border p-5 sm:p-6 transition-all shadow-xs ${
           isDark
             ? 'bg-[#2F1707] border-[#623416] text-[#FFF9EE]'
-            : 'bg-[#F7F1E7] border-[#C88D3A]/25 text-[#5A2D0C]'
+            : 'bg-[#FFF9EE] border-[#C88D3A]/30 text-[#5A2D0C]'
         }`}
       >
-        <div className="flex items-center justify-between mb-3 border-b pb-2.5 border-[#5A2D0C]/10 dark:border-white/10">
+        <div className="flex items-center justify-between mb-3.5 border-b pb-2.5 border-[#5A2D0C]/15 dark:border-white/15">
           <div className="flex items-center gap-2">
-            <Activity className="w-4 h-4 text-[#C88D3A]" />
-            <h2 className="text-xs font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE]">
+            <Activity className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" />
+            <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE]">
               Room Pulse &bull; Operational Snapshot
             </h2>
           </div>
-          <span className="text-[11px] font-mono text-[#5A2D0C]/60 dark:text-[#FFF9EE]/60">
+          <span className="text-xs font-mono">
             {pendingDelegations.length > 0 ? (
-              <span className="text-amber-700 dark:text-amber-300 font-semibold flex items-center gap-1">
-                <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+              <span className="text-amber-800 dark:text-amber-200 font-bold flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-amber-500 animate-pulse" />
                 Attention Required ({pendingDelegations.length} Pending)
               </span>
             ) : (
-              <span className="text-emerald-700 dark:text-emerald-300 font-semibold flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+              <span className="text-emerald-800 dark:text-emerald-300 font-bold flex items-center gap-1.5">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                 Room in Good Order
               </span>
             )}
           </span>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-3.5">
           {/* Stat 1: Active Occupants */}
           <div
             id="pulse-occupants-card"
-            className={`p-3.5 rounded-xl border transition-all ${
-              isDark ? 'bg-[#3E200C] border-[#623416]' : 'bg-[#FFF9EE] border-[#C88D3A]/30'
+            className={`p-4 rounded-xl border transition-all ${
+              isDark ? 'bg-[#3E200C] border-[#623416]' : 'bg-white border-[#5A2D0C]/15 shadow-xs'
             }`}
           >
-            <div className="text-[11px] font-semibold text-[#5A2D0C]/70 dark:text-[#FFF9EE]/70 flex items-center gap-1.5">
-              <Users className="w-3.5 h-3.5 text-[#C88D3A]" />
+            <div className="text-xs font-bold text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-1.5">
+              <Users className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" />
               Active Occupants
             </div>
-            <div className="text-2xl font-serif font-bold text-[#5A2D0C] dark:text-[#FFF9EE] mt-1">
+            <div className="text-2xl sm:text-3xl font-serif font-bold text-[#5A2D0C] dark:text-[#FFF9EE] mt-1.5">
               {activeOccupants.length}
             </div>
-            <div className="text-[10px] text-[#5A2D0C]/60 dark:text-[#FFF9EE]/60 mt-0.5">
+            <div className="text-xs font-medium text-[#7A4B20] dark:text-[#D1B898] mt-0.5">
               Verified resident fellows
             </div>
           </div>
@@ -382,28 +382,28 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
           {/* Stat 2: Pending Room Actions */}
           <div
             id="pulse-actions-card"
-            className={`p-3.5 rounded-xl border transition-all ${
+            className={`p-4 rounded-xl border transition-all ${
               pendingDelegations.length > 0
                 ? isDark
-                  ? 'bg-amber-950/40 border-amber-600/40'
-                  : 'bg-amber-50 border-amber-300'
+                  ? 'bg-amber-950/40 border-2 border-amber-600/60'
+                  : 'bg-amber-50/90 border-2 border-amber-300 shadow-xs'
                 : isDark
                 ? 'bg-[#3E200C] border-[#623416]'
-                : 'bg-[#FFF9EE] border-[#C88D3A]/30'
+                : 'bg-white border-[#5A2D0C]/15 shadow-xs'
             }`}
           >
-            <div className="text-[11px] font-semibold text-[#5A2D0C]/70 dark:text-[#FFF9EE]/70 flex items-center gap-1.5">
-              <Shield className="w-3.5 h-3.5 text-[#C88D3A]" />
+            <div className="text-xs font-bold text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-1.5">
+              <Shield className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" />
               Pending Actions
             </div>
             <div
-              className={`text-2xl font-serif font-bold mt-1 ${
-                pendingDelegations.length > 0 ? 'text-amber-700 dark:text-amber-300' : 'text-[#5A2D0C] dark:text-[#FFF9EE]'
+              className={`text-2xl sm:text-3xl font-serif font-bold mt-1.5 ${
+                pendingDelegations.length > 0 ? 'text-amber-800 dark:text-amber-200' : 'text-[#5A2D0C] dark:text-[#FFF9EE]'
               }`}
             >
               {pendingDelegations.length}
             </div>
-            <div className="text-[10px] text-[#5A2D0C]/60 dark:text-[#FFF9EE]/60 mt-0.5">
+            <div className="text-xs font-medium text-[#7A4B20] dark:text-[#D1B898] mt-0.5">
               Delegated verification checks
             </div>
           </div>
@@ -411,18 +411,18 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
           {/* Stat 3: Unresolved Room Matters */}
           <div
             id="pulse-unresolved-card"
-            className={`p-3.5 rounded-xl border transition-all ${
-              isDark ? 'bg-[#3E200C] border-[#623416]' : 'bg-[#FFF9EE] border-[#C88D3A]/30'
+            className={`p-4 rounded-xl border transition-all ${
+              isDark ? 'bg-[#3E200C] border-[#623416]' : 'bg-white border-[#5A2D0C]/15 shadow-xs'
             }`}
           >
-            <div className="text-[11px] font-semibold text-[#5A2D0C]/70 dark:text-[#FFF9EE]/70 flex items-center gap-1.5">
-              <AlertTriangle className="w-3.5 h-3.5 text-[#C88D3A]" />
+            <div className="text-xs font-bold text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-1.5">
+              <AlertTriangle className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" />
               Unresolved Matters
             </div>
-            <div className="text-2xl font-serif font-bold text-[#5A2D0C] dark:text-[#FFF9EE] mt-1">
+            <div className="text-2xl sm:text-3xl font-serif font-bold text-[#5A2D0C] dark:text-[#FFF9EE] mt-1.5">
               {unresolvedCount}
             </div>
-            <div className="text-[10px] text-[#5A2D0C]/60 dark:text-[#FFF9EE]/60 mt-0.5">
+            <div className="text-xs font-medium text-[#7A4B20] dark:text-[#D1B898] mt-0.5">
               Delegations &amp; reported room issues
             </div>
           </div>
@@ -430,18 +430,18 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
           {/* Stat 4: Last Meaningful Room Activity */}
           <div
             id="pulse-last-activity-card"
-            className={`p-3.5 rounded-xl border transition-all ${
-              isDark ? 'bg-[#3E200C] border-[#623416]' : 'bg-[#FFF9EE] border-[#C88D3A]/30'
+            className={`p-4 rounded-xl border transition-all ${
+              isDark ? 'bg-[#3E200C] border-[#623416]' : 'bg-white border-[#5A2D0C]/15 shadow-xs'
             }`}
           >
-            <div className="text-[11px] font-semibold text-[#5A2D0C]/70 dark:text-[#FFF9EE]/70 flex items-center gap-1.5">
-              <Clock className="w-3.5 h-3.5 text-[#C88D3A]" />
+            <div className="text-xs font-bold text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-1.5">
+              <Clock className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" />
               Recent Room Event
             </div>
-            <div className="text-xs font-bold text-[#5A2D0C] dark:text-[#FFF9EE] mt-1 truncate">
+            <div className="text-xs sm:text-sm font-bold text-[#5A2D0C] dark:text-[#FFF9EE] mt-1.5 truncate">
               {lastActivity?.title || 'No recorded events yet'}
             </div>
-            <div className="text-[10px] text-[#5A2D0C]/60 dark:text-[#FFF9EE]/60 mt-0.5">
+            <div className="text-xs font-mono text-[#7A4B20] dark:text-[#D1B898] mt-0.5">
               {lastActivity
                 ? new Date(lastActivity.timestamp).toLocaleDateString([], {
                     month: 'short',
@@ -457,10 +457,12 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
         {/* Attention Prompt Message */}
         <div
           id="pulse-prompt-message"
-          className="p-3 rounded-xl bg-black/5 dark:bg-white/5 flex items-center justify-between text-xs"
+          className={`p-3.5 rounded-xl border flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 text-xs sm:text-sm font-medium ${
+            isDark ? 'bg-[#3E200C] border-[#623416] text-[#FFF9EE]' : 'bg-white border-[#5A2D0C]/15 text-[#5A2D0C] shadow-xs'
+          }`}
         >
           <div className="flex items-center gap-2">
-            <Info className="w-4 h-4 text-[#C88D3A] shrink-0" />
+            <Info className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D] shrink-0" />
             <span>
               {pendingDelegations.length > 0
                 ? `Attention Required: 1 delegated occupancy verification awaiting your inspection in ${captainScope.roomName}.`
@@ -471,7 +473,7 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
             <button
               type="button"
               onClick={() => setActiveTab('ACTIONS')}
-              className="text-[11px] font-bold text-[#C88D3A] hover:underline shrink-0"
+              className="text-xs font-bold text-[#B77620] dark:text-[#E2AB5D] hover:underline shrink-0 cursor-pointer self-start sm:self-auto"
             >
               Review Actions →
             </button>
@@ -480,21 +482,21 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
       </div>
 
       {/* Navigation Tabs */}
-      <div className="flex flex-wrap items-center gap-2 border-b border-[#C88D3A]/20 pb-2">
+      <div className="flex flex-wrap items-center gap-2 border-b border-[#5A2D0C]/15 dark:border-white/15 pb-2.5">
         <button
           type="button"
           id="tab-captain-actions"
           onClick={() => setActiveTab('ACTIONS')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+          className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === 'ACTIONS'
-              ? 'bg-[#5A2D0C] text-[#FFF9EE] shadow-xs'
-              : 'bg-transparent text-[#5A2D0C] dark:text-[#FFF9EE] hover:bg-black/5 dark:hover:bg-white/5'
+              ? 'bg-[#5A2D0C] text-[#FFF9EE] shadow-xs border-b-2 border-[#351A07]'
+              : 'bg-white dark:bg-[#3E200C] border border-[#5A2D0C]/15 dark:border-[#623416] text-[#5A2D0C] dark:text-[#FFF9EE] hover:bg-[#FFF9EE] dark:hover:bg-[#4B2710]'
           }`}
         >
-          <Shield className="w-3.5 h-3.5 text-[#C88D3A]" />
+          <Shield className="w-4 h-4 text-[#C88D3A]" />
           <span>Room Actions</span>
           {pendingDelegations.length > 0 && (
-            <span className="w-4 h-4 rounded-full bg-[#C88D3A] text-[#FFF9EE] text-[9px] flex items-center justify-center font-bold">
+            <span className="w-4 h-4 rounded-full bg-[#C88D3A] text-[#FFF9EE] text-[10px] flex items-center justify-center font-bold">
               {pendingDelegations.length}
             </span>
           )}
@@ -504,13 +506,13 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
           type="button"
           id="tab-captain-commons"
           onClick={() => setActiveTab('COMMONS')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+          className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === 'COMMONS'
-              ? 'bg-[#5A2D0C] text-[#FFF9EE] shadow-xs'
-              : 'bg-transparent text-[#5A2D0C] dark:text-[#FFF9EE] hover:bg-black/5 dark:hover:bg-white/5'
+              ? 'bg-[#5A2D0C] text-[#FFF9EE] shadow-xs border-b-2 border-[#351A07]'
+              : 'bg-white dark:bg-[#3E200C] border border-[#5A2D0C]/15 dark:border-[#623416] text-[#5A2D0C] dark:text-[#FFF9EE] hover:bg-[#FFF9EE] dark:hover:bg-[#4B2710]'
           }`}
         >
-          <Users className="w-3.5 h-3.5 text-[#C88D3A]" />
+          <Users className="w-4 h-4 text-[#C88D3A]" />
           <span>Room Commons ({activeOccupants.length})</span>
         </button>
 
@@ -518,13 +520,13 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
           type="button"
           id="tab-captain-communication"
           onClick={() => setActiveTab('COMMUNICATION')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+          className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === 'COMMUNICATION'
-              ? 'bg-[#5A2D0C] text-[#FFF9EE] shadow-xs'
-              : 'bg-transparent text-[#5A2D0C] dark:text-[#FFF9EE] hover:bg-black/5 dark:hover:bg-white/5'
+              ? 'bg-[#5A2D0C] text-[#FFF9EE] shadow-xs border-b-2 border-[#351A07]'
+              : 'bg-white dark:bg-[#3E200C] border border-[#5A2D0C]/15 dark:border-[#623416] text-[#5A2D0C] dark:text-[#FFF9EE] hover:bg-[#FFF9EE] dark:hover:bg-[#4B2710]'
           }`}
         >
-          <MessageSquare className="w-3.5 h-3.5 text-[#C88D3A]" />
+          <MessageSquare className="w-4 h-4 text-[#C88D3A]" />
           <span>Room Communication</span>
         </button>
 
@@ -532,13 +534,13 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
           type="button"
           id="tab-captain-trail"
           onClick={() => setActiveTab('TRAIL')}
-          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 cursor-pointer ${
+          className={`px-4 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center gap-2 cursor-pointer ${
             activeTab === 'TRAIL'
-              ? 'bg-[#5A2D0C] text-[#FFF9EE] shadow-xs'
-              : 'bg-transparent text-[#5A2D0C] dark:text-[#FFF9EE] hover:bg-black/5 dark:hover:bg-white/5'
+              ? 'bg-[#5A2D0C] text-[#FFF9EE] shadow-xs border-b-2 border-[#351A07]'
+              : 'bg-white dark:bg-[#3E200C] border border-[#5A2D0C]/15 dark:border-[#623416] text-[#5A2D0C] dark:text-[#FFF9EE] hover:bg-[#FFF9EE] dark:hover:bg-[#4B2710]'
           }`}
         >
-          <Clock className="w-3.5 h-3.5 text-[#C88D3A]" />
+          <Clock className="w-4 h-4 text-[#C88D3A]" />
           <span>Room Trail ({trail.length})</span>
         </button>
       </div>
@@ -550,26 +552,26 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
         <div className="space-y-5">
           {/* Section: Delegated Verification Queue */}
           <div
-            className={`rounded-2xl border p-5 transition-all shadow-xs ${
+            className={`rounded-2xl border p-5 sm:p-6 transition-all shadow-xs ${
               isDark
                 ? 'bg-[#3E200C] border-[#623416] text-[#FFF9EE]'
-                : 'bg-white border-[#5A2D0C]/15 text-[#5A2D0C]'
+                : 'bg-[#FFF9EE] border-2 border-[#C88D3A]/30 text-[#5A2D0C]'
             }`}
           >
-            <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-xs font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
-                  <Shield className="w-4 h-4 text-[#C88D3A]" />
+                <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
+                  <Shield className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" />
                   Delegated Room Occupancy Verifications ({roomDelegations.length})
                 </h2>
-                <p className="text-[11px] opacity-75 mt-0.5">
+                <p className="text-xs text-[#7A4B20] dark:text-[#D1B898] font-medium mt-0.5">
                   Confirm whether assigned fellows physically occupy their designated bed spaces.
                 </p>
               </div>
             </div>
 
             {roomDelegations.length === 0 ? (
-              <div className="p-8 text-center text-xs opacity-60 bg-[#F7F1E7]/50 dark:bg-black/20 rounded-xl">
+              <div className="p-8 text-center text-xs sm:text-sm font-medium text-[#7A4B20] dark:text-[#D1B898] bg-white dark:bg-[#2F1707] border border-[#5A2D0C]/15 dark:border-[#623416] rounded-xl shadow-2xs">
                 No delegated room verification requests currently assigned for {captainScope.roomName}.
               </div>
             ) : (
@@ -581,45 +583,45 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                     <div
                       key={req.id}
                       id={`captain-delegation-card-${req.id}`}
-                      className={`p-4 rounded-xl border transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 ${
+                      className={`p-4 sm:p-5 rounded-xl border-2 transition-all flex flex-col md:flex-row md:items-center justify-between gap-4 ${
                         isDark
                           ? 'bg-[#2F1707] border-[#623416]'
-                          : 'bg-[#FFF9EE] border-[#C88D3A]/25'
+                          : 'bg-white border-[#5A2D0C]/15 shadow-xs'
                       }`}
                     >
                       <div className="space-y-1.5 flex-1">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="font-serif font-bold text-base text-[#5A2D0C] dark:text-[#FFF9EE]">
+                          <span className="font-serif font-bold text-base sm:text-lg text-[#5A2D0C] dark:text-[#FFF9EE]">
                             {req.fullName}
                           </span>
-                          <span className="text-xs opacity-70">({req.email})</span>
+                          <span className="text-xs font-mono text-[#7A4B20] dark:text-[#D1B898]">({req.email})</span>
                           <span
-                            className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase ${
+                            className={`px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider ${
                               delegation.status === 'CONFIRMED'
-                                ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-200'
+                                ? 'bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-800'
                                 : delegation.status === 'CANNOT_CONFIRM'
-                                ? 'bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-200'
-                                : 'bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-200'
+                                ? 'bg-red-100 dark:bg-red-950 text-red-800 dark:text-red-200 border border-red-300 dark:border-red-800'
+                                : 'bg-amber-100 dark:bg-amber-950 text-amber-900 dark:text-amber-200 border border-amber-300 dark:border-amber-700'
                             }`}
                           >
                             {delegation.status}
                           </span>
                         </div>
 
-                        <div className="text-xs opacity-80">
-                          Cohort: <strong>{req.programCommunity}</strong> &bull; Requested Space:{' '}
-                          <strong>{req.roomName}</strong>
+                        <div className="text-xs sm:text-sm text-[#5A2D0C] dark:text-[#FFF9EE]">
+                          Cohort: <strong className="font-bold">{req.programCommunity}</strong> &bull; Requested Space:{' '}
+                          <strong className="font-bold">{req.roomName}</strong>
                         </div>
 
-                        <div className="text-[11px] opacity-70 font-mono">
-                          Delegated by: {delegation.delegatedBy} &bull; Task: {delegation.responsibility}
+                        <div className="text-xs font-mono text-[#7A4B20] dark:text-[#D1B898]">
+                          Delegated by: <span className="font-semibold">{delegation.delegatedBy}</span> &bull; Task: {delegation.responsibility}
                         </div>
 
                         {delegation.captainNote && (
-                          <div className="text-xs p-2 rounded-lg bg-[#C88D3A]/10 border border-[#C88D3A]/20 text-[#5A2D0C] dark:text-[#FFF9EE] mt-1.5">
-                            <strong>Captain Record:</strong> "{delegation.captainNote}"
+                          <div className="text-xs p-2.5 rounded-lg bg-[#FFF9EE] dark:bg-[#1E0E04] border border-[#C88D3A]/40 text-[#5A2D0C] dark:text-[#FFF9EE] mt-1.5">
+                            <strong className="font-bold">Captain Record:</strong> "{delegation.captainNote}"
                             {delegation.resolvedAt && (
-                              <span className="block text-[10px] opacity-60 font-mono mt-0.5">
+                              <span className="block text-[10px] font-mono text-[#7A4B20] dark:text-[#D1B898] mt-0.5">
                                 Logged {new Date(delegation.resolvedAt).toLocaleString()}
                               </span>
                             )}
@@ -635,32 +637,32 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                               id={`btn-captain-confirm-${req.id}`}
                               type="button"
                               onClick={() => handleConfirm(req.id)}
-                              className="inline-flex items-center gap-1 px-3 py-1.5 bg-[#5A2D0C] text-[#FFF9EE] text-xs font-semibold rounded-lg hover:bg-[#2F1707] transition-all shadow-xs cursor-pointer active:scale-98"
+                              className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#5A2D0C] hover:bg-[#3E200C] text-[#FFF9EE] text-xs font-bold rounded-xl border-b-2 border-[#351A07] transition-all shadow-xs cursor-pointer active:translate-y-[1px]"
                             >
-                              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" /> Confirm Occupancy
+                              <CheckCircle2 className="w-4 h-4 text-emerald-400" /> Confirm Occupancy
                             </button>
 
                             <button
                               id={`btn-captain-cannot-confirm-${req.id}`}
                               type="button"
                               onClick={() => handleCannotConfirm(req.id)}
-                              className="inline-flex items-center gap-1 px-3 py-1.5 bg-white dark:bg-[#1E0E04] border border-red-300 dark:border-red-800 text-red-700 dark:text-red-300 text-xs font-medium rounded-lg hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer"
+                              className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white dark:bg-[#1E0E04] border-2 border-red-300 dark:border-red-800 text-red-800 dark:text-red-300 text-xs font-bold rounded-xl hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors cursor-pointer active:translate-y-[1px]"
                             >
-                              <XCircle className="w-3.5 h-3.5" /> Cannot Confirm
+                              <XCircle className="w-4 h-4" /> Cannot Confirm
                             </button>
 
                             <button
                               id={`btn-captain-note-${req.id}`}
                               type="button"
                               onClick={() => handleOpenNote(req.id)}
-                              className="inline-flex items-center gap-1 px-3 py-1.5 bg-white dark:bg-[#1E0E04] border border-[#5A2D0C]/25 text-[#5A2D0C] dark:text-[#FFF9EE] text-xs font-medium rounded-lg hover:bg-[#F7F1E7] transition-colors cursor-pointer"
+                              className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-white dark:bg-[#1E0E04] border-2 border-[#5A2D0C]/25 dark:border-[#623416] text-[#5A2D0C] dark:text-[#FFF9EE] text-xs font-bold rounded-xl hover:bg-[#FFF9EE] dark:hover:bg-[#3E200C] transition-colors cursor-pointer active:translate-y-[1px]"
                             >
-                              <MessageSquare className="w-3.5 h-3.5 text-[#C88D3A]" /> Add Note
+                              <MessageSquare className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" /> Add Note
                             </button>
                           </>
                         ) : (
-                          <span className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 flex items-center gap-1 bg-emerald-50 dark:bg-emerald-950/40 px-3 py-1.5 rounded-lg border border-emerald-300 dark:border-emerald-800">
-                            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" /> Action Recorded
+                          <span className="text-xs font-bold text-emerald-800 dark:text-emerald-300 flex items-center gap-1.5 bg-emerald-50 dark:bg-emerald-950/40 px-3.5 py-2 rounded-xl border-2 border-emerald-300 dark:border-emerald-800">
+                            <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" /> Action Recorded
                           </span>
                         )}
                       </div>
@@ -673,37 +675,37 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
 
           {/* Section: Coordinator-Requested Room Context */}
           <div
-            className={`rounded-2xl border p-5 transition-all shadow-xs ${
+            className={`rounded-2xl border p-5 sm:p-6 transition-all shadow-xs ${
               isDark
                 ? 'bg-[#3E200C] border-[#623416] text-[#FFF9EE]'
-                : 'bg-white border-[#5A2D0C]/15 text-[#5A2D0C]'
+                : 'bg-[#FFF9EE] border-2 border-[#C88D3A]/30 text-[#5A2D0C]'
             }`}
           >
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h2 className="text-xs font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
-                  <FileText className="w-4 h-4 text-[#C88D3A]" />
+                <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
+                  <FileText className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" />
                   Coordinator-Requested Room Context &amp; Clarifications
                 </h2>
-                <p className="text-[11px] opacity-75 mt-0.5">
+                <p className="text-xs text-[#7A4B20] dark:text-[#D1B898] font-medium mt-0.5">
                   Direct requests from Accommodation Coordinator Zainab Aliyu regarding living space status.
                 </p>
               </div>
             </div>
 
-            <div className="p-4 rounded-xl bg-[#FFF9EE] dark:bg-[#2F1707] border border-[#C88D3A]/25 space-y-2">
+            <div className="p-4 sm:p-5 rounded-xl bg-white dark:bg-[#2F1707] border border-[#5A2D0C]/15 dark:border-[#623416] space-y-2.5 shadow-xs">
               <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-[#5A2D0C] dark:text-[#FFF9EE]">
+                <span className="font-bold text-sm sm:text-base text-[#5A2D0C] dark:text-[#FFF9EE]">
                   Bed Space 3 Readiness &bull; L2E Cohort Allocation
                 </span>
-                <span className="text-[10px] font-mono opacity-60">Sep 07, 2026</span>
+                <span className="text-xs font-mono text-[#7A4B20] dark:text-[#D1B898]">Sep 07, 2026</span>
               </div>
-              <p className="text-xs opacity-80 leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#5A2D0C] dark:text-[#FFF9EE] leading-relaxed font-normal">
                 "Please verify if Bed Space 3 has been vacated and cleaned following the previous cohort graduation,
                 prior to David Adeleke’s check-in."
               </p>
-              <div className="pt-2 flex items-center justify-between">
-                <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">
+              <div className="pt-2 flex items-center justify-between border-t border-[#5A2D0C]/10 dark:border-white/10">
+                <span className="text-xs font-bold uppercase tracking-wider text-emerald-800 dark:text-emerald-300">
                   Status: Context Provided in Room Commons
                 </span>
                 <button
@@ -712,7 +714,7 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                     setActiveTab('COMMUNICATION');
                     setCommChannel('COORDINATOR_DISPATCH');
                   }}
-                  className="text-xs font-semibold text-[#C88D3A] hover:underline"
+                  className="text-xs font-bold text-[#B77620] dark:text-[#E2AB5D] hover:underline cursor-pointer"
                 >
                   Reply via Coordinator Dispatch →
                 </button>
@@ -721,10 +723,10 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
           </div>
 
           {/* Section: Authority Boundary Notice */}
-          <div className="p-4 rounded-xl bg-[#C88D3A]/10 border border-[#C88D3A]/20 flex items-start gap-2.5 text-xs text-[#5A2D0C] dark:text-[#FFF9EE]">
-            <Lock className="w-4 h-4 text-[#C88D3A] shrink-0 mt-0.5" />
+          <div className="p-4 rounded-xl bg-[#FFF9EE] dark:bg-[#2F1707] border-2 border-[#C88D3A]/35 flex items-start gap-3 text-xs sm:text-sm text-[#5A2D0C] dark:text-[#FFF9EE]">
+            <Lock className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D] shrink-0 mt-0.5" />
             <div>
-              <span className="font-bold block">Authority Boundary Invariant</span>
+              <span className="font-bold block text-sm">Authority Boundary Invariant</span>
               Room Captains operate under delegated room-level authority. Captains verify physical occupancy and coordinate living guidelines; final admission decisions remain with the Accommodation Coordinator, and all financial reconciliation remains strictly with the Financial Admin.
             </div>
           </div>
@@ -736,19 +738,19 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
         <div className="space-y-5">
           {/* Active Assigned Fellows */}
           <div
-            className={`rounded-2xl border p-5 transition-all shadow-xs ${
+            className={`rounded-2xl border p-5 sm:p-6 transition-all shadow-xs ${
               isDark
                 ? 'bg-[#3E200C] border-[#623416] text-[#FFF9EE]'
-                : 'bg-white border-[#5A2D0C]/15 text-[#5A2D0C]'
+                : 'bg-[#FFF9EE] border-2 border-[#C88D3A]/30 text-[#5A2D0C]'
             }`}
           >
             <div className="flex items-center justify-between mb-4">
               <div>
-                <h2 className="text-xs font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
-                  <Users className="w-4 h-4 text-[#C88D3A]" />
+                <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
+                  <Users className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" />
                   Active Fellows Assigned to {captainScope.roomName} ({activeOccupants.length})
                 </h2>
-                <p className="text-[11px] opacity-75 mt-0.5">
+                <p className="text-xs text-[#7A4B20] dark:text-[#D1B898] font-medium mt-0.5">
                   Official accommodation assignments for this room.
                 </p>
               </div>
@@ -762,36 +764,36 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                   <div
                     key={a.id}
                     id={`occupant-card-${a.id}`}
-                    className={`p-4 rounded-xl border flex flex-col justify-between gap-3 ${
+                    className={`p-4 sm:p-5 rounded-xl border-2 flex flex-col justify-between gap-3 ${
                       isDark
                         ? 'bg-[#2F1707] border-[#623416]'
-                        : 'bg-[#FFF9EE] border-[#C88D3A]/25'
+                        : 'bg-white border-[#5A2D0C]/15 shadow-xs'
                     }`}
                   >
                     <div>
-                      <div className="flex items-center justify-between">
-                        <span className="font-serif font-bold text-sm text-[#5A2D0C] dark:text-[#FFF9EE]">
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-serif font-bold text-base sm:text-lg text-[#5A2D0C] dark:text-[#FFF9EE]">
                           {m?.displayName || 'Fellow'}
                         </span>
                         {isCaptainOccupant ? (
-                          <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#C88D3A] text-[#FFF9EE]">
+                          <span className="px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-[#5A2D0C] text-[#FFF9EE] border border-[#351A07]">
                             Room Captain
                           </span>
                         ) : (
-                          <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-200">
+                          <span className="px-2.5 py-0.5 rounded text-[11px] font-bold uppercase tracking-wider bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-200 border border-emerald-300 dark:border-emerald-800">
                             Active Fellow
                           </span>
                         )}
                       </div>
-                      <div className="text-xs opacity-75 mt-0.5">{m?.email}</div>
-                      <div className="text-[11px] opacity-60 mt-1">
+                      <div className="text-xs font-mono text-[#7A4B20] dark:text-[#D1B898] mt-1">{m?.email}</div>
+                      <div className="text-xs font-medium text-[#5A2D0C] dark:text-[#FFF9EE] mt-1.5">
                         Bed Space: #{index + 1} &bull; Period: {a.period}
                       </div>
                     </div>
 
-                    <div className="pt-2 border-t border-[#5A2D0C]/10 dark:border-white/10 flex items-center justify-between text-[11px] opacity-75">
+                    <div className="pt-2.5 border-t border-[#5A2D0C]/15 dark:border-white/15 flex items-center justify-between text-xs font-medium text-[#7A4B20] dark:text-[#D1B898]">
                       <span>Status: In Residence</span>
-                      <span className="font-mono">H4D-Verified</span>
+                      <span className="font-mono font-bold text-emerald-700 dark:text-emerald-400">H4D-Verified</span>
                     </div>
                   </div>
                 );
@@ -801,19 +803,19 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
 
           {/* Room Notices & Guidelines */}
           <div
-            className={`rounded-2xl border p-5 transition-all shadow-xs ${
+            className={`rounded-2xl border p-5 sm:p-6 transition-all shadow-xs ${
               isDark
                 ? 'bg-[#3E200C] border-[#623416] text-[#FFF9EE]'
-                : 'bg-white border-[#5A2D0C]/15 text-[#5A2D0C]'
+                : 'bg-[#FFF9EE] border-2 border-[#C88D3A]/30 text-[#5A2D0C]'
             }`}
           >
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
               <div>
-                <h2 className="text-xs font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
-                  <Bell className="w-4 h-4 text-[#C88D3A]" />
+                <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
+                  <Bell className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" />
                   Room Notices &amp; Shared Guidelines ({notices.length})
                 </h2>
-                <p className="text-[11px] opacity-75 mt-0.5">
+                <p className="text-xs text-[#7A4B20] dark:text-[#D1B898] font-medium mt-0.5">
                   Peer-agreed living space expectations, quiet periods, and sanitation schedules.
                 </p>
               </div>
@@ -822,9 +824,9 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                 type="button"
                 id="btn-post-room-notice"
                 onClick={() => setNoticeModalOpen(true)}
-                className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#5A2D0C] text-[#FFF9EE] text-xs font-semibold rounded-lg hover:bg-[#2F1707] transition-all shadow-xs cursor-pointer active:scale-98 shrink-0"
+                className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#5A2D0C] hover:bg-[#3E200C] text-[#FFF9EE] text-xs font-bold rounded-xl border-b-2 border-[#351A07] transition-all shadow-xs cursor-pointer active:translate-y-[1px] shrink-0"
               >
-                <PlusCircle className="w-3.5 h-3.5 text-[#C88D3A]" /> Post Notice
+                <PlusCircle className="w-4 h-4 text-[#C88D3A]" /> Post Notice
               </button>
             </div>
 
@@ -833,30 +835,30 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                 <div
                   key={n.id}
                   id={`room-notice-${n.id}`}
-                  className={`p-4 rounded-xl border space-y-1.5 ${
+                  className={`p-4 sm:p-5 rounded-xl border-2 space-y-2 ${
                     isDark
                       ? 'bg-[#2F1707] border-[#623416]'
-                      : 'bg-[#FFF9EE] border-[#C88D3A]/25'
+                      : 'bg-white border-[#5A2D0C]/15 shadow-xs'
                   }`}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-2">
                     <div className="flex items-center gap-2">
-                      <span className="font-bold text-xs text-[#5A2D0C] dark:text-[#FFF9EE]">
+                      <span className="font-bold text-sm sm:text-base text-[#5A2D0C] dark:text-[#FFF9EE]">
                         {n.title}
                       </span>
-                      <span className="px-1.5 py-0.5 rounded text-[9px] font-bold uppercase bg-[#C88D3A]/20 text-[#5A2D0C] dark:text-[#FFF9EE]">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#C88D3A]/25 border border-[#C88D3A]/40 text-[#5A2D0C] dark:text-[#FFF9EE]">
                         {n.category}
                       </span>
                     </div>
-                    <span className="text-[10px] opacity-60 font-mono">
+                    <span className="text-xs font-mono text-[#7A4B20] dark:text-[#D1B898]">
                       {new Date(n.postedAt).toLocaleDateString([], {
                         month: 'short',
                         day: 'numeric',
                       })}
                     </span>
                   </div>
-                  <p className="text-xs opacity-80 leading-relaxed">{n.content}</p>
-                  <div className="text-[10px] opacity-60 font-mono pt-1">
+                  <p className="text-xs sm:text-sm text-[#5A2D0C] dark:text-[#FFF9EE] leading-relaxed font-normal">{n.content}</p>
+                  <div className="text-xs font-mono text-[#7A4B20] dark:text-[#D1B898] pt-1.5 border-t border-[#5A2D0C]/10 dark:border-white/10">
                     Posted by: {n.postedBy}
                   </div>
                 </div>
@@ -869,25 +871,25 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
       {/* TAB 3: ROOM COMMUNICATION */}
       {activeTab === 'COMMUNICATION' && (
         <div
-          className={`rounded-2xl border p-5 transition-all shadow-xs space-y-4 ${
+          className={`rounded-2xl border p-5 sm:p-6 transition-all shadow-xs space-y-4 ${
             isDark
               ? 'bg-[#3E200C] border-[#623416] text-[#FFF9EE]'
-              : 'bg-white border-[#5A2D0C]/15 text-[#5A2D0C]'
+              : 'bg-[#FFF9EE] border-2 border-[#C88D3A]/30 text-[#5A2D0C]'
           }`}
         >
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-3 border-[#5A2D0C]/10 dark:border-white/10">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b pb-3 border-[#5A2D0C]/15 dark:border-white/15">
             <div>
-              <h2 className="text-xs font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
-                <MessageSquare className="w-4 h-4 text-[#C88D3A]" />
+              <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
+                <MessageSquare className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" />
                 Room-Scoped Communication Channels
               </h2>
-              <p className="text-[11px] opacity-75 mt-0.5">
+              <p className="text-xs text-[#7A4B20] dark:text-[#D1B898] font-medium mt-0.5">
                 Targeted channels for roommates, coordinator dispatch, and welfare escalation.
               </p>
             </div>
 
             {/* Persistence Honesty Tag */}
-            <div className="text-[10px] font-mono px-2.5 py-1 rounded-lg bg-black/5 dark:bg-white/5 border border-[#C88D3A]/25 opacity-75">
+            <div className="text-xs font-mono px-3 py-1 rounded-lg bg-white dark:bg-[#2F1707] border border-[#5A2D0C]/15 dark:border-[#623416] text-[#7A4B20] dark:text-[#D1B898]">
               Local session / browser persistence
             </div>
           </div>
@@ -898,10 +900,10 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
               type="button"
               id="channel-room-members-btn"
               onClick={() => setCommChannel('ROOM_MEMBERS')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 commChannel === 'ROOM_MEMBERS'
-                  ? 'bg-[#C88D3A] text-[#FFF9EE]'
-                  : 'bg-[#F7F1E7] dark:bg-[#2F1707] text-[#5A2D0C] dark:text-[#FFF9EE] hover:bg-[#EAE0D0]'
+                  ? 'bg-[#5A2D0C] text-[#FFF9EE] border-b-2 border-[#351A07] shadow-xs'
+                  : 'bg-white dark:bg-[#2F1707] text-[#5A2D0C] dark:text-[#FFF9EE] border border-[#5A2D0C]/15 dark:border-[#623416] hover:bg-[#FFF9EE] dark:hover:bg-[#4B2710]'
               }`}
             >
               Room Members &bull; Internal Thread
@@ -911,10 +913,10 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
               type="button"
               id="channel-coordinator-dispatch-btn"
               onClick={() => setCommChannel('COORDINATOR_DISPATCH')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 commChannel === 'COORDINATOR_DISPATCH'
-                  ? 'bg-[#C88D3A] text-[#FFF9EE]'
-                  : 'bg-[#F7F1E7] dark:bg-[#2F1707] text-[#5A2D0C] dark:text-[#FFF9EE] hover:bg-[#EAE0D0]'
+                  ? 'bg-[#5A2D0C] text-[#FFF9EE] border-b-2 border-[#351A07] shadow-xs'
+                  : 'bg-white dark:bg-[#2F1707] text-[#5A2D0C] dark:text-[#FFF9EE] border border-[#5A2D0C]/15 dark:border-[#623416] hover:bg-[#FFF9EE] dark:hover:bg-[#4B2710]'
               }`}
             >
               Accommodation Coordinator Dispatch
@@ -924,10 +926,10 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
               type="button"
               id="channel-welfare-escalation-btn"
               onClick={() => setCommChannel('WELFARE_ESCALATION')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all cursor-pointer ${
+              className={`px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all cursor-pointer ${
                 commChannel === 'WELFARE_ESCALATION'
-                  ? 'bg-[#C88D3A] text-[#FFF9EE]'
-                  : 'bg-[#F7F1E7] dark:bg-[#2F1707] text-[#5A2D0C] dark:text-[#FFF9EE] hover:bg-[#EAE0D0]'
+                  ? 'bg-[#5A2D0C] text-[#FFF9EE] border-b-2 border-[#351A07] shadow-xs'
+                  : 'bg-white dark:bg-[#2F1707] text-[#5A2D0C] dark:text-[#FFF9EE] border border-[#5A2D0C]/15 dark:border-[#623416] hover:bg-[#FFF9EE] dark:hover:bg-[#4B2710]'
               }`}
             >
               Welfare &amp; Mediation Escalation
@@ -936,18 +938,18 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
 
           {/* Privacy Notice for Welfare */}
           {commChannel === 'WELFARE_ESCALATION' && (
-            <div className="p-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-xs text-amber-900 dark:text-amber-200">
-              <strong>Privacy Protection:</strong> When escalating welfare concerns to the Accommodation Welfare &amp; Mediation Officer, provide only essential context. Confidential health, personal, or mediation records remain strictly protected.
+            <div className="p-3.5 rounded-xl bg-amber-500/15 border-2 border-amber-500/30 text-xs sm:text-sm text-amber-950 dark:text-amber-200 font-medium">
+              <strong className="font-bold">Privacy Protection:</strong> When escalating welfare concerns to the Accommodation Welfare &amp; Mediation Officer, provide only essential context. Confidential health, personal, or mediation records remain strictly protected.
             </div>
           )}
 
           {/* Message Thread */}
           <div
             id="captain-message-thread"
-            className="space-y-3 max-h-80 overflow-y-auto p-4 rounded-xl bg-[#F7F1E7]/50 dark:bg-black/20 border border-[#5A2D0C]/10 dark:border-white/10"
+            className="space-y-3 max-h-80 overflow-y-auto p-4 rounded-xl bg-white dark:bg-black/25 border-2 border-[#5A2D0C]/15 dark:border-[#623416]"
           >
             {channelMessages.length === 0 ? (
-              <div className="text-center text-xs opacity-60 py-6">
+              <div className="text-center text-xs sm:text-sm font-medium text-[#7A4B20] dark:text-[#D1B898] py-8">
                 No messages in this channel yet. Start a discussion below.
               </div>
             ) : (
@@ -955,25 +957,25 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                 <div
                   key={msg.id}
                   id={`room-msg-${msg.id}`}
-                  className={`p-3 rounded-xl border text-xs space-y-1 ${
+                  className={`p-3.5 rounded-xl border text-xs sm:text-sm space-y-1 ${
                     msg.senderId === member.id
-                      ? 'bg-[#FFF9EE] dark:bg-[#3E200C] border-[#C88D3A]/30 ml-4'
-                      : 'bg-white dark:bg-[#1E0E04] border-[#5A2D0C]/15 mr-4'
+                      ? 'bg-[#FFF9EE] dark:bg-[#2F1707] border-2 border-[#C88D3A]/40 ml-4 shadow-xs'
+                      : 'bg-[#F7F1E7] dark:bg-[#1E0E04] border border-[#5A2D0C]/20 dark:border-white/10 mr-4'
                   }`}
                 >
                   <div className="flex items-center justify-between">
-                    <span className="font-bold text-[#5A2D0C] dark:text-[#FFF9EE]">
+                    <span className="font-bold text-xs sm:text-sm text-[#5A2D0C] dark:text-[#FFF9EE]">
                       {msg.senderName}
                     </span>
-                    <span className="text-[10px] opacity-60 font-mono">
+                    <span className="text-xs font-mono text-[#7A4B20] dark:text-[#D1B898]">
                       {new Date(msg.createdAt).toLocaleTimeString([], {
                         hour: '2-digit',
                         minute: '2-digit',
                       })}
                     </span>
                   </div>
-                  <div className="text-[10px] opacity-60">{msg.senderCapacity}</div>
-                  <p className="opacity-80 leading-relaxed pt-0.5">{msg.content}</p>
+                  <div className="text-[11px] font-mono text-[#7A4B20] dark:text-[#D1B898]">{msg.senderCapacity}</div>
+                  <p className="text-xs sm:text-sm text-[#5A2D0C] dark:text-[#FFF9EE] leading-relaxed pt-0.5 font-normal">{msg.content}</p>
                 </div>
               ))
             )}
@@ -993,14 +995,14 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                   ? 'Dispatch context note to Coordinator Zainab...'
                   : 'Escalate welfare inquiry to Welfare & Mediation Officer...'
               }
-              className="flex-1 px-3.5 py-2 text-xs rounded-xl bg-[#FFF9EE] dark:bg-[#2F1707] border border-[#5A2D0C]/20 dark:border-[#623416] text-[#5A2D0C] dark:text-[#FFF9EE] focus:ring-2 focus:ring-[#C88D3A] focus:outline-none"
+              className="flex-1 px-4 py-2.5 text-xs sm:text-sm rounded-xl bg-white dark:bg-[#2F1707] border-2 border-[#5A2D0C]/20 dark:border-[#623416] text-[#5A2D0C] dark:text-[#FFF9EE] placeholder:text-[#7A4B20]/60 dark:placeholder:text-[#D1B898]/60 focus:ring-2 focus:ring-[#C88D3A] focus:outline-none"
             />
             <button
               type="submit"
               id="btn-send-captain-room-msg"
-              className="px-4 py-2 bg-[#5A2D0C] text-[#FFF9EE] rounded-xl text-xs font-bold hover:bg-[#2F1707] transition-all flex items-center gap-1 cursor-pointer shrink-0"
+              className="px-5 py-2.5 bg-[#5A2D0C] hover:bg-[#3E200C] text-[#FFF9EE] rounded-xl text-xs sm:text-sm font-bold border-b-2 border-[#351A07] transition-all flex items-center gap-1.5 cursor-pointer shrink-0 active:translate-y-[1px]"
             >
-              <Send className="w-3 h-3 text-[#C88D3A]" /> Send
+              <Send className="w-3.5 h-3.5 text-[#C88D3A]" /> Send
             </button>
           </form>
         </div>
@@ -1009,23 +1011,23 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
       {/* TAB 4: ROOM TRAIL */}
       {activeTab === 'TRAIL' && (
         <div
-          className={`rounded-2xl border p-5 transition-all shadow-xs space-y-4 ${
+          className={`rounded-2xl border p-5 sm:p-6 transition-all shadow-xs space-y-4 ${
             isDark
               ? 'bg-[#3E200C] border-[#623416] text-[#FFF9EE]'
-              : 'bg-white border-[#5A2D0C]/15 text-[#5A2D0C]'
+              : 'bg-[#FFF9EE] border-2 border-[#C88D3A]/30 text-[#5A2D0C]'
           }`}
         >
-          <div className="flex items-center justify-between border-b pb-3 border-[#5A2D0C]/10 dark:border-white/10">
+          <div className="flex items-center justify-between border-b pb-3 border-[#5A2D0C]/15 dark:border-white/15">
             <div>
-              <h2 className="text-xs font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
-                <Clock className="w-4 h-4 text-[#C88D3A]" />
+              <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
+                <Clock className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" />
                 Room Trail &bull; Append-Oriented Event Log ({trail.length})
               </h2>
-              <p className="text-[11px] opacity-75 mt-0.5">
+              <p className="text-xs text-[#7A4B20] dark:text-[#D1B898] font-medium mt-0.5">
                 Immutable factual history of room inspections, occupancy confirmations, notices, and escalations.
               </p>
             </div>
-            <span className="text-[10px] font-mono px-2.5 py-1 rounded-lg bg-emerald-500/10 text-emerald-700 dark:text-emerald-300 font-bold border border-emerald-500/20">
+            <span className="text-xs font-mono px-3 py-1 rounded-lg bg-emerald-500/15 text-emerald-800 dark:text-emerald-300 font-bold border border-emerald-500/30">
               Append-Only History
             </span>
           </div>
@@ -1035,19 +1037,19 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
               <div
                 key={event.id}
                 id={`room-trail-event-${event.id}`}
-                className={`p-3.5 rounded-xl border flex items-start gap-3 transition-all ${
+                className={`p-4 sm:p-5 rounded-xl border-2 flex items-start gap-3.5 transition-all ${
                   isDark
                     ? 'bg-[#2F1707] border-[#623416]'
-                    : 'bg-[#FFF9EE] border-[#C88D3A]/25'
+                    : 'bg-white border-[#5A2D0C]/15 shadow-xs'
                 }`}
               >
                 <div className="mt-1 shrink-0">
                   {event.eventType.includes('CONFIRMED') ? (
-                    <CheckCircle2 className="w-4 h-4 text-emerald-500" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
                   ) : event.eventType.includes('DELEGATED') ? (
-                    <Shield className="w-4 h-4 text-amber-500" />
+                    <Shield className="w-4 h-4 text-amber-600 dark:text-amber-400" />
                   ) : event.eventType.includes('WELFARE') ? (
-                    <AlertTriangle className="w-4 h-4 text-rose-500" />
+                    <AlertTriangle className="w-4 h-4 text-rose-600 dark:text-rose-400" />
                   ) : (
                     <Activity className="w-4 h-4 text-[#C88D3A]" />
                   )}
@@ -1055,10 +1057,10 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
 
                 <div className="flex-1 space-y-1">
                   <div className="flex flex-wrap items-center justify-between gap-1">
-                    <span className="font-bold text-xs text-[#5A2D0C] dark:text-[#FFF9EE]">
+                    <span className="font-bold text-sm sm:text-base text-[#5A2D0C] dark:text-[#FFF9EE]">
                       {event.title}
                     </span>
-                    <span className="text-[10px] opacity-60 font-mono">
+                    <span className="text-xs font-mono text-[#7A4B20] dark:text-[#D1B898]">
                       {new Date(event.timestamp).toLocaleString([], {
                         month: 'short',
                         day: 'numeric',
@@ -1067,9 +1069,9 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                       })}
                     </span>
                   </div>
-                  <p className="text-xs opacity-80 leading-relaxed">{event.description}</p>
-                  <div className="text-[10px] opacity-60 font-mono">
-                    Actor: {event.actorName} &bull; {event.actorCapacity}
+                  <p className="text-xs sm:text-sm text-[#5A2D0C] dark:text-[#FFF9EE] leading-relaxed font-normal">{event.description}</p>
+                  <div className="text-xs font-mono text-[#7A4B20] dark:text-[#D1B898] pt-1 border-t border-[#5A2D0C]/10 dark:border-white/10">
+                    Actor: <span className="font-semibold">{event.actorName}</span> &bull; {event.actorCapacity}
                   </div>
                 </div>
               </div>
@@ -1081,19 +1083,19 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
       {/* 4. ROOM IMPROVEMENT: Missing Puzzle Section */}
       <div
         id="captain-room-improvement-section"
-        className={`rounded-2xl border p-5 transition-all shadow-xs ${
+        className={`rounded-2xl border p-5 sm:p-6 transition-all shadow-xs ${
           isDark
             ? 'bg-[#3E200C] border-[#623416] text-[#FFF9EE]'
-            : 'bg-[#FFF9EE] border-[#C88D3A]/30 text-[#5A2D0C]'
+            : 'bg-[#FFF9EE] border-2 border-[#C88D3A]/35 text-[#5A2D0C]'
         }`}
       >
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-3.5">
           <div>
-            <h2 className="text-xs font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
-              <Puzzle className="w-4 h-4 text-[#C88D3A]" />
+            <h2 className="text-xs sm:text-sm font-bold uppercase tracking-wider text-[#5A2D0C] dark:text-[#FFF9EE] flex items-center gap-2">
+              <Puzzle className="w-4 h-4 text-[#B77620] dark:text-[#E2AB5D]" />
               Room Improvement &bull; Community Puzzle Board
             </h2>
-            <p className="text-[11px] opacity-75 mt-0.5">
+            <p className="text-xs text-[#7A4B20] dark:text-[#D1B898] font-medium mt-0.5">
               Spotted a physical defect, missing appliance, or living space improvement needed in {captainScope.roomName}?
             </p>
           </div>
@@ -1102,33 +1104,33 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
             type="button"
             id="btn-spot-room-puzzle-secondary"
             onClick={() => setIsPuzzleModalOpen(true)}
-            className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-[#5A2D0C] text-[#FFF9EE] text-xs font-bold rounded-xl hover:bg-[#2F1707] transition-all shadow-xs cursor-pointer active:scale-98 shrink-0"
+            className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#5A2D0C] hover:bg-[#3E200C] text-[#FFF9EE] text-xs font-bold rounded-xl border-b-2 border-[#351A07] transition-all shadow-xs cursor-pointer active:translate-y-[1px] shrink-0"
           >
-            <Puzzle className="w-3.5 h-3.5 text-[#C88D3A]" />
+            <Puzzle className="w-4 h-4 text-[#C88D3A]" />
             <span>Spot a Room Puzzle</span>
           </button>
         </div>
 
         {/* Existing Room Reports */}
         {roomReports.length === 0 ? (
-          <div className="p-4 rounded-xl bg-black/5 dark:bg-white/5 text-center text-xs opacity-60">
+          <div className="p-6 rounded-xl bg-white dark:bg-[#2F1707] border border-[#5A2D0C]/15 dark:border-[#623416] text-center text-xs sm:text-sm font-medium text-[#7A4B20] dark:text-[#D1B898] shadow-2xs">
             No missing puzzles currently logged for {captainScope.roomName}. Log one above to initiate the technical lifecycle (Pending Review → Under Review → In Progress → Implemented).
           </div>
         ) : (
-          <div className="space-y-2">
+          <div className="space-y-2.5">
             {roomReports.map((report) => (
               <div
                 key={report.id}
                 id={`room-report-${report.id}`}
-                className="p-3 rounded-xl bg-white dark:bg-[#1E0E04] border border-[#5A2D0C]/10 dark:border-white/10 flex items-center justify-between text-xs"
+                className="p-3.5 sm:p-4 rounded-xl bg-white dark:bg-[#2F1707] border border-[#5A2D0C]/15 dark:border-[#623416] flex items-center justify-between text-xs sm:text-sm shadow-xs"
               >
                 <div>
-                  <div className="font-bold text-[#5A2D0C] dark:text-[#FFF9EE]">{report.title}</div>
-                  <div className="text-[10px] opacity-60 font-mono mt-0.5">
+                  <div className="font-bold text-sm sm:text-base text-[#5A2D0C] dark:text-[#FFF9EE]">{report.title}</div>
+                  <div className="text-xs font-mono text-[#7A4B20] dark:text-[#D1B898] mt-0.5">
                     Category: {report.category} &bull; Location: {report.locationContext || captainScope.roomName}
                   </div>
                 </div>
-                <span className="px-2 py-0.5 rounded text-[10px] font-bold bg-[#C88D3A]/20 text-[#5A2D0C] dark:text-[#FFF9EE]">
+                <span className="px-2.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider bg-[#C88D3A]/25 border border-[#C88D3A]/40 text-[#5A2D0C] dark:text-[#FFF9EE]">
                   {report.status}
                 </span>
               </div>
@@ -1140,9 +1142,15 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
       {/* Note Modal for Delegations */}
       {noteModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#2F1707]/60 backdrop-blur-xs p-4">
-          <div className="bg-[#FFF9EE] border border-[#C88D3A]/40 rounded-2xl shadow-xl max-w-md w-full p-6 text-[#5A2D0C]">
-            <h3 className="font-serif text-lg font-bold">Room Verification Note</h3>
-            <p className="text-xs text-[#5A2D0C]/70 mt-1">
+          <div
+            className={`border rounded-2xl shadow-xl max-w-md w-full p-6 transition-all ${
+              isDark
+                ? 'bg-[#2F1707] border-[#623416] text-[#FFF9EE]'
+                : 'bg-[#FFF9EE] border-2 border-[#C88D3A]/40 text-[#5A2D0C]'
+            }`}
+          >
+            <h3 className="font-serif text-lg font-bold text-[#5A2D0C] dark:text-[#FFF9EE]">Room Verification Note</h3>
+            <p className="text-xs text-[#7A4B20] dark:text-[#D1B898] mt-1 font-medium">
               Add observations regarding room occupancy to record into Room Trail and notify the Coordinator.
             </p>
             <div className="mt-4">
@@ -1152,14 +1160,14 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                 value={captainNote}
                 onChange={(e) => setCaptainNote(e.target.value)}
                 placeholder="e.g. Fellow moved in today, confirmed bed space 2."
-                className="w-full px-3 py-2 text-xs bg-white border border-[#5A2D0C]/20 rounded-lg focus:ring-2 focus:ring-[#C88D3A]"
+                className="w-full px-3.5 py-2.5 text-xs sm:text-sm bg-white dark:bg-[#1E0E04] border-2 border-[#5A2D0C]/20 dark:border-[#623416] text-[#5A2D0C] dark:text-[#FFF9EE] rounded-xl focus:ring-2 focus:ring-[#C88D3A] focus:outline-none"
               />
             </div>
-            <div className="mt-5 flex justify-end gap-2">
+            <div className="mt-5 flex justify-end gap-2.5">
               <button
                 type="button"
                 onClick={() => setNoteModalOpen(false)}
-                className="px-3 py-1.5 text-xs text-[#5A2D0C]/70 hover:text-[#5A2D0C] cursor-pointer"
+                className="px-4 py-2 text-xs font-bold text-[#7A4B20] dark:text-[#D1B898] hover:text-[#5A2D0C] dark:hover:text-[#FFF9EE] cursor-pointer"
               >
                 Cancel
               </button>
@@ -1167,7 +1175,7 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                 type="button"
                 id="btn-save-captain-note"
                 onClick={handleSaveNote}
-                className="px-4 py-2 bg-[#5A2D0C] text-[#FFF9EE] rounded-lg text-xs font-semibold hover:bg-[#2F1707] cursor-pointer"
+                className="px-4 py-2 bg-[#5A2D0C] hover:bg-[#3E200C] text-[#FFF9EE] rounded-xl text-xs font-bold border-b-2 border-[#351A07] cursor-pointer active:translate-y-[1px]"
               >
                 Submit Feedback
               </button>
@@ -1179,14 +1187,22 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
       {/* Post Room Notice Modal */}
       {noticeModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#2F1707]/60 backdrop-blur-xs p-4">
-          <div className="bg-[#FFF9EE] border border-[#C88D3A]/40 rounded-2xl shadow-xl max-w-md w-full p-6 text-[#5A2D0C]">
-            <h3 className="font-serif text-lg font-bold">Post Room Notice &bull; {captainScope.roomName}</h3>
-            <p className="text-xs text-[#5A2D0C]/70 mt-1">
+          <div
+            className={`border rounded-2xl shadow-xl max-w-md w-full p-6 transition-all ${
+              isDark
+                ? 'bg-[#2F1707] border-[#623416] text-[#FFF9EE]'
+                : 'bg-[#FFF9EE] border-2 border-[#C88D3A]/40 text-[#5A2D0C]'
+            }`}
+          >
+            <h3 className="font-serif text-lg font-bold text-[#5A2D0C] dark:text-[#FFF9EE]">
+              Post Room Notice &bull; {captainScope.roomName}
+            </h3>
+            <p className="text-xs text-[#7A4B20] dark:text-[#D1B898] mt-1 font-medium">
               Announce a living space guideline, study hour schedule, or sanitation reminder to room fellows.
             </p>
-            <form onSubmit={handlePostNotice} className="mt-4 space-y-3">
+            <form onSubmit={handlePostNotice} className="mt-4 space-y-3.5">
               <div>
-                <label className="block text-[11px] font-bold text-[#5A2D0C] mb-1">
+                <label className="block text-xs font-bold text-[#5A2D0C] dark:text-[#FFF9EE] mb-1">
                   Notice Title
                 </label>
                 <input
@@ -1195,20 +1211,20 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                   value={newNoticeTitle}
                   onChange={(e) => setNewNoticeTitle(e.target.value)}
                   placeholder="e.g. Inverter Schedule or Quiet Hours"
-                  className="w-full px-3 py-2 text-xs bg-white border border-[#5A2D0C]/20 rounded-lg focus:ring-2 focus:ring-[#C88D3A]"
+                  className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-[#1E0E04] border-2 border-[#5A2D0C]/20 dark:border-[#623416] text-[#5A2D0C] dark:text-[#FFF9EE] rounded-xl focus:ring-2 focus:ring-[#C88D3A] focus:outline-none"
                   required
                 />
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-[#5A2D0C] mb-1">
+                <label className="block text-xs font-bold text-[#5A2D0C] dark:text-[#FFF9EE] mb-1">
                   Category
                 </label>
                 <select
                   id="select-notice-category"
                   value={newNoticeCategory}
                   onChange={(e) => setNewNoticeCategory(e.target.value as any)}
-                  className="w-full px-3 py-2 text-xs bg-white border border-[#5A2D0C]/20 rounded-lg focus:ring-2 focus:ring-[#C88D3A]"
+                  className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-[#1E0E04] border-2 border-[#5A2D0C]/20 dark:border-[#623416] text-[#5A2D0C] dark:text-[#FFF9EE] rounded-xl focus:ring-2 focus:ring-[#C88D3A] focus:outline-none"
                 >
                   <option value="GUIDELINE">Guideline</option>
                   <option value="SCHEDULE">Schedule</option>
@@ -1218,7 +1234,7 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
               </div>
 
               <div>
-                <label className="block text-[11px] font-bold text-[#5A2D0C] mb-1">
+                <label className="block text-xs font-bold text-[#5A2D0C] dark:text-[#FFF9EE] mb-1">
                   Content
                 </label>
                 <textarea
@@ -1227,23 +1243,23 @@ export const CaptainWorkspaceView: React.FC<CaptainWorkspaceViewProps> = ({
                   value={newNoticeContent}
                   onChange={(e) => setNewNoticeContent(e.target.value)}
                   placeholder="Details for room occupants..."
-                  className="w-full px-3 py-2 text-xs bg-white border border-[#5A2D0C]/20 rounded-lg focus:ring-2 focus:ring-[#C88D3A]"
+                  className="w-full px-3.5 py-2 text-xs sm:text-sm bg-white dark:bg-[#1E0E04] border-2 border-[#5A2D0C]/20 dark:border-[#623416] text-[#5A2D0C] dark:text-[#FFF9EE] rounded-xl focus:ring-2 focus:ring-[#C88D3A] focus:outline-none"
                   required
                 />
               </div>
 
-              <div className="mt-5 flex justify-end gap-2">
+              <div className="mt-5 flex justify-end gap-2.5">
                 <button
                   type="button"
                   onClick={() => setNoticeModalOpen(false)}
-                  className="px-3 py-1.5 text-xs text-[#5A2D0C]/70 hover:text-[#5A2D0C] cursor-pointer"
+                  className="px-4 py-2 text-xs font-bold text-[#7A4B20] dark:text-[#D1B898] hover:text-[#5A2D0C] dark:hover:text-[#FFF9EE] cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   id="btn-submit-room-notice"
-                  className="px-4 py-2 bg-[#5A2D0C] text-[#FFF9EE] rounded-lg text-xs font-semibold hover:bg-[#2F1707] cursor-pointer"
+                  className="px-4 py-2 bg-[#5A2D0C] hover:bg-[#3E200C] text-[#FFF9EE] rounded-xl text-xs font-bold border-b-2 border-[#351A07] cursor-pointer active:translate-y-[1px]"
                 >
                   Publish Notice
                 </button>
